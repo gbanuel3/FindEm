@@ -68,7 +68,7 @@ Locate Friends is a social media app that allows you to create groups with frien
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
-<img src="wireframe.jpeg" width=600>
+<img src="wireframe.png" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
