@@ -3,19 +3,25 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		2B667C5F269CA41F00792451 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667C5E269CA41F00792451 /* AppDelegate.m */; };
 		2B667C62269CA41F00792451 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667C61269CA41F00792451 /* SceneDelegate.m */; };
-		2B667C65269CA41F00792451 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667C64269CA41F00792451 /* ViewController.m */; };
 		2B667C68269CA41F00792451 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B667C66269CA41F00792451 /* Main.storyboard */; };
 		2B667C6A269CA42000792451 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B667C69269CA42000792451 /* Assets.xcassets */; };
 		2B667C6D269CA42000792451 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B667C6B269CA42000792451 /* LaunchScreen.storyboard */; };
 		2B667C70269CA42000792451 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667C6F269CA42000792451 /* main.m */; };
 		2B667C7A269CA42100792451 /* FriendMapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667C79269CA42100792451 /* FriendMapTests.m */; };
 		2B667C85269CA42100792451 /* FriendMapUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667C84269CA42100792451 /* FriendMapUITests.m */; };
+		2B667C97269D59DC00792451 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667C96269D59DB00792451 /* LoginViewController.m */; };
+		2B667C9A269D5A0C00792451 /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667C99269D5A0C00792451 /* SignupViewController.m */; };
+		2B667C9D269D5EE900792451 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667C9C269D5EE900792451 /* CustomButton.m */; };
+		2B667CA0269D727800792451 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667C9F269D727800792451 /* ProfileViewController.m */; };
+		614E0FA978DC8FE1F26DC95C /* Pods_FriendMap_FriendMapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */; };
+		77965291AC77C5E31F77A9EC /* Pods_FriendMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C802AF0660674E8FC54375DA /* Pods_FriendMap.framework */; };
+		E1CE6A866054112653C09FD3 /* Pods_FriendMapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDF498AEEC8A5AEA44958BE3 /* Pods_FriendMapTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,8 +47,6 @@
 		2B667C5E269CA41F00792451 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2B667C60269CA41F00792451 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		2B667C61269CA41F00792451 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		2B667C63269CA41F00792451 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		2B667C64269CA41F00792451 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2B667C67269CA41F00792451 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2B667C69269CA42000792451 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B667C6C269CA42000792451 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,6 +58,23 @@
 		2B667C80269CA42100792451 /* FriendMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FriendMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B667C84269CA42100792451 /* FriendMapUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FriendMapUITests.m; sourceTree = "<group>"; };
 		2B667C86269CA42100792451 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2B667C95269D59DB00792451 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		2B667C96269D59DB00792451 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		2B667C98269D5A0C00792451 /* SignupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
+		2B667C99269D5A0C00792451 /* SignupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignupViewController.m; sourceTree = "<group>"; };
+		2B667C9B269D5EE900792451 /* CustomButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
+		2B667C9C269D5EE900792451 /* CustomButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
+		2B667C9E269D727800792451 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		2B667C9F269D727800792451 /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		3D07E2E71F2B14FBC2D49EF8 /* Pods-FriendMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap.release.xcconfig"; path = "Target Support Files/Pods-FriendMap/Pods-FriendMap.release.xcconfig"; sourceTree = "<group>"; };
+		48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FriendMap_FriendMapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		57F254F0FADDA707C23B69E2 /* Pods-FriendMap-FriendMapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap-FriendMapUITests.debug.xcconfig"; path = "Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap-FriendMapUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		582AF000A9BF45A2435006AF /* Pods-FriendMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap.debug.xcconfig"; path = "Target Support Files/Pods-FriendMap/Pods-FriendMap.debug.xcconfig"; sourceTree = "<group>"; };
+		8CA3FDDC7FD0D5358281003B /* Pods-FriendMapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMapTests.release.xcconfig"; path = "Target Support Files/Pods-FriendMapTests/Pods-FriendMapTests.release.xcconfig"; sourceTree = "<group>"; };
+		99EA36904191879EEFB720C3 /* Pods-FriendMap-FriendMapUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap-FriendMapUITests.release.xcconfig"; path = "Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap-FriendMapUITests.release.xcconfig"; sourceTree = "<group>"; };
+		C802AF0660674E8FC54375DA /* Pods_FriendMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FriendMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBB3FB52F2CAA06AC35B6978 /* Pods-FriendMapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMapTests.debug.xcconfig"; path = "Target Support Files/Pods-FriendMapTests/Pods-FriendMapTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FDF498AEEC8A5AEA44958BE3 /* Pods_FriendMapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FriendMapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77965291AC77C5E31F77A9EC /* Pods_FriendMap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1CE6A866054112653C09FD3 /* Pods_FriendMapTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				614E0FA978DC8FE1F26DC95C /* Pods_FriendMap_FriendMapUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +112,8 @@
 				2B667C78269CA42100792451 /* FriendMapTests */,
 				2B667C83269CA42100792451 /* FriendMapUITests */,
 				2B667C5B269CA41F00792451 /* Products */,
+				DC887FCE7EE9B7FFA564DFE4 /* Pods */,
+				EEB46984D93803FE9E74B1E2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,15 +130,12 @@
 		2B667C5C269CA41F00792451 /* FriendMap */ = {
 			isa = PBXGroup;
 			children = (
+				2B667C94269CA50100792451 /* Models */,
+				2B667C92269CA4F100792451 /* View Controllers */,
 				2B667C5D269CA41F00792451 /* AppDelegate.h */,
 				2B667C5E269CA41F00792451 /* AppDelegate.m */,
 				2B667C60269CA41F00792451 /* SceneDelegate.h */,
 				2B667C61269CA41F00792451 /* SceneDelegate.m */,
-				2B667C63269CA41F00792451 /* ViewController.h */,
-				2B667C64269CA41F00792451 /* ViewController.m */,
-				2B667C66269CA41F00792451 /* Main.storyboard */,
-				2B667C69269CA42000792451 /* Assets.xcassets */,
-				2B667C6B269CA42000792451 /* LaunchScreen.storyboard */,
 				2B667C6E269CA42000792451 /* Info.plist */,
 				2B667C6F269CA42000792451 /* main.m */,
 			);
@@ -137,6 +160,54 @@
 			path = FriendMapUITests;
 			sourceTree = "<group>";
 		};
+		2B667C92269CA4F100792451 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2B667C95269D59DB00792451 /* LoginViewController.h */,
+				2B667C96269D59DB00792451 /* LoginViewController.m */,
+				2B667C98269D5A0C00792451 /* SignupViewController.h */,
+				2B667C99269D5A0C00792451 /* SignupViewController.m */,
+				2B667C9E269D727800792451 /* ProfileViewController.h */,
+				2B667C9F269D727800792451 /* ProfileViewController.m */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		2B667C94269CA50100792451 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2B667C66269CA41F00792451 /* Main.storyboard */,
+				2B667C6B269CA42000792451 /* LaunchScreen.storyboard */,
+				2B667C69269CA42000792451 /* Assets.xcassets */,
+				2B667C9B269D5EE900792451 /* CustomButton.h */,
+				2B667C9C269D5EE900792451 /* CustomButton.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DC887FCE7EE9B7FFA564DFE4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				582AF000A9BF45A2435006AF /* Pods-FriendMap.debug.xcconfig */,
+				3D07E2E71F2B14FBC2D49EF8 /* Pods-FriendMap.release.xcconfig */,
+				57F254F0FADDA707C23B69E2 /* Pods-FriendMap-FriendMapUITests.debug.xcconfig */,
+				99EA36904191879EEFB720C3 /* Pods-FriendMap-FriendMapUITests.release.xcconfig */,
+				EBB3FB52F2CAA06AC35B6978 /* Pods-FriendMapTests.debug.xcconfig */,
+				8CA3FDDC7FD0D5358281003B /* Pods-FriendMapTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		EEB46984D93803FE9E74B1E2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C802AF0660674E8FC54375DA /* Pods_FriendMap.framework */,
+				48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */,
+				FDF498AEEC8A5AEA44958BE3 /* Pods_FriendMapTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -144,9 +215,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2B667C89269CA42100792451 /* Build configuration list for PBXNativeTarget "FriendMap" */;
 			buildPhases = (
+				61E2DF3BB1CEC29FB3820731 /* [CP] Check Pods Manifest.lock */,
 				2B667C56269CA41F00792451 /* Sources */,
 				2B667C57269CA41F00792451 /* Frameworks */,
 				2B667C58269CA41F00792451 /* Resources */,
+				03E9C1156650E2F5CA163085 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -161,6 +234,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2B667C8C269CA42100792451 /* Build configuration list for PBXNativeTarget "FriendMapTests" */;
 			buildPhases = (
+				7568A453FFC26C2433551E3E /* [CP] Check Pods Manifest.lock */,
 				2B667C71269CA42100792451 /* Sources */,
 				2B667C72269CA42100792451 /* Frameworks */,
 				2B667C73269CA42100792451 /* Resources */,
@@ -179,9 +253,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2B667C8F269CA42100792451 /* Build configuration list for PBXNativeTarget "FriendMapUITests" */;
 			buildPhases = (
+				59F803964C7B90EE1166392D /* [CP] Check Pods Manifest.lock */,
 				2B667C7C269CA42100792451 /* Sources */,
 				2B667C7D269CA42100792451 /* Frameworks */,
 				2B667C7E269CA42100792451 /* Resources */,
+				24EE4A3857975E66F48CDD4E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -261,15 +337,121 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		03E9C1156650E2F5CA163085 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FriendMap/Pods-FriendMap-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FriendMap/Pods-FriendMap-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FriendMap/Pods-FriendMap-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		24EE4A3857975E66F48CDD4E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap-FriendMapUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap-FriendMapUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap-FriendMapUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		59F803964C7B90EE1166392D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FriendMap-FriendMapUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		61E2DF3BB1CEC29FB3820731 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FriendMap-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7568A453FFC26C2433551E3E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FriendMapTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2B667C56269CA41F00792451 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B667C65269CA41F00792451 /* ViewController.m in Sources */,
+				2B667C9D269D5EE900792451 /* CustomButton.m in Sources */,
+				2B667C97269D59DC00792451 /* LoginViewController.m in Sources */,
 				2B667C5F269CA41F00792451 /* AppDelegate.m in Sources */,
 				2B667C70269CA42000792451 /* main.m in Sources */,
+				2B667CA0269D727800792451 /* ProfileViewController.m in Sources */,
 				2B667C62269CA41F00792451 /* SceneDelegate.m in Sources */,
+				2B667C9A269D5A0C00792451 /* SignupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +620,7 @@
 		};
 		2B667C8A269CA42100792451 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 582AF000A9BF45A2435006AF /* Pods-FriendMap.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -456,6 +639,7 @@
 		};
 		2B667C8B269CA42100792451 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D07E2E71F2B14FBC2D49EF8 /* Pods-FriendMap.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -474,6 +658,7 @@
 		};
 		2B667C8D269CA42100792451 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EBB3FB52F2CAA06AC35B6978 /* Pods-FriendMapTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -494,6 +679,7 @@
 		};
 		2B667C8E269CA42100792451 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8CA3FDDC7FD0D5358281003B /* Pods-FriendMapTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -514,6 +700,7 @@
 		};
 		2B667C90269CA42100792451 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57F254F0FADDA707C23B69E2 /* Pods-FriendMap-FriendMapUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A5V9D5GG9;
@@ -532,6 +719,7 @@
 		};
 		2B667C91269CA42100792451 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99EA36904191879EEFB720C3 /* Pods-FriendMap-FriendMapUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A5V9D5GG9;
