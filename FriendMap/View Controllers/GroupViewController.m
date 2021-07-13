@@ -14,12 +14,33 @@
 
 @implementation GroupViewController
 
+- (void)showPopup{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
+    message:@"Enter Group Name" preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *_Nonnull action){
+        // handle response here.
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action) {
+        // handle response here.
+    }];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"Group name";
+        textField.secureTextEntry = NO;
+    }];
+    
+    [alert addAction:cancelAction];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:^{
+        // optional code for what happens after the alert controller has finished presenting
+    }];
+}
+
 - (IBAction)onClickJoin:(id)sender{
     
 }
 
 - (IBAction)onClickCreate:(id)sender{
-    
+    [self showPopup];
 }
 
 - (void)viewDidLoad {
