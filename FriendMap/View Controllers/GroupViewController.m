@@ -7,6 +7,7 @@
  
 #import "GroupViewController.h"
 #import "GroupCell.h"
+#import <Parse/Parse.h>
 
 @interface GroupViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -17,16 +18,45 @@
 - (void)showPopup{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
     message:@"Enter Group Name" preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *_Nonnull action){
-        // handle response here.
-    }];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action) {
-        // handle response here.
-    }];
+    
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"Group name";
         textField.secureTextEntry = NO;
     }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
+        // handle response here.
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
+
+            PFObject *group = [PFObject objectWithClassName:[NSString stringWithFormat:@"groups"]];
+            group[@"name"] = [[alert textFields][0] text];
+            group[@"messages"] = [[NSDictionary alloc] init];
+            group[@"number_of_members"] = @1;
+            group[@"members"] = [[NSArray alloc] initWithObjects:PFUser.currentUser, nil];
+//            group[@"image"] =
+            [group saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+              if(succeeded){
+                  UIAlertController *codeAlert = [UIAlertController alertControllerWithTitle:@"Group Code:" message:[NSString stringWithFormat:@"%@", group.objectId] preferredStyle:(UIAlertControllerStyleAlert)];
+                  UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){}];
+                  UIAlertAction *copyCode = [UIAlertAction actionWithTitle:@"Copy to Clipboard" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
+                      UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+                      pasteboard.string = [NSString stringWithFormat:@"%@", group.objectId];
+                  }];
+                  [codeAlert addAction:copyCode];
+                  [codeAlert addAction:confirmAction];
+                  [self presentViewController:codeAlert animated:YES completion:^{
+                      // optional code for what happens after the alert controller has finished presenting
+                  }];
+                  
+                  
+              }else{
+
+                  NSLog(@"Encounted error: %@", error.description);
+              }
+            }];
+    }];
+
     
     [alert addAction:cancelAction];
     [alert addAction:okAction];
