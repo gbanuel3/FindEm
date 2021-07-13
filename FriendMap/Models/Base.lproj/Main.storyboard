@@ -11,7 +11,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" modalPresentationStyle="fullScreen" id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -94,7 +94,7 @@
         <!--Signup View Controller-->
         <scene sceneID="qdi-T1-0rm">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="HEn-aF-2GV" customClass="SignupViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignupViewController" modalPresentationStyle="fullScreen" id="HEn-aF-2GV" customClass="SignupViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2rO-cl-Bgv">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -174,34 +174,27 @@
             </objects>
             <point key="canvasLocation" x="980" y="150"/>
         </scene>
-        <!--View Controller-->
+        <!--Group View Controller-->
         <scene sceneID="hRP-Zo-0Kz">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="c0r-TI-Ano" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="c0r-TI-Ano" customClass="GroupViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bPQ-Z0-Yuu">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="Qdj-nG-R7l"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Fj9-uI-9Vw">
-                        <barButtonItem key="leftBarButtonItem" title="Log Out" id="keJ-Ah-cxO">
-                            <connections>
-                                <action selector="onClickLogout:" destination="Kez-BC-QUO" id="AfY-lh-6hA"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Fj9-uI-9Vw"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rVl-Ce-qaA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="Kez-BC-QUO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-255" y="2430"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="saN-Ul-5Rf">
             <objects>
-                <viewController id="GMl-2D-Gym" sceneMemberID="viewController">
+                <viewController id="GMl-2D-Gym" customClass="MapViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4lG-wg-Y4R">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -214,17 +207,23 @@
             </objects>
             <point key="canvasLocation" x="618" y="2424"/>
         </scene>
-        <!--View Controller-->
+        <!--Profile View Controller-->
         <scene sceneID="34F-Ib-2k7">
             <objects>
-                <viewController id="X2S-U0-OQg" sceneMemberID="viewController">
+                <viewController id="X2S-U0-OQg" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="obY-yl-Z0g">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="O2v-KM-V4E"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="bR2-X1-LuW"/>
+                    <navigationItem key="navigationItem" id="bR2-X1-LuW">
+                        <barButtonItem key="leftBarButtonItem" title="Log Out" id="9Kd-Ru-eMe">
+                            <connections>
+                                <action selector="onClickLogout:" destination="X2S-U0-OQg" id="YXb-s5-TeU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BZ9-iO-WqT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -234,7 +233,7 @@
         <scene sceneID="QOa-Vv-0Z5">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MNX-Fb-Kyf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <navigationController id="WiI-JA-ZH7" sceneMemberID="viewController">
+                <navigationController modalPresentationStyle="fullScreen" id="WiI-JA-ZH7" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Groups" image="feed_tab" id="8Qi-Jz-H1X"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GS0-gy-hEo">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
@@ -251,7 +250,7 @@
         <scene sceneID="qwd-q1-tTq">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PoH-do-osg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <navigationController id="qhK-31-s8U" sceneMemberID="viewController">
+                <navigationController modalPresentationStyle="fullScreen" id="qhK-31-s8U" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" image="clipart19271" id="Gnw-4c-g4K"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="c57-WM-JDg">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
@@ -268,7 +267,7 @@
         <scene sceneID="DUU-zG-fik">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fWG-9M-Ze7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <navigationController id="30p-6Q-Pdr" sceneMemberID="viewController">
+                <navigationController modalPresentationStyle="fullScreen" id="30p-6Q-Pdr" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="profile_tab" id="H7a-vp-lg0"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zYi-WA-4AH">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
@@ -291,11 +290,6 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="keyPath">
-                            <integer key="value" value="0"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="WiI-JA-ZH7" kind="relationship" relationship="viewControllers" id="Bv1-qD-jz6"/>
                         <segue destination="qhK-31-s8U" kind="relationship" relationship="viewControllers" id="1nO-Da-lwr"/>
@@ -308,7 +302,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="5x1-KQ-F32"/>
+        <segue reference="HWb-WL-Hzu"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="clipart19271" width="25" height="25"/>
