@@ -174,24 +174,80 @@
             </objects>
             <point key="canvasLocation" x="980" y="150"/>
         </scene>
-        <!--Group View Controller-->
+        <!--Groups-->
         <scene sceneID="hRP-Zo-0Kz">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="c0r-TI-Ano" customClass="GroupViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bPQ-Z0-Yuu">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" estimatedRowHeight="200" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Hua-Xy-Z5r">
+                                <rect key="frame" x="0.0" y="88" width="390" height="756"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="165" id="2sK-eS-qtc" customClass="GroupCell">
+                                        <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="165"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2sK-eS-qtc" id="voi-Ue-C6m">
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="165"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="questionmark.square" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="xAz-FM-1iI">
+                                                    <rect key="frame" x="20" y="14" width="129" height="140"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Group Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wdg-yi-BCo">
+                                                    <rect key="frame" x="174" y="31" width="196" height="38"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Members: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hua-MM-igi">
+                                                    <rect key="frame" x="174" y="77" width="206" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="groupImage" destination="xAz-FM-1iI" id="0gF-BY-7qO"/>
+                                            <outlet property="groupMembersAmount" destination="Hua-MM-igi" id="Uz0-Nu-laY"/>
+                                            <outlet property="groupName" destination="Wdg-yi-BCo" id="qx5-7U-Gnn"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Qdj-nG-R7l"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Fj9-uI-9Vw"/>
+                    <navigationItem key="navigationItem" title="Groups" id="Fj9-uI-9Vw">
+                        <barButtonItem key="leftBarButtonItem" title="Create" id="cBa-EM-v0E">
+                            <connections>
+                                <action selector="onClickCreate:" destination="c0r-TI-Ano" id="jch-ip-dIU"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Join" id="2dG-9V-Pg9">
+                            <connections>
+                                <action selector="onClickJoin:" destination="c0r-TI-Ano" id="VaY-dI-t2O"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="Hua-Xy-Z5r" id="3Dd-j8-ycz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rVl-Ce-qaA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-255" y="2430"/>
+            <point key="canvasLocation" x="-255.38461538461539" y="2429.8578199052131"/>
         </scene>
-        <!--Map View Controller-->
+        <!--Map-->
         <scene sceneID="saN-Ul-5Rf">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="GMl-2D-Gym" customClass="MapViewController" sceneMemberID="viewController">
@@ -207,7 +263,7 @@
                         <viewLayoutGuide key="safeArea" id="a8c-tC-Ohs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="9nN-Yi-CCO"/>
+                    <navigationItem key="navigationItem" title="Map" id="9nN-Yi-CCO"/>
                     <connections>
                         <outlet property="mapView" destination="OIk-TX-is1" id="XKH-dw-YFN"/>
                     </connections>
@@ -216,7 +272,7 @@
             </objects>
             <point key="canvasLocation" x="616.92307692307691" y="2423.4597156398104"/>
         </scene>
-        <!--Profile View Controller-->
+        <!--Profile-->
         <scene sceneID="34F-Ib-2k7">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="X2S-U0-OQg" customClass="ProfileViewController" sceneMemberID="viewController">
@@ -226,7 +282,7 @@
                         <viewLayoutGuide key="safeArea" id="O2v-KM-V4E"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="bR2-X1-LuW">
+                    <navigationItem key="navigationItem" title="Profile" id="bR2-X1-LuW">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="9Kd-Ru-eMe">
                             <connections>
                                 <action selector="onClickLogout:" destination="X2S-U0-OQg" id="YXb-s5-TeU"/>
@@ -317,6 +373,7 @@
         <image name="clipart19271" width="25" height="25"/>
         <image name="feed_tab" width="25" height="25"/>
         <image name="profile_tab" width="25" height="25"/>
+        <image name="questionmark.square" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
