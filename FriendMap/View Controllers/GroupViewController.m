@@ -13,22 +13,38 @@
 
 @end
 
+
+
 @implementation GroupViewController
 
-- (void)showPopup{
+
+
+- (void)showCreatePopup{
+
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
     message:@"Enter Group Name" preferredStyle:(UIAlertControllerStyleAlert)];
     
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = @"Group name";
+        textField.placeholder = @"Group Name";
         textField.secureTextEntry = NO;
-    }];
+        [textField addTarget:self action:@selector(textDidChange) forControlEvents:UIControlEventValueChanged];
     
+    }];
+
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
         // handle response here.
     }];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
-
+        if([[[alert textFields][0] text] isEqual:@""]){
+            UIAlertController *emptyFieldAlert = [UIAlertController alertControllerWithTitle:@"" message:@"Group name cannot be empty!" preferredStyle:(UIAlertControllerStyleAlert)];
+            UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
+                
+            }];
+            [emptyFieldAlert addAction:confirm];
+            [self presentViewController:emptyFieldAlert animated:YES completion:^{
+                // optional code for what happens after the alert controller has finished presenting
+            }];
+        }else{
             PFObject *group = [PFObject objectWithClassName:[NSString stringWithFormat:@"groups"]];
             group[@"name"] = [[alert textFields][0] text];
             group[@"messages"] = [[NSDictionary alloc] init];
@@ -55,22 +71,96 @@
                   NSLog(@"Encounted error: %@", error.description);
               }
             }];
+        }
+
     }];
 
+    
+    [alert addAction:cancelAction];
+    [alert addAction:okAction];
+
+
+    [self presentViewController:alert animated:YES completion:^{
+        // optional code for what happens after the alert controller has finished presenting
+    }];
+}
+
+- (void)showJoinPopup{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
+    message:@"Enter Group Code" preferredStyle:(UIAlertControllerStyleAlert)];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"Group Code";
+        textField.secureTextEntry = NO;
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
+        // handle response here.
+    }];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
+        PFQuery *query = [PFQuery queryWithClassName:@"groups"];
+        [query whereKey:@"objectId" equalTo:[NSString stringWithFormat:@"%@", [[alert textFields][0] text]]];
+        query.limit = 1;
+        [query findObjectsInBackgroundWithBlock:^(NSArray *group, NSError *error) {
+            if(group != nil){
+                if(group.count==0){
+                    UIAlertController *groupInvalidAlert = [UIAlertController alertControllerWithTitle:@""
+                    message:@"Group Code Invalid" preferredStyle:(UIAlertControllerStyleAlert)];
+                    UIAlertAction *groupInvalidOkAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
+                        
+                    }];
+                    [groupInvalidAlert addAction:groupInvalidOkAction];
+                    [self presentViewController:groupInvalidAlert animated:YES completion:^{
+                        // optional code for what happens after the alert controller has finished presenting
+                    }];
+                }else{
+                    PFUser *user = [PFUser currentUser];
+                    [user addObject:group[0] forKey:@"all_groups"];
+                    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error){
+                        if(succeeded){
+                            NSLog(@"Successfully added user to group!");
+                        }
+                            }];
+                }
+                [self.tableView reloadData];
+            }else{
+                NSLog(@"%@", error.localizedDescription);
+            }
+        }];
+    }];
     
     [alert addAction:cancelAction];
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:^{
         // optional code for what happens after the alert controller has finished presenting
     }];
-}
-
-- (IBAction)onClickJoin:(id)sender{
+    
     
 }
 
+- (void)getGroups{
+    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    [query whereKey:@"objectId" equalTo:PFUser.currentUser.objectId];
+    [query includeKey:@"all_groups"];
+    query.limit = 50;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *groups, NSError *error){
+        if(groups != nil){
+            self.arrayOfGroups = groups[0][@"all_groups"];
+            NSLog(@"Successfully got groups");
+        }else{
+            NSLog(@"Could not get groups");
+        }
+        [self.tableView reloadData];
+    }];
+}
+
+- (IBAction)onClickJoin:(id)sender{
+    [self showJoinPopup];
+}
+
 - (IBAction)onClickCreate:(id)sender{
-    [self showPopup];
+    [self showCreatePopup];
 }
 
 - (void)viewDidLoad {
@@ -78,16 +168,22 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    [self getGroups];
 
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     GroupCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GroupCell" forIndexPath:indexPath];
+    PFObject *group = self.arrayOfGroups[indexPath.row];
+    cell.groupName.text = group[@"name"];
+    cell.groupMembersAmount.text = [NSString stringWithFormat:@"Members: %@", group[@"number_of_members"]];
+    NSLog(@"%@", group);
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 20;
+    return self.arrayOfGroups.count;
 }
 
 /*
