@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GroupViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *arrayOfGroups;
+@property (weak, nonatomic) IBOutlet UILabel *noGroupLabel;
 
 @end
 
