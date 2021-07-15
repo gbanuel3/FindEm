@@ -4,7 +4,7 @@
 //
 //  Created by Gildardo Banuelos on 7/15/21.
 //
-
+#import "MembersListViewController.h"
 #import "MessageViewController.h"
 #import "MessageTableViewCell.h"
 #import "MessageTextView.h"
@@ -90,7 +90,7 @@
     self.shouldScrollToBottomAfterKeyboardShows = NO;
     self.inverted = YES;
     
-    [self.leftButton setImage:[UIImage imageNamed:@"icn_upload"] forState:UIControlStateNormal];
+    [self.leftButton setImage:[UIImage systemImageNamed:@"arrow.right.doc.on.clipboard"] forState:UIControlStateNormal];
     [self.leftButton setTintColor:[UIColor grayColor]];
     
     [self.rightButton setTitle:NSLocalizedString(@"Send", nil) forState:UIControlStateNormal];
@@ -151,13 +151,14 @@
 
 - (void)configureDataSource{
     NSMutableArray *array = [[NSMutableArray alloc] init];
-    
+
     for (int i = 0; i < 100; i++) {
         NSInteger words = (arc4random() % 40)+1;
-        
+
         Message *message = [Message new];
         message.username = [LoremIpsum name];
         message.text = [LoremIpsum wordsWithNumber:words];
+        message.user = PFUser.currentUser;
         [array addObject:message];
     }
     
@@ -183,22 +184,22 @@
                                                                 target:self
                                                                 action:@selector(refreshMessageFeed:)];
     
-    UIBarButtonItem *typeItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icn_typing"]
+    UIBarButtonItem *uploadPFP = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"photo.fill.on.rectangle.fill"]
                                                                  style:UIBarButtonItemStylePlain
                                                                 target:self
-                                                                action:@selector(simulateUserTyping:)];
+                                                                 action:@selector(changeGroupImage:)];
     
-    UIBarButtonItem *appendItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icn_append"]
+    UIBarButtonItem *introduction = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"figure.wave"]
                                                                    style:UIBarButtonItemStylePlain
                                                                   target:self
                                                                   action:@selector(fillWithText:)];
     
-    UIBarButtonItem *pipItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icn_pic"]
+    UIBarButtonItem *showMembers = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"person.2.fill"]
                                                                 style:UIBarButtonItemStylePlain
                                                                target:self
-                                                               action:@selector(togglePIPWindow:)];
+                                                                   action:@selector(showMembersButton:)];
     
-    self.navigationItem.rightBarButtonItems = @[arrowItem, pipItem, refreshItem, appendItem, typeItem];
+    self.navigationItem.rightBarButtonItems = @[arrowItem, showMembers, refreshItem, introduction, uploadPFP];
 }
 
 
@@ -216,39 +217,12 @@
     [buttonItem setImage:image];
 }
 
-- (void)fillWithText:(id)sender
-{
-    if (self.textView.text.length == 0)
-    {
-        int sentences = (arc4random() % 4);
-        if (sentences <= 1) sentences = 1;
-        self.textView.text = [LoremIpsum sentencesWithNumber:sentences];
-    }
-    else {
-        [self.textView slk_insertTextAtCaretRange:[NSString stringWithFormat:@" %@", [LoremIpsum word]]];
-    }
+- (void)fillWithText:(id)sender{
+    self.textView.text = [NSString stringWithFormat:@"Hello everyone! My name is %@. It is a pleasure to be here!", PFUser.currentUser.username];
 }
 
-- (void)simulateUserTyping:(id)sender
-{
-    if ([self canShowTypingIndicator]) {
-        
-#if DEBUG_CUSTOM_TYPING_INDICATOR
-        __block TypingIndicatorView *view = (TypingIndicatorView *)self.typingIndicatorProxyView;
-        
-        CGFloat scale = [UIScreen mainScreen].scale;
-        CGSize imgSize = CGSizeMake(kTypingIndicatorViewAvatarHeight*scale, kTypingIndicatorViewAvatarHeight*scale);
-        
-        // This will cause the typing indicator to show after a delay ¯\_(ツ)_/¯
-        [LoremIpsum asyncPlaceholderImageWithSize:imgSize
-                                       completion:^(UIImage *image) {
-                                           UIImage *thumbnail = [UIImage imageWithCGImage:image.CGImage scale:scale orientation:UIImageOrientationUp];
-                                           [view presentIndicatorWithName:[LoremIpsum name] image:thumbnail];
-                                       }];
-#else
-        [self.typingIndicatorView insertUsername:[LoremIpsum name]];
-#endif
-    }
+- (void)changeGroupImage:(id)sender{
+
 }
 
 - (void)didLongPressCell:(UIGestureRecognizer *)gesture
@@ -317,14 +291,8 @@
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRowIndex inSection:lastSectionIndex] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
-- (void)togglePIPWindow:(id)sender
-{
-    if (!_pipWindow) {
-        [self showPIPWindow:sender];
-    }
-    else {
-        [self hidePIPWindow:sender];
-    }
+- (void)showMembersButton:(id)sender{
+    [self performSegueWithIdentifier:@"showMembersSegue" sender:nil];
 }
 
 - (void)showPIPWindow:(id)sender
@@ -772,5 +740,15 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-@end
 
+#pragma mark - Navigation
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([[segue identifier] isEqualToString:@"showMembersSegue"]){
+        MembersListViewController *membersListViewController = [segue destinationViewController];
+        membersListViewController.group = self.group;
+        return;
+    }
+}
+@end
