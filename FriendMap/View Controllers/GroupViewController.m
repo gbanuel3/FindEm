@@ -230,13 +230,25 @@
 
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [self getGroups];
+    [self.tableView reloadData];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     GroupCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GroupCell" forIndexPath:indexPath];
     PFObject *group = self.arrayOfGroups[indexPath.row];
     cell.groupName.text = group[@"name"];
     cell.groupMembersAmount.text = [NSString stringWithFormat:@"Members: %@", group[@"number_of_members"]];
-//    NSLog(@"%@", group);
+    [group[@"image"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+        if (!error){
+            cell.groupImage.image = [UIImage imageWithData:imageData];
+            NSLog(@"%@", cell.groupName.text);
+            NSLog(@"%@", group);
+        }
+    }];
     return cell;
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

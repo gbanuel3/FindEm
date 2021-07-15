@@ -16,7 +16,7 @@
 #define DEBUG_CUSTOM_TYPING_INDICATOR 0
 #define DEBUG_CUSTOM_BOTTOM_VIEW 0
 
-@interface MessageViewController ()
+@interface MessageViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *messages;
 
@@ -222,6 +222,31 @@
 }
 
 - (void)changeGroupImage:(id)sender{
+    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsEditing = YES;
+    imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    // Get the image captured by the UIImagePickerController
+    UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
+    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
+
+    NSData *imageData = UIImagePNGRepresentation(editedImage);
+    PFFileObject *imageFile = [PFFileObject fileObjectWithName:@"image.png" data:imageData];
+    PFQuery *query = [PFQuery queryWithClassName:@"groups"];
+    [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject *group, NSError *error) {
+            if (!error){
+                [group setObject:imageFile forKey:@"image"];
+                [group saveInBackground];
+            }
+        [self dismissViewControllerAnimated:YES completion:nil];
+        }];
+    
 
 }
 
@@ -389,11 +414,8 @@
     
     [super didPressLeftButton:sender];
     
-    UIViewController *vc = [UIViewController new];
-    vc.view.backgroundColor = [UIColor whiteColor];
-    vc.title = @"Details";
-    
-    [self.navigationController pushViewController:vc animated:YES];
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    self.textView.text = pasteboard.string;
 }
 
 - (void)didPressRightButton:(id)sender
