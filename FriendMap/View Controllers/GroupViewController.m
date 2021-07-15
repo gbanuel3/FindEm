@@ -8,6 +8,7 @@
 #import "GroupViewController.h"
 #import "GroupCell.h"
 #import <Parse/Parse.h>
+#import "GroupChatViewController.h"
 
 @interface GroupViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -147,8 +148,18 @@
                                 [self getGroups];
                             }
                                 }];
+
+                        PFQuery *query = [PFQuery queryWithClassName:@"groups"];
+                        [query getObjectInBackgroundWithId:[NSString stringWithFormat:@"%@", [[alert textFields][0] text]] block:^(PFObject *group, NSError *error) {
+                                if (!error){
+ 
+                                    [group addObject:[PFUser currentUser] forKey:@"members"];
+                                    [group incrementKey:@"number_of_members"];
+                                    [group saveInBackground];
+                                    [self getGroups];
+                                }
+                            }];
                     }
-                    [self.tableView reloadData];
                 }else{
                     NSLog(@"%@", error.localizedDescription);
                 }
@@ -170,6 +181,8 @@
     PFQuery *query = [PFQuery queryWithClassName:@"_User"];
     [query whereKey:@"objectId" equalTo:PFUser.currentUser.objectId];
     [query includeKey:@"all_groups"];
+    [query includeKey:@"members"];
+
     query.limit = 50;
     [query findObjectsInBackgroundWithBlock:^(NSArray *groups, NSError *error){
         if(groups != nil){
@@ -229,14 +242,21 @@
     return self.arrayOfGroups.count;
 }
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if([[segue identifier] isEqualToString:@"cellSelectedSegue"]){
+        NSLog(@"Entered Here");
+        GroupCell *tappedCell = sender;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
+        PFObject *group = self.arrayOfGroups[indexPath.row];
+        GroupChatViewController *groupChatViewController = [segue destinationViewController];
+        groupChatViewController.group = group;
+        return;
+    }
 }
-*/
+
 
 @end

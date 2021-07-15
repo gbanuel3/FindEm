@@ -8,6 +8,7 @@ target 'FriendMap' do
   # Pods for FriendMap
    pod 'Parse'
    pod 'AFNetworking'
+   pod 'MessageKit'
 
   target 'FriendMapTests' do
     inherit! :search_paths
