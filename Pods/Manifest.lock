@@ -15,36 +15,34 @@ PODS:
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
   - Bolts/Tasks (1.9.1)
-  - InputBarAccessoryView (5.3.1):
-    - InputBarAccessoryView/Core (= 5.3.1)
-  - InputBarAccessoryView/Core (5.3.1)
-  - MessageKit (3.6.1):
-    - InputBarAccessoryView (~> 5.3.1)
+  - LoremIpsum (2.0.0)
   - Parse (1.19.2):
     - Parse/Core (= 1.19.2)
   - Parse/Core (1.19.2):
     - Bolts/Tasks (= 1.9.1)
+  - SlackTextViewController (1.9.6)
 
 DEPENDENCIES:
   - AFNetworking
-  - MessageKit
+  - LoremIpsum
   - Parse
+  - SlackTextViewController
 
 SPEC REPOS:
   trunk:
     - AFNetworking
     - Bolts
-    - InputBarAccessoryView
-    - MessageKit
+    - LoremIpsum
     - Parse
+    - SlackTextViewController
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   Bolts: 8c1e8aab2f603387b8b9924f57d1d64f43d3ffdc
-  InputBarAccessoryView: 1f75d8c9f75e5e57f3ffac36ed58635a8005e0bc
-  MessageKit: d153fbbbcb12f3f4045a1ba8874298924dacfb62
+  LoremIpsum: 25837e6f8f9c63471c23140be3e4c6e1b6743c9e
   Parse: 081fb8755c3000fd11df817eec235def233d0af3
+  SlackTextViewController: b854e62c1c156336bc4fd409c6ca79b5773e8f9d
 
-PODFILE CHECKSUM: 8daaebfbd1bcd4d655bb8f0dbc4544e3b15a13a8
+PODFILE CHECKSUM: 7705395e58a47149332f8e448ea56e9580e07064
 
 COCOAPODS: 1.10.1

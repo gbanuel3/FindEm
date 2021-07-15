@@ -1,6 +1,6 @@
 ${PODS_ROOT}/Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap-FriendMapUITests-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework
 ${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework
-${BUILT_PRODUCTS_DIR}/InputBarAccessoryView/InputBarAccessoryView.framework
-${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework
+${BUILT_PRODUCTS_DIR}/LoremIpsum/LoremIpsum.framework
 ${BUILT_PRODUCTS_DIR}/Parse/Parse.framework
+${BUILT_PRODUCTS_DIR}/SlackTextViewController/SlackTextViewController.framework

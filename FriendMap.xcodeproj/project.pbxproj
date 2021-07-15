@@ -28,6 +28,11 @@
 		2B667CB4269F93C800792451 /* MemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667CB3269F93C800792451 /* MemberCell.m */; };
 		2B667CB7269FB50800792451 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667CB6269FB50800792451 /* MessageCell.m */; };
 		2B667CBA269FB89100792451 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667CB9269FB89100792451 /* ChatViewController.m */; };
+		2B667D2126A029A500792451 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2026A029A500792451 /* MessageViewController.m */; };
+		2B667D2426A029EB00792451 /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2326A029EB00792451 /* MessageTableViewCell.m */; };
+		2B667D2726A02A3F00792451 /* MessageTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2626A02A3F00792451 /* MessageTextView.m */; };
+		2B667D2D26A02A9000792451 /* TypingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2C26A02A9000792451 /* TypingIndicatorView.m */; };
+		2B667D3026A02ABE00792451 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2F26A02ABE00792451 /* Message.m */; };
 		614E0FA978DC8FE1F26DC95C /* Pods_FriendMap_FriendMapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */; };
 		77965291AC77C5E31F77A9EC /* Pods_FriendMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C802AF0660674E8FC54375DA /* Pods_FriendMap.framework */; };
 		E1CE6A866054112653C09FD3 /* Pods_FriendMapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDF498AEEC8A5AEA44958BE3 /* Pods_FriendMapTests.framework */; };
@@ -92,6 +97,16 @@
 		2B667CB6269FB50800792451 /* MessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
 		2B667CB8269FB89100792451 /* ChatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
 		2B667CB9269FB89100792451 /* ChatViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
+		2B667D1F26A029A500792451 /* MessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		2B667D2026A029A500792451 /* MessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
+		2B667D2226A029EB00792451 /* MessageTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageTableViewCell.h; sourceTree = "<group>"; };
+		2B667D2326A029EB00792451 /* MessageTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewCell.m; sourceTree = "<group>"; };
+		2B667D2526A02A3F00792451 /* MessageTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageTextView.h; sourceTree = "<group>"; };
+		2B667D2626A02A3F00792451 /* MessageTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageTextView.m; sourceTree = "<group>"; };
+		2B667D2B26A02A9000792451 /* TypingIndicatorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TypingIndicatorView.h; sourceTree = "<group>"; };
+		2B667D2C26A02A9000792451 /* TypingIndicatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TypingIndicatorView.m; sourceTree = "<group>"; };
+		2B667D2E26A02ABE00792451 /* Message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		2B667D2F26A02ABE00792451 /* Message.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		3D07E2E71F2B14FBC2D49EF8 /* Pods-FriendMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap.release.xcconfig"; path = "Target Support Files/Pods-FriendMap/Pods-FriendMap.release.xcconfig"; sourceTree = "<group>"; };
 		48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FriendMap_FriendMapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57F254F0FADDA707C23B69E2 /* Pods-FriendMap-FriendMapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap-FriendMapUITests.debug.xcconfig"; path = "Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap-FriendMapUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -157,6 +172,7 @@
 		2B667C5C269CA41F00792451 /* FriendMap */ = {
 			isa = PBXGroup;
 			children = (
+				2B667D1E26A0299600792451 /* SLK */,
 				2B667C94269CA50100792451 /* Models */,
 				2B667C92269CA4F100792451 /* View Controllers */,
 				2B667C5D269CA41F00792451 /* AppDelegate.h */,
@@ -226,6 +242,23 @@
 				2B667C9C269D5EE900792451 /* CustomButton.m */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		2B667D1E26A0299600792451 /* SLK */ = {
+			isa = PBXGroup;
+			children = (
+				2B667D1F26A029A500792451 /* MessageViewController.h */,
+				2B667D2026A029A500792451 /* MessageViewController.m */,
+				2B667D2226A029EB00792451 /* MessageTableViewCell.h */,
+				2B667D2326A029EB00792451 /* MessageTableViewCell.m */,
+				2B667D2526A02A3F00792451 /* MessageTextView.h */,
+				2B667D2626A02A3F00792451 /* MessageTextView.m */,
+				2B667D2B26A02A9000792451 /* TypingIndicatorView.h */,
+				2B667D2C26A02A9000792451 /* TypingIndicatorView.m */,
+				2B667D2E26A02ABE00792451 /* Message.h */,
+				2B667D2F26A02ABE00792451 /* Message.m */,
+			);
+			path = SLK;
 			sourceTree = "<group>";
 		};
 		DC887FCE7EE9B7FFA564DFE4 /* Pods */ = {
@@ -495,15 +528,20 @@
 				2B667C5F269CA41F00792451 /* AppDelegate.m in Sources */,
 				2B667CAE269F8E1100792451 /* GroupChatViewController.m in Sources */,
 				2B667CB1269F928900792451 /* MembersListViewController.m in Sources */,
+				2B667D2126A029A500792451 /* MessageViewController.m in Sources */,
 				2B667CB7269FB50800792451 /* MessageCell.m in Sources */,
 				2B667CB4269F93C800792451 /* MemberCell.m in Sources */,
+				2B667D2426A029EB00792451 /* MessageTableViewCell.m in Sources */,
 				2B667CA6269D809A00792451 /* GroupViewController.m in Sources */,
 				2B667CA3269D808C00792451 /* MapViewController.m in Sources */,
 				2B667CAB269E087E00792451 /* GroupCell.m in Sources */,
 				2B667C70269CA42000792451 /* main.m in Sources */,
 				2B667CA0269D727800792451 /* ProfileViewController.m in Sources */,
 				2B667C62269CA41F00792451 /* SceneDelegate.m in Sources */,
+				2B667D2D26A02A9000792451 /* TypingIndicatorView.m in Sources */,
+				2B667D3026A02ABE00792451 /* Message.m in Sources */,
 				2B667C9A269D5A0C00792451 /* SignupViewController.m in Sources */,
+				2B667D2726A02A3F00792451 /* MessageTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

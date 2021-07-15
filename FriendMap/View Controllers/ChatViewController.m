@@ -6,7 +6,6 @@
 //
 
 #import "ChatViewController.h"
-#import <MessageKit-Swift.h>
 
 @interface ChatViewController ()
 

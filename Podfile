@@ -8,7 +8,8 @@ target 'FriendMap' do
   # Pods for FriendMap
    pod 'Parse'
    pod 'AFNetworking'
-   pod 'MessageKit'
+   pod 'SlackTextViewController'
+   pod 'LoremIpsum'
 
   target 'FriendMapTests' do
     inherit! :search_paths

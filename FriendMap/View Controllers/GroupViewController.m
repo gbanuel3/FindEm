@@ -9,6 +9,7 @@
 #import "GroupCell.h"
 #import <Parse/Parse.h>
 #import "GroupChatViewController.h"
+#import "MessageViewController.h"
 
 @interface GroupViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -248,12 +249,11 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([[segue identifier] isEqualToString:@"cellSelectedSegue"]){
-        NSLog(@"Entered Here");
         GroupCell *tappedCell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
         PFObject *group = self.arrayOfGroups[indexPath.row];
-        GroupChatViewController *groupChatViewController = [segue destinationViewController];
-        groupChatViewController.group = group;
+        MessageViewController *messageViewController = [segue destinationViewController];
+        messageViewController.group = group;
         return;
     }
 }
