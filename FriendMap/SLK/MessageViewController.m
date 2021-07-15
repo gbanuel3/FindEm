@@ -149,8 +149,7 @@
 
 #pragma mark - Example's Configuration
 
-- (void)configureDataSource
-{
+- (void)configureDataSource{
     NSMutableArray *array = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < 100; i++) {
@@ -167,7 +166,7 @@
     self.messages = [[NSMutableArray alloc] initWithArray:reversed];
     
     self.users = @[@"Allen", @"Anna", @"Alicia", @"Arnold", @"Armando", @"Antonio", @"Brad", @"Catalaya", @"Christoph", @"Emerson", @"Eric", @"Everyone", @"Steve"];
-    self.channels = @[@"General", @"Random", @"iOS", @"Bugs", @"Sports", @"Android", @"UI", @"SSB"];
+    self.channels = @[@"General", @"Random", @"iOS", @"Bugs", @"Sports", @"Android", @"UI"];
     self.emojis = @[@"-1", @"m", @"man", @"machine", @"block-a", @"block-b", @"bowtie", @"boar", @"boat", @"book", @"bookmark", @"neckbeard", @"metal", @"fu", @"feelsgood"];
     self.commands = @[@"msg", @"call", @"text", @"skype", @"kick", @"invite"];
 }
@@ -179,10 +178,10 @@
                                                                   target:self
                                                                   action:@selector(hideOrShowTextInputbar:)];
     
-    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icn_editing"]
+    UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"arrow.clockwise"]
                                                                  style:UIBarButtonItemStylePlain
                                                                 target:self
-                                                                action:@selector(editRandomMessage:)];
+                                                                action:@selector(refreshMessageFeed:)];
     
     UIBarButtonItem *typeItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icn_typing"]
                                                                  style:UIBarButtonItemStylePlain
@@ -199,7 +198,7 @@
                                                                target:self
                                                                action:@selector(togglePIPWindow:)];
     
-    self.navigationItem.rightBarButtonItems = @[arrowItem, pipItem, editItem, appendItem, typeItem];
+    self.navigationItem.rightBarButtonItems = @[arrowItem, pipItem, refreshItem, appendItem, typeItem];
 }
 
 
@@ -292,12 +291,14 @@
     [self.tableView scrollToRowAtIndexPath:cell.indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
-- (void)editRandomMessage:(id)sender
+- (void)refreshMessageFeed:(id)sender
 {
-    int sentences = (arc4random() % 10);
-    if (sentences <= 1) sentences = 1;
-    
-    [self editText:[LoremIpsum sentencesWithNumber:sentences]];
+//    int sentences = (arc4random() % 10);
+//    if (sentences <= 1) sentences = 1;
+//
+//    [self editText:[LoremIpsum sentencesWithNumber:sentences]];
+    [self configureDataSource];
+    [self.tableView reloadData];
 }
 
 - (void)editLastMessage:(id)sender
@@ -392,12 +393,12 @@
 {
     // Notifies the view controller that the keyboard changed status.
     
-    switch (status) {
-        case SLKKeyboardStatusWillShow:     return NSLog(@"Will Show");
-        case SLKKeyboardStatusDidShow:      return NSLog(@"Did Show");
-        case SLKKeyboardStatusWillHide:     return NSLog(@"Will Hide");
-        case SLKKeyboardStatusDidHide:      return NSLog(@"Did Hide");
-    }
+//    switch (status) {
+//        case SLKKeyboardStatusWillShow:     return NSLog(@"Will Show");
+//        case SLKKeyboardStatusDidShow:      return NSLog(@"Did Show");
+//        case SLKKeyboardStatusWillHide:     return NSLog(@"Will Hide");
+//        case SLKKeyboardStatusDidHide:      return NSLog(@"Did Hide");
+//    }
 }
 
 - (void)textWillUpdate
@@ -435,7 +436,7 @@
     [self.textView refreshFirstResponder];
     
     Message *message = [Message new];
-    message.username = [LoremIpsum name];
+    message.username = PFUser.currentUser.username;
     message.text = [self.textView.text copy];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
