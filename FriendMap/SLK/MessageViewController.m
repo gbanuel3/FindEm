@@ -156,7 +156,6 @@
         NSInteger words = (arc4random() % 40)+1;
 
         Message *message = [Message new];
-        message.username = [LoremIpsum name];
         message.text = [LoremIpsum wordsWithNumber:words];
         message.user = PFUser.currentUser;
         [array addObject:message];
@@ -428,10 +427,20 @@
     Message *message = [Message new];
     message.username = PFUser.currentUser.username;
     message.text = [self.textView.text copy];
+    message.user = PFUser.currentUser;
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     UITableViewRowAnimation rowAnimation = self.inverted ? UITableViewRowAnimationBottom : UITableViewRowAnimationTop;
     UITableViewScrollPosition scrollPosition = self.inverted ? UITableViewScrollPositionBottom : UITableViewScrollPositionTop;
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"groups"];
+    [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject *group, NSError *error){
+            if (!error){
+                [group addObject:message forKey:@"messages"];
+                [group saveInBackground];
+
+            }
+        }];
     
     [self.tableView beginUpdates];
     [self.messages insertObject:message atIndex:0];

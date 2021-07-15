@@ -9,4 +9,12 @@
 
 @implementation Message
 
+@dynamic text;
+@dynamic user;
+@dynamic username;
+
++ (nonnull NSString *)parseClassName {
+    return @"Message";
+}
+
 @end

@@ -5,14 +5,17 @@
 //  Created by Gildardo Banuelos on 7/15/21.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface Message : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, strong) NSString *username;
+@interface Message : PFObject<PFSubclassing>
+
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) PFObject *user;
+@property (nonatomic, strong) PFUser *user;
+@property (nonatomic, strong) NSString *username;
+
 
 @end
+
+NS_ASSUME_NONNULL_END
