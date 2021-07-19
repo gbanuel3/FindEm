@@ -9,11 +9,47 @@
 #import <Parse/Parse.h>
 #import "LoginViewController.h"
 
-@interface ProfileViewController ()
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @end
 
 @implementation ProfileViewController
+
+- (IBAction)onClickCamera:(id)sender{
+    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsEditing = YES;
+
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }
+    else {
+        NSLog(@"Camera 🚫 available so we will use photo library instead");
+        imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    // Get the image captured by the UIImagePickerController
+    UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
+    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
+    self.profileImage.image = editedImage;
+    NSData *imageData = UIImagePNGRepresentation(editedImage);
+    PFFileObject *imageFile = [PFFileObject fileObjectWithName:@"image.png" data:imageData];
+    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    [query getObjectInBackgroundWithId:self.user.objectId block:^(PFObject *group, NSError *error) {
+            if (!error){
+                [group setObject:imageFile forKey:@"profile_picture"];
+                [group saveInBackground];
+            }
+        [self dismissViewControllerAnimated:YES completion:nil];
+        }];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (IBAction)onClickLogout:(id)sender{
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error){
@@ -24,9 +60,28 @@
     }];
 }
  
-- (void)viewDidLoad {
+- (void)viewDidLoad{
     [super viewDidLoad];
+    
 
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    if(self.user==nil || [PFUser.currentUser.username isEqual:self.user.username]){ // when user goes to their own profile screen via tab menu
+        NSLog(@"own profile");
+        [self.cameraButton setHidden:NO];
+        PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+        [query getObjectInBackgroundWithId:PFUser.currentUser.objectId block:^(PFObject *user, NSError *error) {
+                if (!error){
+                    self.user = user;
+                    self.title = self.user[@"username"];
+                    self.profileImage.image = self.user[@"profile_image"];
+                }
+            }];
+    }else{
+        self.title = self.user[@"username"];
+        [self.cameraButton setHidden:self.showCameraButton];
+    }
 }
 
 /*

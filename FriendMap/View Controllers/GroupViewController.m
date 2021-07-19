@@ -243,8 +243,8 @@
     [group[@"image"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
         if (!error){
             cell.groupImage.image = [UIImage imageWithData:imageData];
-            NSLog(@"%@", cell.groupName.text);
-            NSLog(@"%@", group);
+//            NSLog(@"%@", cell.groupName.text);
+//            NSLog(@"%@", group);
         }
     }];
     return cell;

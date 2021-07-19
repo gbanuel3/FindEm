@@ -169,7 +169,6 @@
                         
                         if(messageObject[0] != nil){
                             [self.messageObjects addObject:messageObject[0]];
-
                         }
                         if(error){
                             NSLog(@"there is an error");
@@ -268,8 +267,7 @@
                 [group setObject:imageFile forKey:@"image"];
                 [group saveInBackground];
             }
-        [self dismissViewControllerAnimated:YES completion:nil];
-        }];
+    }];
     
 
 }

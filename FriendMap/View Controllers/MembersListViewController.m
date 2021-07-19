@@ -8,6 +8,7 @@
 #import "MembersListViewController.h"
 #import "MemberCell.h"
 #import <Parse/Parse.h>
+#import "ProfileViewController.h"
 
 @interface MembersListViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -44,6 +45,7 @@
     query.limit = 1;
     [query findObjectsInBackgroundWithBlock:^(NSArray *returnUser, NSError *error){
         if(returnUser != nil){
+            self.arrayOfMembers[indexPath.row] = returnUser[0];
             cell.memberNameLabel.text = returnUser[0][@"username"];
 
             NSLog(@"Successfully got user");
@@ -63,14 +65,25 @@
     
 }
 
-/*
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    self.user = self.arrayOfMembers[indexPath.row];
+    [self performSegueWithIdentifier:@"pfpToProfile" sender:nil];
+    
+}
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if([[segue identifier] isEqualToString:@"pfpToProfile"]){
+        UINavigationController *navController = [segue destinationViewController];
+        ProfileViewController *profileViewController = (ProfileViewController *)([navController viewControllers][0]);
+        profileViewController.user = self.user;
+        profileViewController.showCameraButton = YES;
+        return;
+    }
 }
-*/
+
 
 @end
