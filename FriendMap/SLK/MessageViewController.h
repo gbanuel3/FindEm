@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MessageViewController : SLKTextViewController
 @property (strong, nonatomic) PFObject *group;
+@property (strong, nonatomic) NSMutableArray *messageObjects;
 @end
 
 NS_ASSUME_NONNULL_END

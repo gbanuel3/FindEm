@@ -144,26 +144,51 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+//    [self configureDataSource];
 }
 
 
 #pragma mark - Example's Configuration
 
 - (void)configureDataSource{
-    NSMutableArray *array = [[NSMutableArray alloc] init];
 
-    for (int i = 0; i < 100; i++) {
-        NSInteger words = (arc4random() % 40)+1;
+    PFQuery *query = [PFQuery queryWithClassName:@"groups"];
+    
+    [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject *group, NSError *error) {
+            if (!error){
 
-        Message *message = [Message new];
-        message.text = [LoremIpsum wordsWithNumber:words];
-        message.user = PFUser.currentUser;
-        [array addObject:message];
-    }
+                self.messages = group[@"messages"];
+                self.messageObjects = [[NSMutableArray alloc] init];
+                for(int index=0; index<self.messages.count; index++){
+//                    self.messageObjects[index] =
+                    Message *message = [self.messages objectAtIndex:index];
+                    PFQuery *query2 = [PFQuery queryWithClassName:@"Message"];
+                    [query2 whereKey:@"objectId" equalTo:message.objectId];
+                    [query2 includeKey:@"createdAt"];
+                    [query2 findObjectsInBackgroundWithBlock:^(NSArray *messageObject, NSError *error){
+                        
+                        if(messageObject[0] != nil){
+                            [self.messageObjects addObject:messageObject[0]];
+
+                        }
+                        if(error){
+                            NSLog(@"there is an error");
+                        }
+                        if(self.messageObjects.count == self.messages.count){
+                            
+                            self.messageObjects = [self.messageObjects sortedArrayUsingComparator:^NSComparisonResult(Message *a, Message *b) {
+                                return [b.createdAt compare:a.createdAt];
+                            }];
+                            
+                            [self.tableView reloadData];
+                        }
+
+                    }];
+                }
+                
+            }
+        }];
     
-    NSArray *reversed = [[array reverseObjectEnumerator] allObjects];
-    
-    self.messages = [[NSMutableArray alloc] initWithArray:reversed];
     
     self.users = @[@"Allen", @"Anna", @"Alicia", @"Arnold", @"Armando", @"Antonio", @"Brad", @"Catalaya", @"Christoph", @"Emerson", @"Eric", @"Everyone", @"Steve"];
     self.channels = @[@"General", @"Random", @"iOS", @"Bugs", @"Sports", @"Android", @"UI"];
@@ -442,16 +467,16 @@
             }
         }];
     
-    [self.tableView beginUpdates];
-    [self.messages insertObject:message atIndex:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:rowAnimation];
-    [self.tableView endUpdates];
+//    [self.tableView beginUpdates];
+//    [self.messages insertObject:message atIndex:0];
+//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:rowAnimation];
+//    [self.tableView endUpdates];
     
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:scrollPosition animated:YES];
+//    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:scrollPosition animated:YES];
     
     // Fixes the cell from blinking (because of the transform, when using translucent cells)
     // See https://github.com/slackhq/SlackTextViewController/issues/94#issuecomment-69929927
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     
     [super didPressRightButton:sender];
 }
@@ -657,19 +682,19 @@
         [cell addGestureRecognizer:longPress];
     }
     
-    Message *message = self.messages[indexPath.row];
     
-    cell.titleLabel.text = message.username;
-    cell.bodyLabel.text = message.text;
+    Message *message = self.messageObjects[indexPath.row];
     
+    
+    cell.bodyLabel.text = message[@"text"];
+    cell.titleLabel.text = message[@"username"];
     cell.indexPath = indexPath;
     cell.usedForMessage = YES;
-    
-    // Cells must inherit the table view's transform
-    // This is very important, since the main table view may be inverted
     cell.transform = self.tableView.transform;
     
+    
     return cell;
+
 }
 
 - (MessageTableViewCell *)autoCompletionCellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -694,8 +719,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:MessengerCellIdentifier];
     if ([tableView isEqual:self.tableView]) {
-        Message *message = self.messages[indexPath.row];
+        Message *message = self.messageObjects[indexPath.row];
         
         NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
         paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -711,19 +737,19 @@
         
         CGRect titleBounds = [message.username boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:NULL];
         CGRect bodyBounds = [message.text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:NULL];
-        
+
         if (message.text.length == 0) {
             return 0.0;
         }
-        
+
         CGFloat height = CGRectGetHeight(titleBounds);
         height += CGRectGetHeight(bodyBounds);
         height += 40.0;
-        
+
         if (height < kMessageTableViewCellMinimumHeight) {
             height = kMessageTableViewCellMinimumHeight;
         }
-        
+
         return height;
     }
     else {

@@ -46,7 +46,7 @@
             cell.memberNameLabel.text = returnUser[0][@"username"];
 
             NSLog(@"Successfully got user");
-
+ 
         }else{
             NSLog(@"Could not get user");
         }
