@@ -24,6 +24,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.arrayOfMembers = self.group[@"members"];
+    self.groupCodeField.text = [NSString stringWithFormat:@"Group Code: %@", self.group.objectId];
 //    NSLog(@"%@", self.group);
 }
 

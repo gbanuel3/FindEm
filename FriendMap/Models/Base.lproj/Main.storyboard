@@ -284,12 +284,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="70" estimatedRowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gkS-Bm-Wqp">
-                                <rect key="frame" x="75" y="70" width="240" height="686"/>
+                                <rect key="frame" x="75" y="120" width="240" height="636"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="myH-F9-VZ7">
+                                    <rect key="frame" x="0.0" y="0.0" width="240" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Label" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zAB-PT-iKe">
+                                            <rect key="frame" x="8" y="8" width="224" height="33"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <color key="textColor" systemColor="labelColor"/>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MembersCell" rowHeight="70" id="5ca-0t-zgm" customClass="MemberCell">
-                                        <rect key="frame" x="0.0" y="24.333333969116211" width="240" height="70"/>
+                                        <rect key="frame" x="0.0" y="68.333333969116211" width="240" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5ca-0t-zgm" id="PRY-nb-e0S">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="70"/>
@@ -316,7 +331,7 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="frj-Af-Qkr">
-                                <rect key="frame" x="174" y="17.33333333333303" width="43" height="36"/>
+                                <rect key="frame" x="174" y="66.33333333333303" width="43" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" backgroundImage="return" catalog="system"/>
                                 <connections>
@@ -329,6 +344,7 @@
                         <gestureRecognizers/>
                     </view>
                     <connections>
+                        <outlet property="groupCodeField" destination="zAB-PT-iKe" id="NyK-pQ-UJ6"/>
                         <outlet property="tableView" destination="gkS-Bm-Wqp" id="IjJ-UX-CFO"/>
                     </connections>
                 </viewController>
@@ -465,6 +481,9 @@
         <image name="profile_tab" width="25" height="25"/>
         <image name="questionmark.square" catalog="system" width="128" height="114"/>
         <image name="return" catalog="system" width="128" height="101"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

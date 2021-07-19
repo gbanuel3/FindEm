@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) PFObject *group;
 @property (strong, nonatomic) NSArray *arrayOfMembers;
+@property (weak, nonatomic) IBOutlet UITextView *groupCodeField;
 
 @end
 
