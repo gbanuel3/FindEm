@@ -462,7 +462,11 @@
     [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject *group, NSError *error){
             if (!error){
                 [group addObject:message forKey:@"messages"];
-                [group saveInBackground];
+                [group saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                    if(succeeded){
+                        [self configureDataSource];
+                    }
+                }];
 
             }
         }];
