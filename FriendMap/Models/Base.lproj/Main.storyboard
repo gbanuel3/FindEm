@@ -291,12 +291,12 @@
                                     <rect key="frame" x="0.0" y="0.0" width="240" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Label" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zAB-PT-iKe">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Label" translatesAutoresizingMaskIntoConstraints="NO" id="zAB-PT-iKe">
                                             <rect key="frame" x="8" y="8" width="224" height="33"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <color key="textColor" systemColor="labelColor"/>
-                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                     </subviews>

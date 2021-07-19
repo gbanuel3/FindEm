@@ -49,7 +49,7 @@
         }else{
             PFObject *group = [PFObject objectWithClassName:[NSString stringWithFormat:@"groups"]];
             group[@"name"] = [[alert textFields][0] text];
-            group[@"messages"] = [[NSDictionary alloc] init];
+            group[@"messages"] = [[NSArray alloc] init];
             group[@"number_of_members"] = @1;
             group[@"members"] = [[NSArray alloc] initWithObjects:PFUser.currentUser, nil];
 //            group[@"image"] =
