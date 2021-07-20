@@ -12,12 +12,13 @@
 #import "Message.h"
 #import <LoremIpsum/LoremIpsum.h>
 #import <DateTools/DateTools.h>
+#import "ProfileViewController.h"
 
 
 #define DEBUG_CUSTOM_TYPING_INDICATOR 0
 #define DEBUG_CUSTOM_BOTTOM_VIEW 0
 
-@interface MessageViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface MessageViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *messages;
 
@@ -31,6 +32,8 @@
 @property (nonatomic, strong) UIWindow *pipWindow;
 
 @property (nonatomic, weak) Message *editingMessage;
+
+@property (strong, nonatomic) UIBarButtonItem *refreshItem;
 
 @end
 
@@ -76,12 +79,22 @@
 
 #pragma mark - View lifecycle
 
+//- (void)tweetCell:(TweetCellTableViewCell *)tweetCell didTap:(Tweet *)tweet{
+//    // TODO: Perform segue to profile view controller
+//    [self performSegueWithIdentifier:@"profileSegue" sender:tweet];
+//}
+
+- (void)MessageCell:(MessageTableViewCell *)messageCell didTap:(Message *)message{
+    NSLog(@"ented here!!");
+    [self performSegueWithIdentifier:@"chatToProfile" sender:message];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     // Example's configuration
-    [self configureDataSource];
+//    [self configureDataSource];
     [self configureActionItems];
     
     // SLKTVC's configuration
@@ -190,6 +203,7 @@
                                                 self.messageObjects = [self.messageObjects sortedArrayUsingComparator:^NSComparisonResult(Message *a, Message *b) {
                                                     return [b.createdAt compare:a.createdAt];
                                                 }];
+                                                NSLog(@"Data has been configured");
                                                 [self.tableView reloadData];
                                             }
                                         }
@@ -205,6 +219,7 @@
                             self.messageObjects = [self.messageObjects sortedArrayUsingComparator:^NSComparisonResult(Message *a, Message *b) {
                                 return [b.createdAt compare:a.createdAt];
                             }];
+                            NSLog(@"Data has been configured");
                             [self.tableView reloadData];
                         }
 
@@ -229,7 +244,7 @@
                                                                   target:self
                                                                   action:@selector(hideOrShowTextInputbar:)];
     
-    UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"arrow.clockwise"]
+     self.refreshItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"arrow.clockwise"]
                                                                  style:UIBarButtonItemStylePlain
                                                                 target:self
                                                                 action:@selector(refreshMessageFeed:)];
@@ -249,7 +264,7 @@
                                                                target:self
                                                                    action:@selector(showMembersButton:)];
     
-    self.navigationItem.rightBarButtonItems = @[arrowItem, showMembers, refreshItem, introduction, uploadPFP];
+    self.navigationItem.rightBarButtonItems = @[arrowItem, showMembers, self.refreshItem, introduction, uploadPFP];
 }
 
 
@@ -346,7 +361,9 @@
 //    if (sentences <= 1) sentences = 1;
 //
 //    [self editText:[LoremIpsum sentencesWithNumber:sentences]];
+    [self.refreshItem setAccessibilityRespondsToUserInteraction:NO];
     [self configureDataSource];
+    [self.refreshItem setAccessibilityRespondsToUserInteraction:YES];
 
 }
 
@@ -707,7 +724,7 @@
 - (MessageTableViewCell *)messageCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:MessengerCellIdentifier];
-    
+    cell.delegate = self;
     if (cell.gestureRecognizers.count == 0) {
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPressCell:)];
         [cell addGestureRecognizer:longPress];
@@ -715,6 +732,7 @@
     
     
     Message *message = self.messageObjects[indexPath.row];
+    
     PFUser *user = self.userObjects[indexPath.row];
     
     
@@ -727,11 +745,15 @@
     cell.indexPath = indexPath;
     cell.usedForMessage = YES;
     cell.transform = self.tableView.transform;
-    
+    cell.message = message;
     
     return cell;
 
 }
+
+//- (void) tappedThumbnail{
+//    NSLog(@"Image Clicked");
+//}
 
 - (MessageTableViewCell *)autoCompletionCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -842,6 +864,13 @@
         MembersListViewController *membersListViewController = [segue destinationViewController];
         membersListViewController.group = self.group;
         membersListViewController.UserToImage = self.UsersAndImages;
+        return;
+    }
+    if([[segue identifier] isEqualToString:@"chatToProfile"]){
+        UINavigationController *navController = [segue destinationViewController];
+        ProfileViewController *profileViewController = (ProfileViewController *)([navController viewControllers][0]);
+        profileViewController.user = self.user;
+        profileViewController.showCameraButton = YES;
         return;
     }
 }

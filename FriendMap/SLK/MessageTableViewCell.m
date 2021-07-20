@@ -18,6 +18,9 @@
         self.backgroundColor = [UIColor whiteColor];
         
         [self configureSubviews];
+        UITapGestureRecognizer *thumbnailTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapUserProfile:)];
+        [self.thumbnailView addGestureRecognizer:thumbnailTapGestureRecognizer];
+        [self.thumbnailView setUserInteractionEnabled:YES];
     }
     return self;
 }
@@ -51,8 +54,18 @@
     }
 }
 
-- (void)prepareForReuse
-{
+- (void)awakeFromNib{
+    [super awakeFromNib];
+
+}
+
+- (void) didTapUserProfile:(UITapGestureRecognizer *)sender{
+    NSLog(@"image tapped");
+
+    [self.delegate MessageCell:self didTap:self.message];
+}
+
+- (void)prepareForReuse{
     [super prepareForReuse];
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;

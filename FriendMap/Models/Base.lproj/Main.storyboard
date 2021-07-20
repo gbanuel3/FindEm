@@ -269,6 +269,7 @@
                     <navigationItem key="navigationItem" id="tPo-bH-hGS"/>
                     <connections>
                         <segue destination="nhZ-Xe-7iW" kind="presentation" identifier="showMembersSegue" id="8C5-WK-Oho"/>
+                        <segue destination="X2S-U0-OQg" kind="presentation" identifier="chatToProfile" id="YJa-38-uh8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aFe-0h-I3R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -357,7 +358,6 @@
         <!--Navigation Controller-->
         <scene sceneID="Smf-GE-GWf">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="utd-xi-hCG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController id="aa5-5Q-7Di" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ge0-rE-Vb5">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
@@ -367,6 +367,7 @@
                         <segue destination="X2S-U0-OQg" kind="relationship" relationship="rootViewController" id="C5E-jP-AwG"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="utd-xi-hCG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-255" y="4649"/>
         </scene>
@@ -400,7 +401,7 @@
             <objects>
                 <viewController storyboardIdentifier="ProfileViewController" modalPresentationStyle="fullScreen" id="X2S-U0-OQg" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="obY-yl-Z0g">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="questionmark.square" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="8GB-f8-uTB">
@@ -516,7 +517,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="HWb-WL-Hzu"/>
-        <segue reference="C5E-jP-AwG"/>
+        <segue reference="YJa-38-uh8"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="clipart19271" width="25" height="25"/>
