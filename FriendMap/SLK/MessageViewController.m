@@ -11,7 +11,7 @@
 #import "TypingIndicatorView.h"
 #import "Message.h"
 #import <LoremIpsum/LoremIpsum.h>
-#import 
+#import <DateTools/DateTools.h>
 
 
 #define DEBUG_CUSTOM_TYPING_INDICATOR 0
@@ -719,11 +719,11 @@
     
     
     NSDate *timeAgo = message[@"date"];
-    cell.titleLabel.text = timeAgo.shortTimeAgoSinceNow;
+//    cell.titleLabel.text = timeAgo.shortTimeAgoSinceNow;
     
-    cell.imageView.image = [UIImage imageWithData:self.UsersAndImages[message[@"username"]]];
+    cell.thumbnailView.image = [UIImage imageWithData:self.UsersAndImages[message[@"username"]]];
     cell.bodyLabel.text = message[@"text"];
-    cell.titleLabel.text = message[@"username"];
+    cell.titleLabel.text = [NSString stringWithFormat:@"%@   -   %@",message[@"username"], timeAgo.shortTimeAgoSinceNow];
     cell.indexPath = indexPath;
     cell.usedForMessage = YES;
     cell.transform = self.tableView.transform;

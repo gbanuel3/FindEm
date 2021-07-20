@@ -10,6 +10,7 @@ target 'FriendMap' do
    pod 'AFNetworking'
    pod 'SlackTextViewController'
    pod 'LoremIpsum'
+   pod 'DateTools'
 
   target 'FriendMapTests' do
     inherit! :search_paths
