@@ -12,6 +12,7 @@
 @dynamic text;
 @dynamic user;
 @dynamic username;
+@dynamic date;
 
 + (nonnull NSString *)parseClassName {
     return @"Message";

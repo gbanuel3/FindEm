@@ -48,7 +48,6 @@
         [self dismissViewControllerAnimated:YES completion:nil];
         }];
     
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onClickLogout:(id)sender{
@@ -75,7 +74,7 @@
                 if (!error){
                     self.user = user;
                     self.title = self.user[@"username"];
-                    self.profileImage.image = self.user[@"profile_image"];
+//                    self.profileImage.image = self.user[@"profile_image"];
                 }
             }];
     }else{

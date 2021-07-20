@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) PFUser *user;
 @property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSDate *date;
 
 
 @end

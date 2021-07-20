@@ -11,6 +11,7 @@
 #import "TypingIndicatorView.h"
 #import "Message.h"
 #import <LoremIpsum/LoremIpsum.h>
+#import 
 
 
 #define DEBUG_CUSTOM_TYPING_INDICATOR 0
@@ -144,7 +145,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    [self configureDataSource];
+    [self configureDataSource];
 }
 
 
@@ -159,9 +160,11 @@
 
                 self.messages = group[@"messages"];
                 self.messageObjects = [[NSMutableArray alloc] init];
+                self.userObjects = [[NSMutableArray alloc] init];
+                self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
                 for(int index=0; index<self.messages.count; index++){
-//                    self.messageObjects[index] =
                     Message *message = [self.messages objectAtIndex:index];
+//                    NSLog(@"%@", message);
                     PFQuery *query2 = [PFQuery queryWithClassName:@"Message"];
                     [query2 whereKey:@"objectId" equalTo:message.objectId];
                     [query2 includeKey:@"createdAt"];
@@ -169,20 +172,44 @@
                         
                         if(messageObject[0] != nil){
                             [self.messageObjects addObject:messageObject[0]];
+                            PFQuery *query3 = [PFQuery queryWithClassName:@"_User"];
+                            
+                            [query3 whereKey:@"username" equalTo:messageObject[0][@"username"]];
+                            [query3 findObjectsInBackgroundWithBlock:^(NSArray *userObject, NSError *error){
+                                
+                                if(userObject[0] != nil){
+//                                    NSLog(@"%@", userObject[0]);
+                                    [self.userObjects addObject:userObject[0]];
+                                    [userObject[0][@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
+                                        if(!error){
+                                            
+                                            self.UsersAndImages[messageObject[0][@"username"]] = imageData;
+                                            
+                                            if(self.messageObjects.count == self.messages.count && self.userObjects.count == self.messages.count){
+                                                
+                                                self.messageObjects = [self.messageObjects sortedArrayUsingComparator:^NSComparisonResult(Message *a, Message *b) {
+                                                    return [b.createdAt compare:a.createdAt];
+                                                }];
+                                                [self.tableView reloadData];
+                                            }
+                                        }
+                                    }];
+
+                                }
+
+                            }];
                         }
-                        if(error){
-                            NSLog(@"there is an error");
-                        }
-                        if(self.messageObjects.count == self.messages.count){
+                        
+                        if(self.messageObjects.count == self.messages.count && self.userObjects.count == self.messages.count){
                             
                             self.messageObjects = [self.messageObjects sortedArrayUsingComparator:^NSComparisonResult(Message *a, Message *b) {
                                 return [b.createdAt compare:a.createdAt];
                             }];
-                            
                             [self.tableView reloadData];
                         }
 
                     }];
+    
                 }
                 
             }
@@ -267,6 +294,7 @@
                 [group setObject:imageFile forKey:@"image"];
                 [group saveInBackground];
             }
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
     
 
@@ -319,7 +347,7 @@
 //
 //    [self editText:[LoremIpsum sentencesWithNumber:sentences]];
     [self configureDataSource];
-    [self.tableView reloadData];
+
 }
 
 - (void)editLastMessage:(id)sender
@@ -451,6 +479,7 @@
     message.username = PFUser.currentUser.username;
     message.text = [self.textView.text copy];
     message.user = PFUser.currentUser;
+    message.date = [NSDate date];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     UITableViewRowAnimation rowAnimation = self.inverted ? UITableViewRowAnimationBottom : UITableViewRowAnimationTop;
@@ -686,8 +715,13 @@
     
     
     Message *message = self.messageObjects[indexPath.row];
+    PFUser *user = self.userObjects[indexPath.row];
     
     
+    NSDate *timeAgo = message[@"date"];
+    cell.titleLabel.text = timeAgo.shortTimeAgoSinceNow;
+    
+    cell.imageView.image = [UIImage imageWithData:self.UsersAndImages[message[@"username"]]];
     cell.bodyLabel.text = message[@"text"];
     cell.titleLabel.text = message[@"username"];
     cell.indexPath = indexPath;
