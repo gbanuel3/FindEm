@@ -47,6 +47,9 @@
         if(returnUser != nil){
             self.arrayOfMembers[indexPath.row] = returnUser[0];
             cell.memberNameLabel.text = returnUser[0][@"username"];
+            if(self.UserToImage[returnUser[0][@"username"]]){
+                cell.memberProfilePicture.image = [UIImage imageWithData: self.UserToImage[returnUser[0][@"username"]]];
+            }
 
             NSLog(@"Successfully got user");
  

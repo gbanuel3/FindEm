@@ -841,6 +841,7 @@
     if([[segue identifier] isEqualToString:@"showMembersSegue"]){
         MembersListViewController *membersListViewController = [segue destinationViewController];
         membersListViewController.group = self.group;
+        membersListViewController.UserToImage = self.UsersAndImages;
         return;
     }
 }

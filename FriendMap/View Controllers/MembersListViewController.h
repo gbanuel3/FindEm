@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMutableArray *arrayOfMembers;
 @property (weak, nonatomic) IBOutlet UITextView *groupCodeField;
 @property (weak, nonatomic) PFUser *user;
+@property (strong, nonatomic) NSMutableDictionary *UserToImage;
 
 @end
 
