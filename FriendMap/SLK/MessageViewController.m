@@ -79,10 +79,7 @@
 
 #pragma mark - View lifecycle
 
-//- (void)tweetCell:(TweetCellTableViewCell *)tweetCell didTap:(Tweet *)tweet{
-//    // TODO: Perform segue to profile view controller
-//    [self performSegueWithIdentifier:@"profileSegue" sender:tweet];
-//}
+
 
 - (void)MessageCell:(MessageTableViewCell *)messageCell didTap:(Message *)message{
     NSLog(@"ented here!!");
@@ -175,6 +172,7 @@
                 self.messageObjects = [[NSMutableArray alloc] init];
                 self.userObjects = [[NSMutableArray alloc] init];
                 self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
+                self.UsersAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:200000];
                 for(int index=0; index<self.messages.count; index++){
                     Message *message = [self.messages objectAtIndex:index];
 //                    NSLog(@"%@", message);
@@ -191,7 +189,7 @@
                             [query3 findObjectsInBackgroundWithBlock:^(NSArray *userObject, NSError *error){
                                 
                                 if(userObject[0] != nil){
-//                                    NSLog(@"%@", userObject[0]);
+                                    self.UsersAndUserObjects[userObject[0][@"username"]] = userObject[0];
                                     [self.userObjects addObject:userObject[0]];
                                     [userObject[0][@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
                                         if(!error){
@@ -751,9 +749,7 @@
 
 }
 
-//- (void) tappedThumbnail{
-//    NSLog(@"Image Clicked");
-//}
+
 
 - (MessageTableViewCell *)autoCompletionCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -867,10 +863,14 @@
         return;
     }
     if([[segue identifier] isEqualToString:@"chatToProfile"]){
+        Message *clickedMessage = sender;
+        NSLog(@"%@", clickedMessage);
         UINavigationController *navController = [segue destinationViewController];
         ProfileViewController *profileViewController = (ProfileViewController *)([navController viewControllers][0]);
-        profileViewController.user = self.user;
+        profileViewController.message = clickedMessage;
+        profileViewController.user = self.UsersAndUserObjects[clickedMessage.username];
         profileViewController.showCameraButton = YES;
+
         return;
     }
 }

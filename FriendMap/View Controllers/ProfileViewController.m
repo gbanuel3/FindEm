@@ -66,7 +66,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    if(self.user==nil || [PFUser.currentUser.username isEqual:self.user.username]){ // when user goes to their own profile screen via tab menu
+    NSLog(@"%@", self.user);
+    if(self.user==nil || [PFUser.currentUser.username isEqual:self.user[@"username"]]){ // when user goes to their own profile screen via tab menu
         NSLog(@"own profile");
         [self.cameraButton setHidden:NO];
         PFQuery *query = [PFQuery queryWithClassName:@"_User"];
