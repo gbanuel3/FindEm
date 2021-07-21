@@ -34,6 +34,7 @@
 @property (nonatomic, weak) Message *editingMessage;
 
 @property (strong, nonatomic) UIBarButtonItem *refreshItem;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -91,7 +92,18 @@
     [super viewDidLoad];
     
     // Example's configuration
-//    [self configureDataSource];
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    [self.activityIndicator.layer setCornerRadius:5];
+    [self.activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleLarge];
+    [self.activityIndicator setOpaque:NO];
+    [self.activityIndicator setBackgroundColor:[UIColor whiteColor]];
+    [self.activityIndicator setColor:[UIColor redColor]];
+    self.activityIndicator.center = self.view.center;
+    [self.activityIndicator setHidesWhenStopped:NO];
+    
+    [self.view addSubview:self.activityIndicator];
+    
+    [self.activityIndicator startAnimating];
     [self configureActionItems];
     
     // SLKTVC's configuration
