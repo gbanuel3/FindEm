@@ -13,6 +13,7 @@
 #import <LoremIpsum/LoremIpsum.h>
 #import <DateTools/DateTools.h>
 #import "ProfileViewController.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 
 #define DEBUG_CUSTOM_TYPING_INDICATOR 0
@@ -35,6 +36,8 @@
 
 @property (strong, nonatomic) UIBarButtonItem *refreshItem;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property bool isAnimating;
+@property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
 
@@ -92,19 +95,13 @@
     [super viewDidLoad];
     
     // Example's configuration
-    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    [self.activityIndicator.layer setCornerRadius:5];
-    [self.activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleLarge];
-    [self.activityIndicator setOpaque:NO];
-    [self.activityIndicator setBackgroundColor:[UIColor whiteColor]];
-    [self.activityIndicator setColor:[UIColor redColor]];
-    self.activityIndicator.center = self.view.center;
-    [self.activityIndicator setHidesWhenStopped:NO];
-    
-    [self.view addSubview:self.activityIndicator];
-    
-    [self.activityIndicator startAnimating];
+    self.isAnimating = NO;
     [self configureActionItems];
+//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    hud.mode = MBProgressHUDModeAnnularDeterminate;
+//    hud.label.text = @"Loading";
+//    NSProgress *progress = [self configureDataSource];
+//    hud.progressObject = progress;
     
     // SLKTVC's configuration
     self.bounces = YES;
@@ -177,14 +174,28 @@
 
     PFQuery *query = [PFQuery queryWithClassName:@"groups"];
     
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.mode = MBProgressHUDModeIndeterminate;
+    self.hud.label.text = @"Loading...";
+    self.isAnimating = YES;
+//    [self doSomethingInBackgroundWithProgressCallback:^(float progress) {
+//        hud.progress = progress;
+//    } completionCallback:^{
+//        [hud hideAnimated:YES];
+//    }];
+
     [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject *group, NSError *error) {
             if (!error){
-
+//                hud.progress = progress;
                 self.messages = group[@"messages"];
                 self.messageObjects = [[NSMutableArray alloc] init];
                 self.userObjects = [[NSMutableArray alloc] init];
                 self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
                 self.UsersAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:200000];
+                if(self.messages.count == 0){
+                    [self.hud hideAnimated:YES];
+                    self.isAnimating = NO;
+                }
                 for(int index=0; index<self.messages.count; index++){
                     Message *message = [self.messages objectAtIndex:index];
 //                    NSLog(@"%@", message);
@@ -215,6 +226,8 @@
                                                 }];
                                                 NSLog(@"Data has been configured");
                                                 [self.tableView reloadData];
+                                                [self.hud hideAnimated:YES];
+                                                self.isAnimating = NO;
                                             }
                                         }
                                     }];
@@ -231,13 +244,16 @@
                             }];
                             NSLog(@"Data has been configured");
                             [self.tableView reloadData];
+                            [self.hud hideAnimated:YES];
+                            self.isAnimating = NO;
                         }
-
+                        
                     }];
     
                 }
                 
             }
+
         }];
     
     
@@ -371,6 +387,10 @@
 //    if (sentences <= 1) sentences = 1;
 //
 //    [self editText:[LoremIpsum sentencesWithNumber:sentences]];
+    if(self.isAnimating==YES){
+        [self.hud hideAnimated:YES];
+        self.isAnimating = NO;
+    }
     [self.refreshItem setAccessibilityRespondsToUserInteraction:NO];
     [self configureDataSource];
     [self.refreshItem setAccessibilityRespondsToUserInteraction:YES];

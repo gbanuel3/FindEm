@@ -11,6 +11,7 @@ target 'FriendMap' do
    pod 'SlackTextViewController'
    pod 'LoremIpsum'
    pod 'DateTools'
+   pod 'MBProgressHUD'
 
   target 'FriendMapTests' do
     inherit! :search_paths
