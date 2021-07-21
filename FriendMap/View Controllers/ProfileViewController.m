@@ -74,14 +74,19 @@
         [query getObjectInBackgroundWithId:PFUser.currentUser.objectId block:^(PFObject *user, NSError *error) {
                 if (!error){
                     self.user = user;
-                    self.title = self.user[@"username"];
-//                    self.profileImage.image = self.user[@"profile_image"];
+                    [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
+                        if(!error){
+                            self.profileImage.image = [UIImage imageWithData:imageData];
+                        }
+                    }];
                 }
             }];
-    }else{
-        self.title = self.user[@"username"];
-        [self.cameraButton setHidden:self.showCameraButton];
+        
+    }else{ // view for another profile - not own profile
+        [self.cameraButton setHidden:self.hideCameraButton];
+        self.profileImage.image = [UIImage imageWithData:self.UsersAndImages[self.user[@"username"]]];
     }
+    self.title = self.user[@"username"];
 }
 
 /*

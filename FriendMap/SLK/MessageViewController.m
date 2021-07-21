@@ -869,7 +869,8 @@
         ProfileViewController *profileViewController = (ProfileViewController *)([navController viewControllers][0]);
         profileViewController.message = clickedMessage;
         profileViewController.user = self.UsersAndUserObjects[clickedMessage.username];
-        profileViewController.showCameraButton = YES;
+        profileViewController.UsersAndImages = self.UsersAndImages;
+        profileViewController.hideCameraButton = YES;
 
         return;
     }

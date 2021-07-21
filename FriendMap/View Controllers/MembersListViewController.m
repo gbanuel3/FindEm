@@ -83,7 +83,8 @@
         UINavigationController *navController = [segue destinationViewController];
         ProfileViewController *profileViewController = (ProfileViewController *)([navController viewControllers][0]);
         profileViewController.user = self.user;
-        profileViewController.showCameraButton = YES;
+        profileViewController.hideCameraButton = YES;
+        profileViewController.UsersAndImages = self.UserToImage;
         return;
     }
 }

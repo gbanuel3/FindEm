@@ -23,7 +23,6 @@
 		2B667CA6269D809A00792451 /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667CA5269D809A00792451 /* GroupViewController.m */; };
 		2B667CA8269D850D00792451 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B667CA7269D850D00792451 /* MapKit.framework */; };
 		2B667CAB269E087E00792451 /* GroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667CAA269E087E00792451 /* GroupCell.m */; };
-		2B667CAE269F8E1100792451 /* GroupChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667CAD269F8E1100792451 /* GroupChatViewController.m */; };
 		2B667CB1269F928900792451 /* MembersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667CB0269F928900792451 /* MembersListViewController.m */; };
 		2B667CB4269F93C800792451 /* MemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667CB3269F93C800792451 /* MemberCell.m */; };
 		2B667CB7269FB50800792451 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667CB6269FB50800792451 /* MessageCell.m */; };
@@ -86,8 +85,6 @@
 		2B667CA7269D850D00792451 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		2B667CA9269E087E00792451 /* GroupCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupCell.h; sourceTree = "<group>"; };
 		2B667CAA269E087E00792451 /* GroupCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupCell.m; sourceTree = "<group>"; };
-		2B667CAC269F8E1100792451 /* GroupChatViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupChatViewController.h; sourceTree = "<group>"; };
-		2B667CAD269F8E1100792451 /* GroupChatViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupChatViewController.m; sourceTree = "<group>"; };
 		2B667CAF269F928900792451 /* MembersListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MembersListViewController.h; path = "FriendMap/View Controllers/MembersListViewController.h"; sourceTree = SOURCE_ROOT; };
 		2B667CB0269F928900792451 /* MembersListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MembersListViewController.m; path = "FriendMap/View Controllers/MembersListViewController.m"; sourceTree = SOURCE_ROOT; };
 		2B667CB2269F93C800792451 /* MemberCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemberCell.h; sourceTree = "<group>"; };
@@ -217,8 +214,6 @@
 				2B667CA5269D809A00792451 /* GroupViewController.m */,
 				2B667CA9269E087E00792451 /* GroupCell.h */,
 				2B667CAA269E087E00792451 /* GroupCell.m */,
-				2B667CAC269F8E1100792451 /* GroupChatViewController.h */,
-				2B667CAD269F8E1100792451 /* GroupChatViewController.m */,
 				2B667CB2269F93C800792451 /* MemberCell.h */,
 				2B667CB3269F93C800792451 /* MemberCell.m */,
 				2B667CB5269FB50800792451 /* MessageCell.h */,
@@ -520,7 +515,6 @@
 				2B667C9D269D5EE900792451 /* CustomButton.m in Sources */,
 				2B667C97269D59DC00792451 /* LoginViewController.m in Sources */,
 				2B667C5F269CA41F00792451 /* AppDelegate.m in Sources */,
-				2B667CAE269F8E1100792451 /* GroupChatViewController.m in Sources */,
 				2B667CB1269F928900792451 /* MembersListViewController.m in Sources */,
 				2B667D2126A029A500792451 /* MessageViewController.m in Sources */,
 				2B667CB7269FB50800792451 /* MessageCell.m in Sources */,

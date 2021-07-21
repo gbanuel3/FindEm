@@ -8,7 +8,6 @@
 #import "GroupViewController.h"
 #import "GroupCell.h"
 #import <Parse/Parse.h>
-#import "GroupChatViewController.h"
 #import "MessageViewController.h"
 
 @interface GroupViewController () <UITableViewDelegate, UITableViewDataSource>
