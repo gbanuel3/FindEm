@@ -223,6 +223,8 @@
     
     [self getGroups];
     
+    [[self.tabBarController.tabBar.items objectAtIndex:2] setTitle:[NSString stringWithFormat:@"%@", PFUser.currentUser.username]];
+    
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(getGroups) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
