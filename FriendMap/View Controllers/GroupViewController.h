@@ -6,13 +6,19 @@
 //
  
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GroupViewController : UIViewController
+@interface GroupViewController : UIViewController <CLLocationManagerDelegate>
+{
+    CLLocationManager *locationManager;
+    CLLocation *currentLocation;
+}
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *arrayOfGroups;
 @property (weak, nonatomic) IBOutlet UILabel *noGroupLabel;
+
 
 @end
 

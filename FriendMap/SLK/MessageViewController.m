@@ -178,11 +178,7 @@
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.label.text = @"Loading...";
     self.isAnimating = YES;
-//    [self doSomethingInBackgroundWithProgressCallback:^(float progress) {
-//        hud.progress = progress;
-//    } completionCallback:^{
-//        [hud hideAnimated:YES];
-//    }];
+
 
     [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject *group, NSError *error) {
             if (!error){
