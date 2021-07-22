@@ -31,6 +31,7 @@
 		2B667D2726A02A3F00792451 /* MessageTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2626A02A3F00792451 /* MessageTextView.m */; };
 		2B667D2D26A02A9000792451 /* TypingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2C26A02A9000792451 /* TypingIndicatorView.m */; };
 		2B667D3326A0F58300792451 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D3226A0F58300792451 /* Message.m */; };
+		2B667D3726A94ABC00792451 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D3626A94ABC00792451 /* LocationManager.m */; };
 		614E0FA978DC8FE1F26DC95C /* Pods_FriendMap_FriendMapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */; };
 		77965291AC77C5E31F77A9EC /* Pods_FriendMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C802AF0660674E8FC54375DA /* Pods_FriendMap.framework */; };
 		E1CE6A866054112653C09FD3 /* Pods_FriendMapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDF498AEEC8A5AEA44958BE3 /* Pods_FriendMapTests.framework */; };
@@ -101,6 +102,8 @@
 		2B667D2C26A02A9000792451 /* TypingIndicatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TypingIndicatorView.m; sourceTree = "<group>"; };
 		2B667D3126A0F58300792451 /* Message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		2B667D3226A0F58300792451 /* Message.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		2B667D3526A94ABC00792451 /* LocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		2B667D3626A94ABC00792451 /* LocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 		3D07E2E71F2B14FBC2D49EF8 /* Pods-FriendMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap.release.xcconfig"; path = "Target Support Files/Pods-FriendMap/Pods-FriendMap.release.xcconfig"; sourceTree = "<group>"; };
 		48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FriendMap_FriendMapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57F254F0FADDA707C23B69E2 /* Pods-FriendMap-FriendMapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap-FriendMapUITests.debug.xcconfig"; path = "Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap-FriendMapUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -166,6 +169,7 @@
 		2B667C5C269CA41F00792451 /* FriendMap */ = {
 			isa = PBXGroup;
 			children = (
+				2B667D3426A94A8800792451 /* Location Manager */,
 				2B667D1E26A0299600792451 /* SLK */,
 				2B667C94269CA50100792451 /* Models */,
 				2B667C92269CA4F100792451 /* View Controllers */,
@@ -249,6 +253,15 @@
 				2B667D2C26A02A9000792451 /* TypingIndicatorView.m */,
 			);
 			path = SLK;
+			sourceTree = "<group>";
+		};
+		2B667D3426A94A8800792451 /* Location Manager */ = {
+			isa = PBXGroup;
+			children = (
+				2B667D3526A94ABC00792451 /* LocationManager.h */,
+				2B667D3626A94ABC00792451 /* LocationManager.m */,
+			);
+			path = "Location Manager";
 			sourceTree = "<group>";
 		};
 		DC887FCE7EE9B7FFA564DFE4 /* Pods */ = {
@@ -524,6 +537,7 @@
 				2B667CA3269D808C00792451 /* MapViewController.m in Sources */,
 				2B667CAB269E087E00792451 /* GroupCell.m in Sources */,
 				2B667C70269CA42000792451 /* main.m in Sources */,
+				2B667D3726A94ABC00792451 /* LocationManager.m in Sources */,
 				2B667CA0269D727800792451 /* ProfileViewController.m in Sources */,
 				2B667C62269CA41F00792451 /* SceneDelegate.m in Sources */,
 				2B667D2D26A02A9000792451 /* TypingIndicatorView.m in Sources */,
@@ -705,13 +719,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A5V9D5GG9;
 				INFOPLIST_FILE = FriendMap/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gbanuel.FriendMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -724,13 +739,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9A5V9D5GG9;
 				INFOPLIST_FILE = FriendMap/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gbanuel.FriendMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

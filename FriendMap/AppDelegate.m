@@ -3,7 +3,6 @@
 //  FriendMap
 //
 //  Created by Gildardo Banuelos on 7/12/21.
-//
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
@@ -25,7 +24,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self configureParse];
+    
     return YES;
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application{
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application{
+
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application{
+
 }
 
 

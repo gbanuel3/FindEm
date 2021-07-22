@@ -254,7 +254,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self CurrentLocationIdentifier];
+//    [self CurrentLocationIdentifier];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
