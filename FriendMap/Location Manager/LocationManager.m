@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LocationManager.h"
+#import <Parse/Parse.h>
 
 
 @interface LocationManager() <CLLocationManagerDelegate>
@@ -32,17 +33,20 @@
 
 - (void)startMonitoringLocation {
     if (_anotherLocationManager)
-        [_anotherLocationManager stopUpdatingLocation];
+        [_anotherLocationManager stopMonitoringSignificantLocationChanges];
     
     self.anotherLocationManager = [[CLLocationManager alloc]init];
     _anotherLocationManager.delegate = self;
+    _anotherLocationManager.distanceFilter = kCLDistanceFilterNone;
     _anotherLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     _anotherLocationManager.activityType = CLActivityTypeOtherNavigation;
+    [_anotherLocationManager setPausesLocationUpdatesAutomatically:NO];
+    [_anotherLocationManager setAllowsBackgroundLocationUpdates:YES];
     
     if(IS_OS_8_OR_LATER){
         [_anotherLocationManager requestAlwaysAuthorization];
     }
-    [_anotherLocationManager startUpdatingLocation];
+    [_anotherLocationManager startMonitoringSignificantLocationChanges];
 }
 
 - (void)restartMonitoringLocation {
@@ -59,16 +63,27 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     
-    NSLog(@"locationManager didUpdateLocations: %@",locations);
-    
-    for (int i = 0; i < locations.count; i++) {
+    CLLocation *location = [locations lastObject];
+    NSLog(@"lat%f - lon%f", location.coordinate.latitude, location.coordinate.longitude);
+//    CLLocation *mostRecentLocation = locations.lastObject;
+//    NSLog(@"Current location: %@ %@", @(mostRecentLocation.coordinate.latitude), @(mostRecentLocation.coordinate.longitude));
+
+    NSDate *now = [NSDate date];
+    NSTimeInterval interval = self.lastTimestamp ? [now timeIntervalSinceDate:self.lastTimestamp] : 0;
+
+    if (!self.lastTimestamp || interval >= 1 * 15)
+    {
+        self.lastTimestamp = now;
+        PFUser *user = [PFUser currentUser];
+        [user setValue:[NSNumber numberWithFloat:location.coordinate.latitude] forKey:@"lat"];
+        [user setValue:[NSNumber numberWithFloat:location.coordinate.longitude] forKey:@"lon"];
+        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error){
+            if(succeeded){
+                NSLog(@"Stored location in Parse.");
+            }
+        }];
         
-        CLLocation * newLocation = [locations objectAtIndex:i];
-        CLLocationCoordinate2D theLocation = newLocation.coordinate;
-        CLLocationAccuracy theAccuracy = newLocation.horizontalAccuracy;
         
-        self.myLocation = theLocation;
-        self.myLocationAccuracy = theAccuracy;
     }
     
     [self addLocationToPList:_afterResume];

@@ -76,7 +76,7 @@
             [self.shareModel startMonitoringLocation];
             [self.shareModel addResumeLocationToPList];
 //        }
-//        [self applicationDidBecomeActive:self];
+
     }
 }
 
@@ -98,6 +98,7 @@
     self.shareModel.afterResume = NO;
     [self.shareModel startMonitoringLocation];
 }
+
 
 
 - (void)sceneWillResignActive:(UIScene *)scene {

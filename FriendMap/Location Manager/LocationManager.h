@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSMutableDictionary *myLocationDictInPlist;
 @property (nonatomic) NSMutableArray *myLocationArrayInPlist;
 @property (nonatomic) BOOL afterResume;
+@property (nonatomic, strong) NSDate *lastTimestamp;
 
 + (id)sharedManager;
 - (void)startMonitoringLocation;

@@ -216,40 +216,6 @@
     [self getGroups];
 }
 
--(void)CurrentLocationIdentifier{
-    locationManager = [CLLocationManager new];
-    locationManager.delegate = self;
-    locationManager.distanceFilter = kCLDistanceFilterNone;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [locationManager setPausesLocationUpdatesAutomatically:NO];
-    [locationManager setAllowsBackgroundLocationUpdates:YES];
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-        [locationManager requestAlwaysAuthorization];
-    
-    [locationManager startUpdatingLocation];
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-     didUpdateLocations:(NSArray *)locations {
-    CLLocation *location = [locations lastObject];
-    NSLog(@"lat%f - lon%f", location.coordinate.latitude, location.coordinate.longitude);
-    
-//    CLLocation *mostRecentLocation = locations.lastObject;
-//    NSLog(@"Current location: %@ %@", @(mostRecentLocation.coordinate.latitude), @(mostRecentLocation.coordinate.longitude));
-
-    NSDate *now = [NSDate date];
-    NSTimeInterval interval = self.lastTimestamp ? [now timeIntervalSinceDate:self.lastTimestamp] : 0;
-
-    if (!self.lastTimestamp || interval >= 1 * 15)
-    {
-        self.lastTimestamp = now;
-        NSLog(@"Sending current location to web service.");
-        
-        
-    }
-    
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
