@@ -10,6 +10,8 @@
 #import <Parse/Parse.h>
 #import "MessageViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import <PFNavigationDropdownMenu/PFNavigationDropdownMenu.h>
+
 
 @interface GroupViewController () <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -232,6 +234,7 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(getGroups) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
+    
 
 }
 

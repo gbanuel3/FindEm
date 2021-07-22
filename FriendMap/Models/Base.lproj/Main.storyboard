@@ -391,21 +391,13 @@
         <scene sceneID="saN-Ul-5Rf">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="GMl-2D-Gym" customClass="MapViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="4lG-wg-Y4R">
+                    <mapView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="y4r-Wc-aTh">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="OIk-TX-is1">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </mapView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="a8c-tC-Ohs"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </mapView>
                     <navigationItem key="navigationItem" title="Map" id="9nN-Yi-CCO"/>
                     <connections>
-                        <outlet property="mapView" destination="OIk-TX-is1" id="XKH-dw-YFN"/>
+                        <outlet property="mapView" destination="y4r-Wc-aTh" id="Bbo-Gq-JXb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YgD-PA-c5y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

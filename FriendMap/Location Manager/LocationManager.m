@@ -112,7 +112,6 @@
 
 - (void)addResumeLocationToPList {
     
-    NSLog(@"addResumeLocationToPList");
     
     NSString * appState = [self appState];
     
@@ -127,7 +126,6 @@
 
 
 - (void)addLocationToPList:(BOOL)fromResume {
-    NSLog(@"addLocationToPList");
     
     NSString * appState = [self appState];
     
@@ -151,7 +149,6 @@
 
 - (void)addApplicationStatusToPList:(NSString*)applicationStatus {
     
-    NSLog(@"addApplicationStatusToPList");
     
     NSString * appState = [self appState];
     
@@ -164,7 +161,6 @@
 }
 
 - (void)saveLocationsToPlist {
-    NSLog(@"HERE!");
     NSString *plistName = [NSString stringWithFormat:@"LocationArray.plist"];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docDir = [paths objectAtIndex:0];

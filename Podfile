@@ -12,6 +12,7 @@ target 'FriendMap' do
    pod 'LoremIpsum'
    pod 'DateTools'
    pod 'MBProgressHUD'
+   pod 'PFNavigationDropdownMenu'
 
   target 'FriendMapTests' do
     inherit! :search_paths
