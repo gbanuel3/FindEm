@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.mapView.delegate = self;
     MKCoordinateRegion chicago = MKCoordinateRegionMake(CLLocationCoordinate2DMake(42.238333, -87.998982), MKCoordinateSpanMake(0.1, 0.1));
     [self.mapView setRegion:chicago animated:false];
 
@@ -27,6 +28,22 @@
 - (void)viewDidAppear:(BOOL)animated{
     [self configureDropDownMenu];
 }
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+     MKPinAnnotationView *annotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Pin"];
+     if (annotationView == nil) {
+         annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
+         annotationView.canShowCallout = true;
+         annotationView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 50.0, 50.0)];
+     }
+
+     UIImageView *imageView = (UIImageView*)annotationView.leftCalloutAccessoryView;
+
+//    imageView.image = self.selectedImage;
+
+     return annotationView;
+ }
+
 
 - (void)configureDropDownMenu{
     GroupViewController *groupViewController = (GroupViewController *) [[(UINavigationController*)[[self.tabBarController viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:0];
@@ -88,8 +105,9 @@
                                 MKPointAnnotation *annotation = [MKPointAnnotation new];
                                 annotation.coordinate = coordinate;
                                 annotation.title = [NSString stringWithFormat:@"%@", user.username];
-                                [self.AnnotationArray addObject:annotation];
                                 [self.mapView addAnnotation:annotation];
+                                [self.mapView viewForAnnotation:annotation];
+                                [self.AnnotationArray addObject:annotation];
                                 [self.mapView showAnnotations:self.AnnotationArray animated:YES];
                             }
 

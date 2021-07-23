@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MapViewController : UIViewController
+@interface MapViewController : UIViewController <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *arrayOfGroups;
 @property (nonatomic, strong) NSMutableArray *AnnotationArray;

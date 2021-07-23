@@ -200,11 +200,12 @@
         [self.hud hideAnimated:YES];
         self.isAnimating = NO;
     }
+    
     for(int index=0; index<self.messages.count; index++){
         Message *message = [self.messages objectAtIndex:index];
         PFQuery *query = [PFQuery queryWithClassName:@"Message"];
         [query getObjectInBackgroundWithId:message.objectId block:^(PFObject *messageObject, NSError *error){
-//          NSLog(@"%@", messageObject);
+            
             if(messageObject != nil){
                 [self.messageObjects addObject:messageObject];
                 
@@ -219,7 +220,7 @@
 
             }
                         
-                    }];
+        }];
     
     }
                 
