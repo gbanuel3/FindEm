@@ -38,7 +38,7 @@
     self.anotherLocationManager = [[CLLocationManager alloc]init];
     _anotherLocationManager.delegate = self;
     _anotherLocationManager.distanceFilter = kCLDistanceFilterNone;
-    _anotherLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+    _anotherLocationManager.desiredAccuracy = kCLLocationAccuracyBest;
     _anotherLocationManager.activityType = CLActivityTypeOtherNavigation;
     [_anotherLocationManager setPausesLocationUpdatesAutomatically:NO];
     [_anotherLocationManager setAllowsBackgroundLocationUpdates:YES];
@@ -71,17 +71,17 @@
     NSDate *now = [NSDate date];
     NSTimeInterval interval = self.lastTimestamp ? [now timeIntervalSinceDate:self.lastTimestamp] : 0;
 
-    if (!self.lastTimestamp || interval >= 5 * 60)
+    if (!self.lastTimestamp || interval >= 1 * 15)
     {
         self.lastTimestamp = now;
-        PFUser *user = [PFUser currentUser];
-        [user setValue:[NSNumber numberWithFloat:location.coordinate.latitude] forKey:@"lat"];
-        [user setValue:[NSNumber numberWithFloat:location.coordinate.longitude] forKey:@"lon"];
-        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error){
-            if(succeeded){
-                NSLog(@"Stored location in Parse.");
-            }
-        }];
+//        PFUser *user = [PFUser currentUser];
+//        [user setValue:[NSNumber numberWithFloat:location.coordinate.latitude] forKey:@"lat"];
+//        [user setValue:[NSNumber numberWithFloat:location.coordinate.longitude] forKey:@"lon"];
+//        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error){
+//            if(succeeded){
+//                NSLog(@"Stored location in Parse.");
+//            }
+//        }];
         
         
     }

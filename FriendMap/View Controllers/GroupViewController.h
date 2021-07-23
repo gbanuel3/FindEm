@@ -18,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *arrayOfGroups;
 @property (weak, nonatomic) IBOutlet UILabel *noGroupLabel;
+@property (strong, nonatomic) NSMutableArray *arrayOfUsers;
+@property (strong, nonatomic) NSMutableDictionary *UserAndUserObjects;
+@property (strong, nonatomic) NSMutableDictionary *UsersAndImages;
 
 
 @end

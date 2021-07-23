@@ -179,6 +179,29 @@
     
 }
 
+- (void) loadUsersAndImages{
+    PFQuery *UsersQuery = [PFQuery queryWithClassName:@"_User"];
+    self.arrayOfUsers = [[NSMutableArray alloc] init];
+    self.UserAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:200000];
+    self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
+    [UsersQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error){
+        if(!error){
+            self.arrayOfUsers = users;
+            for(PFUser *user in users){
+                [self.UserAndUserObjects setValue:user forKey:user.username];
+                if(user[@"profile_picture"]){
+                    [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
+                        if(!error){
+                            [self.UsersAndImages setValue:imageData forKey:user.username];
+                            
+                        }
+                    }];
+                }
+            }
+        }
+    }];
+}
+
 - (void)getGroups{
 
     PFQuery *query = [PFQuery queryWithClassName:@"_User"];
@@ -241,6 +264,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     [self getGroups];
     [self.tableView reloadData];
+    [self loadUsersAndImages];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

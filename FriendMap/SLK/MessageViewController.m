@@ -14,6 +14,7 @@
 #import "ProfileViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "MapViewController.h"
+#import "GroupViewController.h"
 
 
 #define DEBUG_CUSTOM_TYPING_INDICATOR 0
@@ -173,8 +174,11 @@
 - (void)configureDataSource{
     
     MapViewController *mapViewController = (MapViewController *) [[(UINavigationController*)[[self.tabBarController viewControllers] objectAtIndex:1] viewControllers] objectAtIndex:0];
+    GroupViewController *groupViewController = (GroupViewController *) [[(UINavigationController*)[[self.tabBarController viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:0];
     
     self.arrayOfGroups = mapViewController.arrayOfGroups;
+    self.UsersAndImages = groupViewController.UsersAndImages;
+    self.UsersAndUserObjects = groupViewController.UserAndUserObjects;
     
     for(PFObject *group in self.arrayOfGroups){ // finds target group in data
         if(group.objectId == self.group.objectId){
@@ -185,74 +189,39 @@
     self.messages = self.group[@"messages"];
     self.messageObjects = [[NSMutableArray alloc] init];
     self.userObjects = [[NSMutableArray alloc] init];
-    self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
-    self.UsersAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:200000];
     
     
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.label.text = @"Loading...";
     self.isAnimating = YES;
-
-                if(self.messages.count == 0){
+    
+    if(self.messages.count == 0){
+        [self.hud hideAnimated:YES];
+        self.isAnimating = NO;
+    }
+    for(int index=0; index<self.messages.count; index++){
+        Message *message = [self.messages objectAtIndex:index];
+        PFQuery *query = [PFQuery queryWithClassName:@"Message"];
+        [query getObjectInBackgroundWithId:message.objectId block:^(PFObject *messageObject, NSError *error){
+//          NSLog(@"%@", messageObject);
+            if(messageObject != nil){
+                [self.messageObjects addObject:messageObject];
+                
+                if(self.messageObjects.count == self.messages.count){
+                    self.messageObjects = [self.messageObjects sortedArrayUsingComparator:^NSComparisonResult(Message *a, Message *b){return [b.createdAt compare:a.createdAt];}];
+                    
+                    NSLog(@"Data has been configured");
+                    [self.tableView reloadData];
                     [self.hud hideAnimated:YES];
                     self.isAnimating = NO;
                 }
-                for(int index=0; index<self.messages.count; index++){
-                    Message *message = [self.messages objectAtIndex:index];
-//                    NSLog(@"%@", message);
-                    PFQuery *query2 = [PFQuery queryWithClassName:@"Message"];
-                    [query2 whereKey:@"objectId" equalTo:message.objectId];
-                    [query2 includeKey:@"createdAt"];
-                    [query2 findObjectsInBackgroundWithBlock:^(NSArray *messageObject, NSError *error){
-//                        NSLog(@"%@", message)
-                        if(messageObject[0] != nil){
-                            [self.messageObjects addObject:messageObject[0]];
-                            PFQuery *query3 = [PFQuery queryWithClassName:@"_User"];
-                            
-                            [query3 whereKey:@"username" equalTo:messageObject[0][@"username"]];
-                            [query3 findObjectsInBackgroundWithBlock:^(NSArray *userObject, NSError *error){
-                                
-                                if(userObject[0] != nil){
-                                    self.UsersAndUserObjects[userObject[0][@"username"]] = userObject[0];
-                                    [self.userObjects addObject:userObject[0]];
-                                    [userObject[0][@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
-                                        if(!error){
-                                            
-                                            self.UsersAndImages[messageObject[0][@"username"]] = imageData;
-                                            
-                                            if(self.messageObjects.count == self.messages.count && self.userObjects.count == self.messages.count){
-                                                
-                                                self.messageObjects = [self.messageObjects sortedArrayUsingComparator:^NSComparisonResult(Message *a, Message *b) {
-                                                    return [b.createdAt compare:a.createdAt];
-                                                }];
-                                                NSLog(@"Data has been configured");
-                                                [self.tableView reloadData];
-                                                [self.hud hideAnimated:YES];
-                                                self.isAnimating = NO;
-                                            }
-                                        }
-                                    }];
 
-                                }
-
-                            }];
-                        }
-                        
-                        if(self.messageObjects.count == self.messages.count && self.userObjects.count == self.messages.count){
-                            
-                            self.messageObjects = [self.messageObjects sortedArrayUsingComparator:^NSComparisonResult(Message *a, Message *b) {
-                                return [b.createdAt compare:a.createdAt];
-                            }];
-                            NSLog(@"Data has been configured");
-                            [self.tableView reloadData];
-                            [self.hud hideAnimated:YES];
-                            self.isAnimating = NO;
-                        }
+            }
                         
                     }];
     
-                }
+    }
                 
     
     
@@ -762,7 +731,6 @@
     
     Message *message = self.messageObjects[indexPath.row];
     
-    PFUser *user = self.userObjects[indexPath.row];
     
     
     NSDate *timeAgo = message[@"date"];
