@@ -71,7 +71,7 @@
     NSDate *now = [NSDate date];
     NSTimeInterval interval = self.lastTimestamp ? [now timeIntervalSinceDate:self.lastTimestamp] : 0;
 
-    if (!self.lastTimestamp || interval >= 1 * 15)
+    if (!self.lastTimestamp || interval >= 5 * 60)
     {
         self.lastTimestamp = now;
         PFUser *user = [PFUser currentUser];

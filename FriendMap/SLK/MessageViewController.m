@@ -180,7 +180,7 @@
     self.isAnimating = YES;
 
 
-    [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject *group, NSError *error) {
+    [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject *group, NSError *error){
             if (!error){
 //                hud.progress = progress;
                 self.messages = group[@"messages"];
@@ -199,7 +199,7 @@
                     [query2 whereKey:@"objectId" equalTo:message.objectId];
                     [query2 includeKey:@"createdAt"];
                     [query2 findObjectsInBackgroundWithBlock:^(NSArray *messageObject, NSError *error){
-                        
+//                        NSLog(@"%@", message)
                         if(messageObject[0] != nil){
                             [self.messageObjects addObject:messageObject[0]];
                             PFQuery *query3 = [PFQuery queryWithClassName:@"_User"];

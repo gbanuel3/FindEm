@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
     CLLocation *currentLocation;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *arrayOfGroups;
+@property (strong, nonatomic) NSMutableArray *arrayOfGroups;
 @property (weak, nonatomic) IBOutlet UILabel *noGroupLabel;
 
 
