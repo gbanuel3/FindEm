@@ -10,10 +10,10 @@
 #import "MessageTextView.h"
 #import "TypingIndicatorView.h"
 #import "Message.h"
-#import <LoremIpsum/LoremIpsum.h>
 #import <DateTools/DateTools.h>
 #import "ProfileViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "MapViewController.h"
 
 
 #define DEBUG_CUSTOM_TYPING_INDICATOR 0
@@ -171,23 +171,29 @@
 #pragma mark - Example's Configuration
 
 - (void)configureDataSource{
-
-    PFQuery *query = [PFQuery queryWithClassName:@"groups"];
+    
+    MapViewController *mapViewController = (MapViewController *) [[(UINavigationController*)[[self.tabBarController viewControllers] objectAtIndex:1] viewControllers] objectAtIndex:0];
+    
+    self.arrayOfGroups = mapViewController.arrayOfGroups;
+    
+    for(PFObject *group in self.arrayOfGroups){ // finds target group in data
+        if(group.objectId == self.group.objectId){
+            self.group = group;
+            break;
+        }
+    }
+    self.messages = self.group[@"messages"];
+    self.messageObjects = [[NSMutableArray alloc] init];
+    self.userObjects = [[NSMutableArray alloc] init];
+    self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
+    self.UsersAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:200000];
+    
     
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.label.text = @"Loading...";
     self.isAnimating = YES;
 
-
-    [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject *group, NSError *error){
-            if (!error){
-//                hud.progress = progress;
-                self.messages = group[@"messages"];
-                self.messageObjects = [[NSMutableArray alloc] init];
-                self.userObjects = [[NSMutableArray alloc] init];
-                self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
-                self.UsersAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:200000];
                 if(self.messages.count == 0){
                     [self.hud hideAnimated:YES];
                     self.isAnimating = NO;
@@ -248,9 +254,6 @@
     
                 }
                 
-            }
-
-        }];
     
     
     self.users = @[@"Allen", @"Anna", @"Alicia", @"Arnold", @"Armando", @"Antonio", @"Brad", @"Catalaya", @"Christoph", @"Emerson", @"Eric", @"Everyone", @"Steve"];

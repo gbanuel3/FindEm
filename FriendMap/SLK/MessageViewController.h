@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMutableDictionary *UsersAndImages;
 @property (strong, nonatomic) PFUser *user;
 @property (strong, nonatomic) NSMutableDictionary *UsersAndUserObjects;
+@property (strong, nonatomic) NSMutableArray *arrayOfGroups;
 @end
 
 NS_ASSUME_NONNULL_END
