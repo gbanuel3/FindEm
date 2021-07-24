@@ -38,9 +38,11 @@
      }
 
      UIImageView *imageView = (UIImageView*)annotationView.leftCalloutAccessoryView;
-
-//    imageView.image = self.selectedImage;
-
+    if(self.UsersAndImages[annotation.title]){
+        imageView.image = [UIImage imageWithData:self.UsersAndImages[annotation.title]];
+    }else{
+        imageView.image = [UIImage systemImageNamed:@"questionmark.square"];
+    }
      return annotationView;
  }
 
@@ -50,6 +52,8 @@
     
     self.arrayOfGroups = groupViewController.arrayOfGroups;
     self.AnnotationArray = [[NSMutableArray alloc] init];
+    self.UsersAndImages = groupViewController.UsersAndImages;
+    
     
     NSMutableArray *items = [[NSMutableArray alloc] initWithObjects:@"No Group Selected...", nil];
     for(int i=0; i<self.arrayOfGroups.count; i++){
@@ -79,13 +83,14 @@
     menuView.didSelectItemAtIndexHandler = ^(NSUInteger indexPath){
         NSLog(@"Did select item: %@", items[indexPath]);
         if(indexPath==0){ // No Group Selected...
-            
+            [self.mapView removeAnnotations:self.AnnotationArray];
         }else{
+            [self.mapView removeAnnotations:self.AnnotationArray];
             NSArray *arrayOfMembers = self.arrayOfGroups[indexPath-1][@"members"];
             NSMutableArray *arrayOfUsers = [[NSMutableArray alloc] init];
             for(int i=0; i<arrayOfMembers.count; i++){
+                
                 PFUser *user = arrayOfMembers[i];
-
                 PFQuery *query = [PFQuery queryWithClassName:@"_User"];
 
                 [query getObjectInBackgroundWithId:user.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
@@ -105,6 +110,7 @@
                                 MKPointAnnotation *annotation = [MKPointAnnotation new];
                                 annotation.coordinate = coordinate;
                                 annotation.title = [NSString stringWithFormat:@"%@", user.username];
+                                
                                 [self.mapView addAnnotation:annotation];
                                 [self.mapView viewForAnnotation:annotation];
                                 [self.AnnotationArray addObject:annotation];

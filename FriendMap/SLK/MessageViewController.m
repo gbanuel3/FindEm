@@ -165,7 +165,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self configureDataSource];
+    [self refreshMessageFeed:nil];
+
+
+
 }
 
 
@@ -173,59 +176,96 @@
 
 - (void)configureDataSource{
     
-    MapViewController *mapViewController = (MapViewController *) [[(UINavigationController*)[[self.tabBarController viewControllers] objectAtIndex:1] viewControllers] objectAtIndex:0];
-    GroupViewController *groupViewController = (GroupViewController *) [[(UINavigationController*)[[self.tabBarController viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:0];
-    
-    self.arrayOfGroups = mapViewController.arrayOfGroups;
-    self.UsersAndImages = groupViewController.UsersAndImages;
-    self.UsersAndUserObjects = groupViewController.UserAndUserObjects;
-    
-    for(PFObject *group in self.arrayOfGroups){ // finds target group in data
-        if(group.objectId == self.group.objectId){
-            self.group = group;
-            break;
-        }
-    }
-    self.messages = self.group[@"messages"];
-    self.messageObjects = [[NSMutableArray alloc] init];
-    self.userObjects = [[NSMutableArray alloc] init];
-    
-    
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.mode = MBProgressHUDModeIndeterminate;
     self.hud.label.text = @"Loading...";
     self.isAnimating = YES;
     
-    if(self.messages.count == 0){
-        [self.hud hideAnimated:YES];
-        self.isAnimating = NO;
-    }
+    self.messageObjects = [[NSMutableArray alloc] init];
+    self.userObjects = [[NSMutableArray alloc] init];
+    self.arrayOfUsers = [[NSMutableArray alloc] init];
+    self.UsersAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:200000];
+    self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
     
-    for(int index=0; index<self.messages.count; index++){
-        Message *message = [self.messages objectAtIndex:index];
-        PFQuery *query = [PFQuery queryWithClassName:@"Message"];
-        [query getObjectInBackgroundWithId:message.objectId block:^(PFObject *messageObject, NSError *error){
-            
-            if(messageObject != nil){
-                [self.messageObjects addObject:messageObject];
-                
-                if(self.messageObjects.count == self.messages.count){
-                    self.messageObjects = [self.messageObjects sortedArrayUsingComparator:^NSComparisonResult(Message *a, Message *b){return [b.createdAt compare:a.createdAt];}];
-                    
-                    NSLog(@"Data has been configured");
-                    [self.tableView reloadData];
-                    [self.hud hideAnimated:YES];
-                    self.isAnimating = NO;
+    dispatch_group_t group = dispatch_group_create();
+    
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        PFQuery *UsersQuery = [PFQuery queryWithClassName:@"_User"];
+        [UsersQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error){
+            if(!error){
+                self.arrayOfUsers = users;
+                int countOfPfps = 0;
+                for(PFUser *user in users){
+                    if(user[@"profile_picture"]){
+                        countOfPfps++;
+                    }
                 }
-
-            }
-                        
-        }];
-    
-    }
+                for(PFUser *user in users){
+                    [self.UsersAndUserObjects setValue:user forKey:user.username];
+                    if(user[@"profile_picture"]){
+                        [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
+                            if(!error){
+                                [self.UsersAndImages setValue:imageData forKey:user.username];
+                                if(self.UsersAndImages.count == countOfPfps){
+                                    NSLog(@"Did finish group 1");
+                                    dispatch_group_leave(group);
+                                }
+                                
+                            }
+                        }];
+                    }
+                }
                 
+            }
+        }];
+    });
     
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        PFQuery *query = [PFQuery queryWithClassName:@"groups"];
+        [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            if(!error){
+                self.group = object;
+                self.messages = self.group[@"messages"];
+                if(self.messages.count == 0){
+                    NSLog(@"Did finish group 2");
+                    dispatch_group_leave(group);
+                }
+                for(int index=0; index<self.messages.count; index++){
+                    Message *message = [self.messages objectAtIndex:index];
+                    PFQuery *query = [PFQuery queryWithClassName:@"Message"];
+                    [query getObjectInBackgroundWithId:message.objectId block:^(PFObject *messageObject, NSError *error){
+                        if(messageObject != nil){
+                            [self.messageObjects addObject:messageObject];
+                        }
+                        if(self.messageObjects.count == self.messages.count){
+                            NSLog(@"Did finish group 2");
+                            dispatch_group_leave(group);
+                        }
+                    }];
+                
+                }
+                
+            }
+        }];
+    });
     
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        
+            self.messageObjects = [self.messageObjects sortedArrayUsingComparator:^NSComparisonResult(Message *a, Message *b) {
+                return [b.createdAt compare:a.createdAt];
+            }];
+            NSLog(@"Data has been configured");
+                [self.hud hideAnimated:YES];
+                self.isAnimating = NO;
+        
+            [self.tableView reloadData];
+
+
+    });
+
+
     self.users = @[@"Allen", @"Anna", @"Alicia", @"Arnold", @"Armando", @"Antonio", @"Brad", @"Catalaya", @"Christoph", @"Emerson", @"Eric", @"Everyone", @"Steve"];
     self.channels = @[@"General", @"Random", @"iOS", @"Bugs", @"Sports", @"Android", @"UI"];
     self.emojis = @[@"-1", @"m", @"man", @"machine", @"block-a", @"block-b", @"bowtie", @"boar", @"boat", @"book", @"bookmark", @"neckbeard", @"metal", @"fu", @"feelsgood"];
@@ -448,18 +488,6 @@
     return SLK_IS_IPAD;
 }
 
-- (void)didChangeKeyboardStatus:(SLKKeyboardStatus)status
-{
-    // Notifies the view controller that the keyboard changed status.
-    
-//    switch (status) {
-//        case SLKKeyboardStatusWillShow:     return NSLog(@"Will Show");
-//        case SLKKeyboardStatusDidShow:      return NSLog(@"Did Show");
-//        case SLKKeyboardStatusWillHide:     return NSLog(@"Will Hide");
-//        case SLKKeyboardStatusDidHide:      return NSLog(@"Did Hide");
-//    }
-}
-
 - (void)textWillUpdate
 {
     // Notifies the view controller that the text will update.
@@ -507,7 +535,13 @@
                 [group addObject:message forKey:@"messages"];
                 [group saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                     if(succeeded){
+                        if(self.isAnimating==YES){
+                            [self.hud hideAnimated:YES];
+                            self.isAnimating = NO;
+                        }
+                        [self.refreshItem setAccessibilityRespondsToUserInteraction:NO];
                         [self configureDataSource];
+                        [self.refreshItem setAccessibilityRespondsToUserInteraction:YES];
                     }
                 }];
 
@@ -736,8 +770,11 @@
     
     NSDate *timeAgo = message[@"date"];
 //    cell.titleLabel.text = timeAgo.shortTimeAgoSinceNow;
-    
-    cell.thumbnailView.image = [UIImage imageWithData:self.UsersAndImages[message[@"username"]]];
+    if(self.UsersAndImages[message[@"username"]]){
+        cell.thumbnailView.image = [UIImage imageWithData:self.UsersAndImages[message[@"username"]]];
+    }else{
+        cell.thumbnailView.image = [UIImage systemImageNamed:@"questionmark.square"];
+    }
     cell.bodyLabel.text = message[@"text"];
     cell.titleLabel.text = [NSString stringWithFormat:@"%@   -   %@",message[@"username"], timeAgo.shortTimeAgoSinceNow];
     cell.indexPath = indexPath;

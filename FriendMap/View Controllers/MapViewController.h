@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *arrayOfGroups;
 @property (nonatomic, strong) NSMutableArray *AnnotationArray;
+@property (nonatomic, strong) NSMutableDictionary *UsersAndImages;
 
 @end
 
