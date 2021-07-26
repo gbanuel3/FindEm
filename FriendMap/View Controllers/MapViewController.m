@@ -68,7 +68,6 @@
     GroupViewController *groupViewController = (GroupViewController *) [[(UINavigationController*)[[self.tabBarController viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:0];
     
     self.arrayOfGroups = groupViewController.arrayOfGroups;
-    self.AnnotationArray = [[NSMutableArray alloc] init];
     self.UsersAndImages = groupViewController.UsersAndImages;
     self.UsersAndUserObjects = groupViewController.UserAndUserObjects;
     
@@ -106,6 +105,7 @@
             [self.mapView removeAnnotations:self.AnnotationArray];
             NSArray *arrayOfMembers = self.arrayOfGroups[indexPath-1][@"members"];
             NSMutableArray *arrayOfUsers = [[NSMutableArray alloc] init];
+            self.AnnotationArray = [[NSMutableArray alloc] init];
             for(int i=0; i<arrayOfMembers.count; i++){
                 
                 PFUser *user = arrayOfMembers[i];
