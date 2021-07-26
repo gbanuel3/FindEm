@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UIButton *cameraButton;
 @property bool hideCameraButton;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfGroupsLabel;
 @property (strong, nonatomic) NSDictionary *UsersAndImages;
 @end
 

@@ -74,19 +74,34 @@
         [query getObjectInBackgroundWithId:PFUser.currentUser.objectId block:^(PFObject *user, NSError *error) {
                 if (!error){
                     self.user = user;
-                    [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
-                        if(!error){
-                            self.profileImage.image = [UIImage imageWithData:imageData];
-                        }
-                    }];
+                    self.title = self.user[@"username"];
+                    NSArray *all_groups = self.user[@"all_groups"];
+                    self.numberOfGroupsLabel.text = [NSString stringWithFormat:@"This user is part of %lu groups.", (unsigned long)all_groups.count];
+                    if(user[@"profile_picture"]){
+                        [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
+                            if(!error){
+                                self.profileImage.image = [UIImage imageWithData:imageData];
+                            }
+                        }];
+                    }else{
+                        self.profileImage.image = [UIImage systemImageNamed:@"questionmark.square"];
+                    }
                 }
             }];
         
     }else{ // view for another profile - not own profile
         [self.cameraButton setHidden:self.hideCameraButton];
-        self.profileImage.image = [UIImage imageWithData:self.UsersAndImages[self.user.username]];
+        NSArray *all_groups = self.user[@"all_groups"];
+        self.numberOfGroupsLabel.text = [NSString stringWithFormat:@"This user is part of %lu groups.", (unsigned long)all_groups.count];
+        if(self.UsersAndImages[self.user.username]){
+            self.profileImage.image = [UIImage imageWithData:self.UsersAndImages[self.user.username]];
+        }else{
+            self.profileImage.image = [UIImage systemImageNamed:@"questionmark.square"];
+        }
+        
     }
-    self.title = self.user[@"username"];
+
+    
 }
 
 /*

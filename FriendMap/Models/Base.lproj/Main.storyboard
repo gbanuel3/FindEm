@@ -448,6 +448,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pEt-Gw-Nqh">
+                                <rect key="frame" x="16" y="382" width="358" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="O2v-KM-V4E"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -461,12 +468,13 @@
                     </navigationItem>
                     <connections>
                         <outlet property="cameraButton" destination="5dZ-JU-xHe" id="LsQ-GJ-ovC"/>
+                        <outlet property="numberOfGroupsLabel" destination="pEt-Gw-Nqh" id="PTS-oI-3Pu"/>
                         <outlet property="profileImage" destination="8GB-f8-uTB" id="dZm-fc-Wt3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BZ9-iO-WqT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1457" y="4205"/>
+            <point key="canvasLocation" x="1456.9230769230769" y="4204.2654028436018"/>
         </scene>
         <!--Groups-->
         <scene sceneID="QOa-Vv-0Z5">
