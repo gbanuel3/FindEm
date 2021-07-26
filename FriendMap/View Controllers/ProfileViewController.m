@@ -68,6 +68,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     
     if(self.user==nil || [PFUser.currentUser.username isEqual:self.user[@"username"]]){ // when user goes to their own profile screen via tab menu
+        [self.directionsButton setHidden:YES];
         NSLog(@"own profile");
         [self.cameraButton setHidden:NO];
         PFQuery *query = [PFQuery queryWithClassName:@"_User"];
@@ -76,7 +77,7 @@
                     self.user = user;
                     self.title = self.user[@"username"];
                     NSArray *all_groups = self.user[@"all_groups"];
-                    self.numberOfGroupsLabel.text = [NSString stringWithFormat:@"You are a part of %lu groups.", (unsigned long)all_groups.count];
+                    self.numberOfGroupsLabel.text = [NSString stringWithFormat:@"You are part of %lu groups.", (unsigned long)all_groups.count];
                     self.distanceFromUserLabel.text = @"";
                     if(user[@"profile_picture"]){
                         [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
@@ -91,6 +92,7 @@
             }];
         
     }else{ // view for another profile - not own profile
+        [self.directionsButton setHidden:NO];
         NSLog(@"%@", self.user);
         NSLog(@"%@", self.UserAndUserObjects[[NSString stringWithFormat:@"%@", PFUser.currentUser.username]]);
         self.title = self.user[@"username"];

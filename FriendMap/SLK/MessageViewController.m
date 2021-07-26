@@ -98,13 +98,8 @@
     // Example's configuration
     self.isAnimating = NO;
     [self configureActionItems];
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    hud.mode = MBProgressHUDModeAnnularDeterminate;
-//    hud.label.text = @"Loading";
-//    NSProgress *progress = [self configureDataSource];
-//    hud.progressObject = progress;
+
     
-    // SLKTVC's configuration
     self.bounces = YES;
     self.shakeToClearEnabled = YES;
     self.keyboardPanningEnabled = YES;
@@ -426,37 +421,7 @@
     [self performSegueWithIdentifier:@"showMembersSegue" sender:nil];
 }
 
-- (void)showPIPWindow:(id)sender
-{
-    CGRect frame = CGRectMake(CGRectGetWidth(self.view.frame) - 60.0, 0.0, 50.0, 50.0);
-    frame.origin.y = CGRectGetMinY(self.textInputbar.frame) - 60.0;
-    
-    _pipWindow = [[UIWindow alloc] initWithFrame:frame];
-    _pipWindow.backgroundColor = [UIColor blackColor];
-    _pipWindow.layer.cornerRadius = 10.0;
-    _pipWindow.layer.masksToBounds = YES;
-    _pipWindow.hidden = NO;
-    _pipWindow.alpha = 0.0;
-    
-    [[UIApplication sharedApplication].keyWindow addSubview:_pipWindow];
-    
-    [UIView animateWithDuration:0.25
-                     animations:^{
-                         _pipWindow.alpha = 1.0;
-                     }];
-}
 
-- (void)hidePIPWindow:(id)sender
-{
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         _pipWindow.alpha = 0.0;
-                     }
-                     completion:^(BOOL finished) {
-                         _pipWindow.hidden = YES;
-                         _pipWindow = nil;
-                     }];
-}
 
 - (void)textInputbarDidMove:(NSNotification *)note
 {
@@ -525,9 +490,6 @@
     message.user = PFUser.currentUser;
     message.date = [NSDate date];
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    UITableViewRowAnimation rowAnimation = self.inverted ? UITableViewRowAnimationBottom : UITableViewRowAnimationTop;
-    UITableViewScrollPosition scrollPosition = self.inverted ? UITableViewScrollPositionBottom : UITableViewScrollPositionTop;
     
     PFQuery *query = [PFQuery queryWithClassName:@"groups"];
     [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject *group, NSError *error){
@@ -547,17 +509,7 @@
 
             }
         }];
-    
-//    [self.tableView beginUpdates];
-//    [self.messages insertObject:message atIndex:0];
-//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:rowAnimation];
-//    [self.tableView endUpdates];
-    
-//    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:scrollPosition animated:YES];
-    
-    // Fixes the cell from blinking (because of the transform, when using translucent cells)
-    // See https://github.com/slackhq/SlackTextViewController/issues/94#issuecomment-69929927
-//    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+
     
     [super didPressRightButton:sender];
 }
@@ -613,8 +565,7 @@
     [super didCancelTextEditing:sender];
 }
 
-- (BOOL)canPressRightButton
-{
+- (BOOL)canPressRightButton{
     return [super canPressRightButton];
 }
 

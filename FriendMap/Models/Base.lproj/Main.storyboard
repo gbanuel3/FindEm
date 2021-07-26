@@ -433,14 +433,6 @@
                                 <rect key="frame" x="16" y="86.666666666666515" width="358" height="216"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5dZ-JU-xHe">
-                                <rect key="frame" x="183" y="312" width="24" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="icn_upload"/>
-                                <connections>
-                                    <action selector="onClickCamera:" destination="X2S-U0-OQg" eventType="touchUpInside" id="3JR-NS-65m"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4p-cY-FLH">
                                 <rect key="frame" x="16" y="344" width="358" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -449,19 +441,32 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pEt-Gw-Nqh">
-                                <rect key="frame" x="16" y="382" width="358" height="21"/>
+                                <rect key="frame" x="16" y="353" width="358" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cz7-wU-Ibf">
-                                <rect key="frame" x="16" y="440" width="358" height="21"/>
+                                <rect key="frame" x="16" y="394" width="358" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ST2-Rt-2Zi" customClass="CustomButton">
+                                <rect key="frame" x="16" y="440" width="358" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Get Directions"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5dZ-JU-xHe">
+                                <rect key="frame" x="183" y="311" width="24" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="icn_upload"/>
+                                <connections>
+                                    <action selector="onClickCamera:" destination="X2S-U0-OQg" eventType="touchUpInside" id="3JR-NS-65m"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="O2v-KM-V4E"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -475,6 +480,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="cameraButton" destination="5dZ-JU-xHe" id="LsQ-GJ-ovC"/>
+                        <outlet property="directionsButton" destination="ST2-Rt-2Zi" id="JPe-Ng-NCM"/>
                         <outlet property="distanceFromUserLabel" destination="Cz7-wU-Ibf" id="aG3-Qx-mCC"/>
                         <outlet property="numberOfGroupsLabel" destination="pEt-Gw-Nqh" id="PTS-oI-3Pu"/>
                         <outlet property="profileImage" destination="8GB-f8-uTB" id="dZm-fc-Wt3"/>

@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "Message.h"
+#import "CustomButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *distanceFromUserLabel;
 @property (strong, nonatomic) NSDictionary *UsersAndImages;
 @property (strong, nonatomic) NSMutableDictionary *UserAndUserObjects;
-
+@property (weak, nonatomic) IBOutlet CustomButton *directionsButton;
 @end
 
 NS_ASSUME_NONNULL_END
