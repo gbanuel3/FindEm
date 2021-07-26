@@ -455,6 +455,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cz7-wU-Ibf">
+                                <rect key="frame" x="16" y="440" width="358" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="O2v-KM-V4E"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -468,6 +475,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="cameraButton" destination="5dZ-JU-xHe" id="LsQ-GJ-ovC"/>
+                        <outlet property="distanceFromUserLabel" destination="Cz7-wU-Ibf" id="aG3-Qx-mCC"/>
                         <outlet property="numberOfGroupsLabel" destination="pEt-Gw-Nqh" id="PTS-oI-3Pu"/>
                         <outlet property="profileImage" destination="8GB-f8-uTB" id="dZm-fc-Wt3"/>
                     </connections>

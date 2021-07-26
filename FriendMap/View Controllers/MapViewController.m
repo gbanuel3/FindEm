@@ -159,6 +159,7 @@
         profileViewController.user = self.user;
         profileViewController.hideCameraButton = YES;
         profileViewController.UsersAndImages = self.UsersAndImages;
+        profileViewController.UserAndUserObjects = self.UsersAndUserObjects;
         return;
     }
 }

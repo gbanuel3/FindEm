@@ -66,7 +66,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    NSLog(@"%@", self.user);
+    
     if(self.user==nil || [PFUser.currentUser.username isEqual:self.user[@"username"]]){ // when user goes to their own profile screen via tab menu
         NSLog(@"own profile");
         [self.cameraButton setHidden:NO];
@@ -76,7 +76,8 @@
                     self.user = user;
                     self.title = self.user[@"username"];
                     NSArray *all_groups = self.user[@"all_groups"];
-                    self.numberOfGroupsLabel.text = [NSString stringWithFormat:@"This user is part of %lu groups.", (unsigned long)all_groups.count];
+                    self.numberOfGroupsLabel.text = [NSString stringWithFormat:@"You are a part of %lu groups.", (unsigned long)all_groups.count];
+                    self.distanceFromUserLabel.text = @"";
                     if(user[@"profile_picture"]){
                         [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
                             if(!error){
@@ -90,6 +91,9 @@
             }];
         
     }else{ // view for another profile - not own profile
+        NSLog(@"%@", self.user);
+        NSLog(@"%@", self.UserAndUserObjects[[NSString stringWithFormat:@"%@", PFUser.currentUser.username]]);
+        self.title = self.user[@"username"];
         [self.cameraButton setHidden:self.hideCameraButton];
         NSArray *all_groups = self.user[@"all_groups"];
         self.numberOfGroupsLabel.text = [NSString stringWithFormat:@"This user is part of %lu groups.", (unsigned long)all_groups.count];
@@ -98,6 +102,17 @@
         }else{
             self.profileImage.image = [UIImage systemImageNamed:@"questionmark.square"];
         }
+        PFUser *currentUser = self.UserAndUserObjects[[NSString stringWithFormat:@"%@", PFUser.currentUser.username]];
+        NSNumber *currentUserLat = currentUser[@"lat"];
+        NSNumber *currentUserLon = currentUser[@"lon"];
+        CLLocation *location1 = [[CLLocation alloc] initWithLatitude:currentUserLat.floatValue longitude: currentUserLon.floatValue];
+        
+        NSNumber *profileUserLat = self.user[@"lat"];
+        NSNumber *profileUserLon = self.user[@"lon"];
+        CLLocation *location2 = [[CLLocation alloc] initWithLatitude:profileUserLat.floatValue longitude:profileUserLon.floatValue];
+        CLLocationDistance distance = [location1 distanceFromLocation:location2];
+        CLLocationDistance distanceInMiles = distance*0.000621371;
+        self.distanceFromUserLabel.text = [NSString stringWithFormat:@"You are %.02f miles away from this user!", distanceInMiles];
         
     }
 

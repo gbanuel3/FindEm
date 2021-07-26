@@ -897,6 +897,7 @@
         MembersListViewController *membersListViewController = [segue destinationViewController];
         membersListViewController.group = self.group;
         membersListViewController.UserToImage = self.UsersAndImages;
+        membersListViewController.UserAndUserObjects = self.UsersAndUserObjects;
         return;
     }
     if([[segue identifier] isEqualToString:@"chatToProfile"]){
@@ -908,6 +909,7 @@
         profileViewController.user = self.UsersAndUserObjects[clickedMessage.username];
         profileViewController.UsersAndImages = self.UsersAndImages;
         profileViewController.hideCameraButton = YES;
+        profileViewController.UserAndUserObjects = self.UsersAndUserObjects;
 
         return;
     }
