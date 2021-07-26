@@ -84,7 +84,7 @@
         
     }else{ // view for another profile - not own profile
         [self.cameraButton setHidden:self.hideCameraButton];
-        self.profileImage.image = [UIImage imageWithData:self.UsersAndImages[self.user[@"username"]]];
+        self.profileImage.image = [UIImage imageWithData:self.UsersAndImages[self.user.username]];
     }
     self.title = self.user[@"username"];
 }

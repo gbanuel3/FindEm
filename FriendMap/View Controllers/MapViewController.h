@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import <Parse/Parse.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray *arrayOfGroups;
 @property (nonatomic, strong) NSMutableArray *AnnotationArray;
 @property (nonatomic, strong) NSMutableDictionary *UsersAndImages;
+@property (nonatomic, strong) NSMutableDictionary *UsersAndUserObjects;
+@property (nonatomic, strong) PFUser *user;
 
 @end
 

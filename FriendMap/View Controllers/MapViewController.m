@@ -10,6 +10,7 @@
 #import <PFNavigationDropdownMenu/PFNavigationDropdownMenu.h>
 #import "GroupViewController.h"
 #import <Parse/Parse.h>
+#import "ProfileViewController.h"
 
 @interface MapViewController ()
 
@@ -35,6 +36,15 @@
          annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
          annotationView.canShowCallout = true;
          annotationView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 50.0, 50.0)];
+         
+         UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                     UITableViewCell *disclosure = [[UITableViewCell alloc] init];
+                     [rightButton addSubview:disclosure];
+                     rightButton.frame = CGRectMake(0, 0, 25, 25);
+                     disclosure.frame = CGRectMake(0, 0, 25, 25);
+                     disclosure.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                     disclosure.userInteractionEnabled = NO;
+                     annotationView.rightCalloutAccessoryView = rightButton;
      }
 
      UIImageView *imageView = (UIImageView*)annotationView.leftCalloutAccessoryView;
@@ -46,6 +56,13 @@
      return annotationView;
  }
 
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    MKPointAnnotation *annotation = view.annotation;
+    self.user = self.UsersAndUserObjects[annotation.title];
+    [self performSegueWithIdentifier:@"mapToProfile" sender:self];
+}
+
 
 - (void)configureDropDownMenu{
     GroupViewController *groupViewController = (GroupViewController *) [[(UINavigationController*)[[self.tabBarController viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:0];
@@ -53,6 +70,7 @@
     self.arrayOfGroups = groupViewController.arrayOfGroups;
     self.AnnotationArray = [[NSMutableArray alloc] init];
     self.UsersAndImages = groupViewController.UsersAndImages;
+    self.UsersAndUserObjects = groupViewController.UserAndUserObjects;
     
     
     NSMutableArray *items = [[NSMutableArray alloc] initWithObjects:@"No Group Selected...", nil];
@@ -96,12 +114,12 @@
                 [query getObjectInBackgroundWithId:user.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
                     if(!error){
                         [arrayOfUsers addObject:object];
-                        NSLog(@"%@", object);
+
                     }
                     if(arrayOfUsers.count == arrayOfMembers.count){
                         for(int i=0; i<arrayOfUsers.count; i++){
                             PFUser *user = arrayOfUsers[i];
-                            NSLog(@"%@", user);
+
                             if(user[@"lat"]!=nil && user[@"lon"]!=nil){
                                 NSNumber *lat = user[@"lat"];
                                 NSNumber *lon = user[@"lon"];
@@ -130,14 +148,20 @@
     self.navigationItem.titleView = menuView;
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if([[segue identifier] isEqualToString:@"mapToProfile"]){
+        UINavigationController *navController = [segue destinationViewController];
+        ProfileViewController *profileViewController = (ProfileViewController *)([navController viewControllers][0]);
+        profileViewController.user = self.user;
+        profileViewController.hideCameraButton = YES;
+        profileViewController.UsersAndImages = self.UsersAndImages;
+        return;
+    }
 }
-*/
+
 
 @end

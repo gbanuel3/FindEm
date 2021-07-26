@@ -292,6 +292,22 @@
             </objects>
             <point key="canvasLocation" x="614" y="3154"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="tMw-Fr-p9G">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aqq-DS-btS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController id="RGc-qR-vdx" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DsE-Ws-5R9">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="X2S-U0-OQg" kind="relationship" relationship="rootViewController" id="lJT-ah-sH1"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="2155" y="2430"/>
+        </scene>
         <!--Members List View Controller-->
         <scene sceneID="L5b-Cs-QYC">
             <objects>
@@ -398,6 +414,7 @@
                     <navigationItem key="navigationItem" title="Map" id="9nN-Yi-CCO"/>
                     <connections>
                         <outlet property="mapView" destination="y4r-Wc-aTh" id="Bbo-Gq-JXb"/>
+                        <segue destination="RGc-qR-vdx" kind="presentation" identifier="mapToProfile" id="QLW-xJ-Uup"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YgD-PA-c5y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -449,7 +466,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BZ9-iO-WqT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1457" y="4649"/>
+            <point key="canvasLocation" x="1457" y="4205"/>
         </scene>
         <!--Groups-->
         <scene sceneID="QOa-Vv-0Z5">
@@ -525,7 +542,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="HWb-WL-Hzu"/>
-        <segue reference="LTC-31-dfc"/>
+        <segue reference="lJT-ah-sH1"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="clipart19271" width="25" height="25"/>

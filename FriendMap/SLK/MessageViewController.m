@@ -901,7 +901,7 @@
     }
     if([[segue identifier] isEqualToString:@"chatToProfile"]){
         Message *clickedMessage = sender;
-        NSLog(@"%@", clickedMessage);
+//        NSLog(@"%@", clickedMessage);
         UINavigationController *navController = [segue destinationViewController];
         ProfileViewController *profileViewController = (ProfileViewController *)([navController viewControllers][0]);
         profileViewController.message = clickedMessage;
