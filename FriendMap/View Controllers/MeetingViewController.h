@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomButton.h"
+#import <Parse/Parse.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UITextField *distanceField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *meetingLabel;
+@property (nonatomic, strong) NSMutableArray *arrayOfUsersInGroup;
+@property (nonatomic, strong) PFObject *group;
 
 @end
 

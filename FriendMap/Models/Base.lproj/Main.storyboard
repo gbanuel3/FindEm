@@ -416,7 +416,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4m-ED-Wsh" customClass="MBProgressHUDRoundedButton">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4m-ED-Wsh">
                                 <rect key="frame" x="153" y="627" width="85" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="person.3.fill" catalog="system">
@@ -433,6 +433,7 @@
                     <navigationItem key="navigationItem" title="Map" id="9nN-Yi-CCO"/>
                     <connections>
                         <outlet property="mapView" destination="nF8-q1-DOC" id="cxF-TI-1XB"/>
+                        <outlet property="meetButton" destination="b4m-ED-Wsh" id="tyR-33-2I7"/>
                         <segue destination="RGc-qR-vdx" kind="presentation" identifier="mapToProfile" id="QLW-xJ-Uup"/>
                         <segue destination="in0-AC-HzU" kind="show" identifier="placeToMeetSegue" id="uDx-3y-bJF"/>
                     </connections>

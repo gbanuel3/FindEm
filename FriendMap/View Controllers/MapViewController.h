@@ -9,6 +9,7 @@
 #import <MapKit/MapKit.h>
 #import <Parse/Parse.h>
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MapViewController : UIViewController <MKMapViewDelegate>
@@ -21,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableDictionary *results;
 @property (nonatomic, strong) NSMutableArray *arrayOfUsers;
 @property (nonatomic, strong) NSMutableArray *clusters;
+@property (weak, nonatomic) IBOutlet UIButton *meetButton;
+
 
 
 @end

@@ -11,6 +11,7 @@
 #import "GroupViewController.h"
 #import <Parse/Parse.h>
 #import "ProfileViewController.h"
+#import "MeetingViewController.h"
 
 @interface MapViewController ()
 
@@ -21,9 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.mapView.delegate = self;
-    MKCoordinateRegion chicago = MKCoordinateRegionMake(CLLocationCoordinate2DMake(42.238333, -87.998982), MKCoordinateSpanMake(0.1, 0.1));
-    [self.mapView setRegion:chicago animated:false];
-
+    [self.meetButton setHidden:YES];
+    
+    [self getLocationsFromCoordinate:@42.23 longitude:@-87.999];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -118,9 +119,12 @@
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(data){
             NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            NSLog(@"...");
             NSLog(@"response: %@", responseDictionary);
             self.results = [responseDictionary valueForKeyPath:@"response.venues"];
 
+        }else{
+            NSLog(@"%@", error.localizedDescription);
         }
     }];
     [task resume];
@@ -197,7 +201,9 @@
         NSLog(@"Did select item: %@", items[indexPath]);
         if(indexPath==0){ // No Group Selected...
             [self.mapView removeAnnotations:self.AnnotationArray];
+            [self.meetButton setHidden:YES];
         }else{
+            [self.meetButton setHidden:NO];
             [self.mapView removeAnnotations:self.AnnotationArray];
             NSArray *arrayOfMembers = self.arrayOfGroups[indexPath-1][@"members"];
             self.arrayOfUsers = [[NSMutableArray alloc] init];
@@ -233,7 +239,9 @@
                             }
 
                         }
-                        
+                        [self clusterLocations:@25];
+                        [self CalculateMidpoint:self.arrayOfUsers];
+                        [self getLocationsFromCoordinate:@42.23 longitude:@-87.999];
                     }
                 }];
             }
@@ -260,6 +268,14 @@
         profileViewController.UserAndUserObjects = self.UsersAndUserObjects;
         return;
     }
+    if([[segue identifier] isEqualToString:@"placeToMeetSegue"]){
+        MeetingViewController *meetingViewController = [segue destinationViewController];
+        meetingViewController.arrayOfUsersInGroup = self.arrayOfUsers;
+//        meetingViewController
+
+        return;
+    }
+    
 }
 
 
