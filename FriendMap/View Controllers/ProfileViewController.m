@@ -118,11 +118,19 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
 
-
-    [UIView animateWithDuration:2 delay:0 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionAllowUserInteraction animations:^{
-        self.cameraButton.transform = CGAffineTransformMakeScale(1.25, 1.25);
-    }
-                     completion:nil];
+    CABasicAnimation *animation = [[CABasicAnimation alloc] init];
+    animation.keyPath = @"transform.scale";
+    animation.toValue = @1.5;
+    animation.duration = 2;
+    animation.repeatCount = 3;
+    animation.autoreverses = YES;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [self.cameraButton.layer addAnimation:animation forKey:nil];
+    
+//    [UIView animateWithDuration:2 delay:0 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionAllowUserInteraction animations:^{
+//        self.cameraButton.transform = CGAffineTransformMakeScale(1.25, 1.25);
+//    }
+//    completion:nil];
 
 
     if(self.user==nil || [PFUser.currentUser.username isEqual:self.user[@"username"]]){ // when user goes to their own profile screen via tab menu
