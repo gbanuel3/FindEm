@@ -44,6 +44,9 @@
     CLLocationDistance distanceInMiles = distance*0.000621371;
     return distanceInMiles;
 }
+- (IBAction)findOptimalPlaceToMeet:(id)sender{
+    [self performSegueWithIdentifier:@"placeToMeetSegue" sender:nil];
+}
 
 - (void) clusterLocations: (NSNumber *)distance{
     NSMutableArray *AllPins = [[NSMutableArray alloc] initWithArray:self.arrayOfUsers];
@@ -230,8 +233,6 @@
                             }
 
                         }
-                        [self clusterLocations:@25];
-                        [self CalculateMidpoint:self.arrayOfUsers];
                         
                     }
                 }];

@@ -32,6 +32,8 @@
 		2B667D2D26A02A9000792451 /* TypingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2C26A02A9000792451 /* TypingIndicatorView.m */; };
 		2B667D3326A0F58300792451 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D3226A0F58300792451 /* Message.m */; };
 		2B667D3726A94ABC00792451 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D3626A94ABC00792451 /* LocationManager.m */; };
+		2B667D4526B20C4800792451 /* MeetingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D4426B20C4800792451 /* MeetingViewController.m */; };
+		2B667D4826B2135600792451 /* ClusterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D4726B2135600792451 /* ClusterCell.m */; };
 		614E0FA978DC8FE1F26DC95C /* Pods_FriendMap_FriendMapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */; };
 		77965291AC77C5E31F77A9EC /* Pods_FriendMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C802AF0660674E8FC54375DA /* Pods_FriendMap.framework */; };
 		E1CE6A866054112653C09FD3 /* Pods_FriendMapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDF498AEEC8A5AEA44958BE3 /* Pods_FriendMapTests.framework */; };
@@ -104,6 +106,10 @@
 		2B667D3226A0F58300792451 /* Message.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		2B667D3526A94ABC00792451 /* LocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		2B667D3626A94ABC00792451 /* LocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
+		2B667D4326B20C4800792451 /* MeetingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingViewController.h; sourceTree = "<group>"; };
+		2B667D4426B20C4800792451 /* MeetingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingViewController.m; sourceTree = "<group>"; };
+		2B667D4626B2135600792451 /* ClusterCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClusterCell.h; sourceTree = "<group>"; };
+		2B667D4726B2135600792451 /* ClusterCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClusterCell.m; sourceTree = "<group>"; };
 		3D07E2E71F2B14FBC2D49EF8 /* Pods-FriendMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap.release.xcconfig"; path = "Target Support Files/Pods-FriendMap/Pods-FriendMap.release.xcconfig"; sourceTree = "<group>"; };
 		48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FriendMap_FriendMapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57F254F0FADDA707C23B69E2 /* Pods-FriendMap-FriendMapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap-FriendMapUITests.debug.xcconfig"; path = "Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap-FriendMapUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -222,6 +228,10 @@
 				2B667CB3269F93C800792451 /* MemberCell.m */,
 				2B667CB5269FB50800792451 /* MessageCell.h */,
 				2B667CB6269FB50800792451 /* MessageCell.m */,
+				2B667D4326B20C4800792451 /* MeetingViewController.h */,
+				2B667D4426B20C4800792451 /* MeetingViewController.m */,
+				2B667D4626B2135600792451 /* ClusterCell.h */,
+				2B667D4726B2135600792451 /* ClusterCell.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -530,7 +540,9 @@
 				2B667C5F269CA41F00792451 /* AppDelegate.m in Sources */,
 				2B667CB1269F928900792451 /* MembersListViewController.m in Sources */,
 				2B667D2126A029A500792451 /* MessageViewController.m in Sources */,
+				2B667D4826B2135600792451 /* ClusterCell.m in Sources */,
 				2B667CB7269FB50800792451 /* MessageCell.m in Sources */,
+				2B667D4526B20C4800792451 /* MeetingViewController.m in Sources */,
 				2B667CB4269F93C800792451 /* MemberCell.m in Sources */,
 				2B667D2426A029EB00792451 /* MessageTableViewCell.m in Sources */,
 				2B667CA6269D809A00792451 /* GroupViewController.m in Sources */,
