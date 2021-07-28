@@ -201,13 +201,13 @@
                         [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
                             if(!error){
                                 [self.UsersAndImages setValue:imageData forKey:user.username];
-                                if(self.UsersAndImages.count == countOfPfps){
-                                    NSLog(@"Did finish group 1");
-                                    dispatch_group_leave(group);
-                                }
                                 
                             }
                         }];
+                    }
+                    if(self.UsersAndImages.count == countOfPfps){
+                        NSLog(@"Did finish group 1");
+                        dispatch_group_leave(group);
                     }
                 }
                 

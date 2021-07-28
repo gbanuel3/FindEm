@@ -296,7 +296,6 @@
         <!--Navigation Controller-->
         <scene sceneID="tMw-Fr-p9G">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aqq-DS-btS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController id="RGc-qR-vdx" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="DsE-Ws-5R9">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
@@ -306,6 +305,7 @@
                         <segue destination="X2S-U0-OQg" kind="relationship" relationship="rootViewController" id="lJT-ah-sH1"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aqq-DS-btS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2155" y="2430"/>
         </scene>
@@ -408,13 +408,28 @@
         <scene sceneID="saN-Ul-5Rf">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="GMl-2D-Gym" customClass="MapViewController" sceneMemberID="viewController">
-                    <mapView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="y4r-Wc-aTh">
+                    <view key="view" contentMode="scaleToFill" id="ILF-RU-u2D">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </mapView>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nF8-q1-DOC">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4m-ED-Wsh" customClass="MBProgressHUDRoundedButton">
+                                <rect key="frame" x="153" y="627" width="85" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="person.3.fill" catalog="system">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="nk1-GQ-6hM"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
                     <navigationItem key="navigationItem" title="Map" id="9nN-Yi-CCO"/>
                     <connections>
-                        <outlet property="mapView" destination="y4r-Wc-aTh" id="Bbo-Gq-JXb"/>
+                        <outlet property="mapView" destination="nF8-q1-DOC" id="cxF-TI-1XB"/>
                         <segue destination="RGc-qR-vdx" kind="presentation" identifier="mapToProfile" id="QLW-xJ-Uup"/>
                     </connections>
                 </viewController>
@@ -575,6 +590,7 @@
         <image name="clipart19271" width="25" height="25"/>
         <image name="feed_tab" width="25" height="25"/>
         <image name="icn_upload" width="24" height="24"/>
+        <image name="person.3.fill" catalog="system" width="128" height="61"/>
         <image name="photo.fill.on.rectangle.fill" catalog="system" width="128" height="96"/>
         <image name="profile_tab" width="25" height="25"/>
         <image name="questionmark.square" catalog="system" width="128" height="114"/>

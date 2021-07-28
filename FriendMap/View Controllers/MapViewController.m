@@ -31,10 +31,12 @@
     [self getLocationsFromCoordinate:@42.2383 longitude:@-87.9988];
 }
 
+//- (void) clusterLocations: (NSNumber *)distance{
+//    while
+//}
 
 - (void) getLocationsFromCoordinate: (NSNumber *)latitude longitude:(NSNumber *) longitude{
     NSString *baseURLString = [NSString stringWithFormat:@"https://api.yelp.com/v3/businesses/search?latitude=%@&longitude=%@&sort_by=distance", latitude, longitude];
-//    NSLog(@"%@", baseURLString);
     
     NSURL *url = [NSURL URLWithString:baseURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -126,7 +128,7 @@
         }else{
             [self.mapView removeAnnotations:self.AnnotationArray];
             NSArray *arrayOfMembers = self.arrayOfGroups[indexPath-1][@"members"];
-            NSMutableArray *arrayOfUsers = [[NSMutableArray alloc] init];
+            self.arrayOfUsers = [[NSMutableArray alloc] init];
             self.AnnotationArray = [[NSMutableArray alloc] init];
             for(int i=0; i<arrayOfMembers.count; i++){
                 
@@ -135,12 +137,12 @@
 
                 [query getObjectInBackgroundWithId:user.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
                     if(!error){
-                        [arrayOfUsers addObject:object];
+                        [self.arrayOfUsers addObject:object];
 
                     }
-                    if(arrayOfUsers.count == arrayOfMembers.count){
-                        for(int i=0; i<arrayOfUsers.count; i++){
-                            PFUser *user = arrayOfUsers[i];
+                    if(self.arrayOfUsers.count == arrayOfMembers.count){
+                        for(int i=0; i<self.arrayOfUsers.count; i++){
+                            PFUser *user = self.arrayOfUsers[i];
 
                             if(user[@"lat"]!=nil && user[@"lon"]!=nil){
                                 NSNumber *lat = user[@"lat"];
