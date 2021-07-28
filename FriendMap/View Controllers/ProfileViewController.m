@@ -122,8 +122,7 @@
         
     }else{ // view for another profile - not own profile
         [self.directionsButton setHidden:NO];
-        NSLog(@"%@", self.user);
-        NSLog(@"%@", self.UserAndUserObjects[[NSString stringWithFormat:@"%@", PFUser.currentUser.username]]);
+
         self.title = self.user[@"username"];
         [self.cameraButton setHidden:self.hideCameraButton];
         NSArray *all_groups = self.user[@"all_groups"];

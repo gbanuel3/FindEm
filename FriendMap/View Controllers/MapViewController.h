@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) PFUser *user;
 @property (nonatomic, strong) NSMutableDictionary *results;
 @property (nonatomic, strong) NSMutableArray *arrayOfUsers;
+@property (nonatomic, strong) NSMutableArray *clusters;
 
 @end
 

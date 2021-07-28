@@ -31,9 +31,48 @@
     [self getLocationsFromCoordinate:@42.2383 longitude:@-87.9988];
 }
 
-//- (void) clusterLocations: (NSNumber *)distance{
-//    while
-//}
+- (float) distanceBetweenUsers: (PFUser *)user1 user2:(PFUser *) user2{
+
+    NSNumber *user1Lat = user1[@"lat"];
+    NSNumber *user1lon = user1[@"lon"];
+    CLLocation *location1 = [[CLLocation alloc] initWithLatitude:user1Lat.floatValue longitude: user1lon.floatValue];
+    
+    NSNumber *user2lat = user2[@"lat"];
+    NSNumber *user2lon = user2[@"lon"];
+    CLLocation *location2 = [[CLLocation alloc] initWithLatitude:user2lat.floatValue longitude:user2lon.floatValue];
+    CLLocationDistance distance = [location1 distanceFromLocation:location2];
+    CLLocationDistance distanceInMiles = distance*0.000621371;
+    return distanceInMiles;
+}
+
+- (void) clusterLocations: (NSNumber *)distance{
+    NSMutableArray *AllPins = [[NSMutableArray alloc] initWithArray:self.arrayOfUsers];
+    self.clusters = [[NSMutableArray alloc] init];
+    
+    while(AllPins.count > 0){
+        
+        NSMutableArray *temporaryCluster = [[NSMutableArray alloc] init];
+        PFUser *user1 = [AllPins firstObject];
+        [AllPins removeObjectAtIndex:0];
+        
+        for(int i=0; i<AllPins.count; i++){
+            PFUser *user2 = AllPins[i];
+            NSNumber *dist = [NSNumber numberWithFloat:[self distanceBetweenUsers:user1 user2:user2]];
+            if(dist <= distance){
+                [temporaryCluster addObject:AllPins[i]];
+                [AllPins removeObjectAtIndex:i];
+            }
+        }
+        
+        if(temporaryCluster.count > 0){
+            [temporaryCluster addObject:user1];
+            [self.clusters addObject:temporaryCluster];
+        }else{
+            [self.clusters addObject:user1];
+        }
+        
+    }
+}
 
 - (void) getLocationsFromCoordinate: (NSNumber *)latitude longitude:(NSNumber *) longitude{
     NSString *baseURLString = [NSString stringWithFormat:@"https://api.yelp.com/v3/businesses/search?latitude=%@&longitude=%@&sort_by=distance", latitude, longitude];
@@ -157,9 +196,11 @@
                                 [self.mapView viewForAnnotation:annotation];
                                 [self.AnnotationArray addObject:annotation];
                                 [self.mapView showAnnotations:self.AnnotationArray animated:YES];
+                                
                             }
 
                         }
+                        [self clusterLocations:@25];
                     }
                 }];
             }
