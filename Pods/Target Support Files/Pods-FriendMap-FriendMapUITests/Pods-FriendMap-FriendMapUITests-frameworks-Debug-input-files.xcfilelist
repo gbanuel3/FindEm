@@ -2,8 +2,8 @@ ${PODS_ROOT}/Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap
 ${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework
 ${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework
 ${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework
-${BUILT_PRODUCTS_DIR}/LoremIpsum/LoremIpsum.framework
 ${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework
 ${BUILT_PRODUCTS_DIR}/PFNavigationDropdownMenu/PFNavigationDropdownMenu.framework
 ${BUILT_PRODUCTS_DIR}/Parse/Parse.framework
 ${BUILT_PRODUCTS_DIR}/SlackTextViewController/SlackTextViewController.framework
+${BUILT_PRODUCTS_DIR}/YelpAPI/YelpAPI.framework

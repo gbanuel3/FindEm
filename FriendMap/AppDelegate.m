@@ -7,11 +7,13 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 
+
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
+
 
 - (void) configureParse{
     ParseClientConfiguration *configuration = [ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
@@ -26,17 +28,6 @@
     [self configureParse];
     
     return YES;
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application{
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application{
-
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application{
-
 }
 
 

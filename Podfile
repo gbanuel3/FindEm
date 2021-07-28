@@ -9,7 +9,7 @@ target 'FriendMap' do
    pod 'Parse'
    pod 'AFNetworking'
    pod 'SlackTextViewController'
-   pod 'LoremIpsum'
+   pod 'YelpAPI'
    pod 'DateTools'
    pod 'MBProgressHUD'
    pod 'PFNavigationDropdownMenu'

@@ -28,6 +28,28 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [self configureDropDownMenu];
+    [self getLocationsFromCoordinate:@42.2383 longitude:@-87.9988];
+}
+
+
+- (void) getLocationsFromCoordinate: (NSNumber *)latitude longitude:(NSNumber *) longitude{
+    NSString *baseURLString = [NSString stringWithFormat:@"https://api.yelp.com/v3/businesses/search?latitude=%@&longitude=%@&sort_by=distance", latitude, longitude];
+//    NSLog(@"%@", baseURLString);
+    
+    NSURL *url = [NSURL URLWithString:baseURLString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request addValue:@"Bearer wVuZ2efCWzeLYNpRe_byOsPy6GARksBDt5RzwLSbDnkmdm4Cd1gGQATQiStUhQ-6_4AoeV5jR94P93VD9AITvXoR3axB792jTsSmbUFSbANXSj0XPidt_qtj3gkBYXYx" forHTTPHeaderField:@"Authorization"];
+
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if(data){
+            NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            NSLog(@"response: %@", responseDictionary);
+            self.results = [responseDictionary valueForKeyPath:@"response.venues"];
+
+        }
+    }];
+    [task resume];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {

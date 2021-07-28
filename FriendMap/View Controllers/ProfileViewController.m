@@ -74,38 +74,6 @@
  
 - (void)viewDidLoad{
     [super viewDidLoad];
-    
-//    [UIView animateWithDuration:4
-//                     animations:^{
-//                         self.cameraButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
-//                     }
-//                     completion:^(BOOL finished) {
-//                         [UIView animateWithDuration:4
-//                                          animations:^{
-//                                              self.cameraButton.transform = CGAffineTransformIdentity;
-//
-//                                          }];
-//                     }];
-//    self.animator = [[UIViewPropertyAnimator alloc] initWithDuration:2 curve:UIViewAnimationCurveEaseOut animations:^{
-//        self.cameraButton.transform = CGAffineTransformMakeScale(1.5, 1.5);}];
-//    [self.animator addCompletion:^(UIViewAnimatingPosition finalPosition) {
-//        self.animatorReverse = [[UIViewPropertyAnimator alloc] initWithDuration:2 curve:UIViewAnimationCurveEaseOut animations:^{
-//            self.cameraButton.transform = CGAffineTransformIdentity;
-//        }];
-//        [self.animatorReverse startAnimation];
-//    }];
-//
-//    self.animator = [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:2 delay:0 options:UIViewAnimationOptionRepeat animations:
-//                     ^{
-//        self.
-//        self.cameraButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
-//
-//    } completion:^(UIViewAnimatingPosition finalPosition) {
-//        self.cameraButton.transform = CGAffineTransformIdentity;
-//    }
-//    ];
-//
-//    [UIView animate]
 
 }
 
@@ -126,11 +94,6 @@
     animation.autoreverses = YES;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     [self.cameraButton.layer addAnimation:animation forKey:nil];
-    
-//    [UIView animateWithDuration:2 delay:0 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionAllowUserInteraction animations:^{
-//        self.cameraButton.transform = CGAffineTransformMakeScale(1.25, 1.25);
-//    }
-//    completion:nil];
 
 
     if(self.user==nil || [PFUser.currentUser.username isEqual:self.user[@"username"]]){ // when user goes to their own profile screen via tab menu
