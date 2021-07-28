@@ -28,7 +28,7 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [self configureDropDownMenu];
-    [self getLocationsFromCoordinate:@42.2383 longitude:@-87.9988];
+//    [self getLocationsFromCoordinate:@42.2384 longitude:@-87.9987];vgvctfuretuuutrdrlktikrhtrhnnjvn
 }
 
 - (float) distanceBetweenUsers: (PFUser *)user1 user2:(PFUser *) user2{
@@ -58,18 +58,15 @@
         for(int i=0; i<AllPins.count; i++){
             PFUser *user2 = AllPins[i];
             NSNumber *dist = [NSNumber numberWithFloat:[self distanceBetweenUsers:user1 user2:user2]];
-            if(dist <= distance){
+            if(dist.doubleValue < distance.doubleValue){
                 [temporaryCluster addObject:AllPins[i]];
                 [AllPins removeObjectAtIndex:i];
             }
         }
         
-        if(temporaryCluster.count > 0){
-            [temporaryCluster addObject:user1];
-            [self.clusters addObject:temporaryCluster];
-        }else{
-            [self.clusters addObject:user1];
-        }
+        [temporaryCluster addObject:user1];
+        [self.clusters addObject:temporaryCluster];
+
         
     }
 }
@@ -201,6 +198,7 @@
 
                         }
                         [self clusterLocations:@25];
+                        
                     }
                 }];
             }
