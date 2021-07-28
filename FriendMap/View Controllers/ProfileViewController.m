@@ -19,8 +19,16 @@
 
 @implementation ProfileViewController
 
-- (IBAction)onClickGetDirections:(id)sender {
-    NSString* directionsURL = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f",37.33, -122.03, 42.25, -87.97];
+- (IBAction)onClickGetDirections:(id)sender{
+    PFUser *currentUser = self.UserAndUserObjects[[NSString stringWithFormat:@"%@", PFUser.currentUser.username]];
+    NSNumber *currentUserLat = currentUser[@"lat"];
+    NSNumber *currentUserLon = currentUser[@"lon"];
+
+    
+    NSNumber *profileUserLat = self.user[@"lat"];
+    NSNumber *profileUserLon = self.user[@"lon"];
+    
+    NSString* directionsURL = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f",currentUserLat.floatValue, currentUserLon.floatValue, profileUserLat.floatValue, profileUserLon.floatValue];
     if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString: directionsURL] options:@{} completionHandler:^(BOOL success) {}];
     } else {

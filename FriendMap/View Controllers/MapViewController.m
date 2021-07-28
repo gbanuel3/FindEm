@@ -71,6 +71,39 @@
     }
 }
 
+- (void) CalculateMidpoint: (NSMutableArray *)users{
+    double sumOfX = 0;
+    double sumOfY = 0;
+    double sumOfZ = 0;
+    for(PFUser *user in users){
+        double x = cos([user[@"lat"] floatValue]*(M_PI/180)) * cos([user[@"lon"] floatValue]*(M_PI/180));
+        double y = cos([user[@"lat"] floatValue]*(M_PI/180)) * sin([user[@"lon"] floatValue]*(M_PI/180));
+        double z = sin([user[@"lat"] floatValue]*(M_PI/180));
+        
+        sumOfX += x;
+        sumOfY += y;
+        sumOfZ += z;
+    }
+    double avgOfX = sumOfX/users.count;
+    double avgOfY = sumOfY/users.count;
+    double avgOfZ = sumOfZ/users.count;
+    
+    double centerLon = atan2(avgOfY, avgOfX)*(180/M_PI);
+    double centerLat = atan2(avgOfZ, sqrt(avgOfX*avgOfX + avgOfY*avgOfY))*(180/M_PI);
+    
+
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(centerLat, centerLon);
+
+    MKPointAnnotation *annotation = [MKPointAnnotation new];
+    annotation.coordinate = coordinate;
+    annotation.title = [NSString stringWithFormat:@"Place to Meet!"];
+    
+    [self.mapView addAnnotation:annotation];
+//    [self.mapView viewForAnnotation:annotation];
+//    [self.AnnotationArray addObject:annotation];
+    
+}
+
 - (void) getLocationsFromCoordinate: (NSNumber *)latitude longitude:(NSNumber *) longitude{
     NSString *baseURLString = [NSString stringWithFormat:@"https://api.yelp.com/v3/businesses/search?latitude=%@&longitude=%@&sort_by=distance", latitude, longitude];
     
@@ -198,6 +231,7 @@
 
                         }
                         [self clusterLocations:@25];
+                        [self CalculateMidpoint:self.arrayOfUsers];
                         
                     }
                 }];
