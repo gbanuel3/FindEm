@@ -208,6 +208,7 @@
                     if(self.UsersAndImages.count == countOfPfps){
                         NSLog(@"Did finish group 1");
                         dispatch_group_leave(group);
+                        break;
                     }
                 }
                 
