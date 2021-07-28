@@ -11,11 +11,15 @@
 #import "MessageViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import <PFNavigationDropdownMenu/PFNavigationDropdownMenu.h>
+#import "MembersListViewController.h"
 
 
 @interface GroupViewController () <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSDate *lastTimestamp;
+@property NSTimeInterval lastClick;
+@property (nonatomic, strong) NSIndexPath *lastIndexPath;
+
 @end
 
 
@@ -241,15 +245,39 @@
     [self getGroups];
 }
 
+- (void)doSingleTap:(id)sender{
+    NSLog(@"single tap");
+    CGPoint point = [sender locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
+    GroupCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    [self performSegueWithIdentifier:@"cellSelectedSegue" sender:cell];
+}
 
-- (void)viewDidLoad {
+- (void)doDoubleTap:(id)sender{
+    NSLog(@"double tap");
+    CGPoint point = [sender locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
+    GroupCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    [self performSegueWithIdentifier:@"groupToMembers" sender:cell];
+}
+
+- (void)viewDidLoad{
     [super viewDidLoad];
     
-//    [self CurrentLocationIdentifier];
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
+    singleTap.numberOfTapsRequired = 1;
+    [self.tableView addGestureRecognizer:singleTap];
+
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:doubleTap];
+
+    [singleTap requireGestureRecognizerToFail:doubleTap];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    [self loadUsersAndImages];
     [self getGroups];
     
     [[self.tabBarController.tabBar.items objectAtIndex:2] setTitle:[NSString stringWithFormat:@"%@", PFUser.currentUser.username]];
@@ -285,7 +313,6 @@
     return self.arrayOfGroups.count;
 }
 
-
 #pragma mark - Navigation
 
 
@@ -296,6 +323,16 @@
         PFObject *group = self.arrayOfGroups[indexPath.row];
         MessageViewController *messageViewController = [segue destinationViewController];
         messageViewController.group = group;
+        return;
+    }
+    if([[segue identifier] isEqualToString:@"groupToMembers"]){
+        GroupCell *tappedCell = sender;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
+        PFObject *group = self.arrayOfGroups[indexPath.row];
+        MembersListViewController *membersListViewController = [segue destinationViewController];
+        membersListViewController.group = group;
+        membersListViewController.UserToImage = self.UsersAndImages;
+        membersListViewController.UserAndUserObjects = self.UserAndUserObjects;
         return;
     }
 }

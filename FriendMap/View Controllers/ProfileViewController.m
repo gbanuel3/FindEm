@@ -8,12 +8,25 @@
 #import "ProfileViewController.h"
 #import <Parse/Parse.h>
 #import "LoginViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+@property (strong, nonatomic) UIViewPropertyAnimator *animator;
+@property (strong, nonatomic) UIViewPropertyAnimator *animatorReverse;
 
 @end
 
 @implementation ProfileViewController
+
+- (IBAction)onClickGetDirections:(id)sender {
+    NSString* directionsURL = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f",37.33, -122.03, 42.25, -87.97];
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: directionsURL] options:@{} completionHandler:^(BOOL success) {}];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: directionsURL]];
+    }
+}
 
 - (IBAction)onClickCamera:(id)sender{
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
@@ -62,11 +75,56 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     
+//    [UIView animateWithDuration:4
+//                     animations:^{
+//                         self.cameraButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
+//                     }
+//                     completion:^(BOOL finished) {
+//                         [UIView animateWithDuration:4
+//                                          animations:^{
+//                                              self.cameraButton.transform = CGAffineTransformIdentity;
+//
+//                                          }];
+//                     }];
+//    self.animator = [[UIViewPropertyAnimator alloc] initWithDuration:2 curve:UIViewAnimationCurveEaseOut animations:^{
+//        self.cameraButton.transform = CGAffineTransformMakeScale(1.5, 1.5);}];
+//    [self.animator addCompletion:^(UIViewAnimatingPosition finalPosition) {
+//        self.animatorReverse = [[UIViewPropertyAnimator alloc] initWithDuration:2 curve:UIViewAnimationCurveEaseOut animations:^{
+//            self.cameraButton.transform = CGAffineTransformIdentity;
+//        }];
+//        [self.animatorReverse startAnimation];
+//    }];
+//
+//    self.animator = [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:2 delay:0 options:UIViewAnimationOptionRepeat animations:
+//                     ^{
+//        self.
+//        self.cameraButton.transform = CGAffineTransformMakeScale(1.5, 1.5);
+//
+//    } completion:^(UIViewAnimatingPosition finalPosition) {
+//        self.cameraButton.transform = CGAffineTransformIdentity;
+//    }
+//    ];
+//
+//    [UIView animate]
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewDidDisappear:YES];
+
 
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    
+    [super viewDidAppear:YES];
+
+
+    [UIView animateWithDuration:2 delay:0 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionAllowUserInteraction animations:^{
+        self.cameraButton.transform = CGAffineTransformMakeScale(1.25, 1.25);
+    }
+                     completion:nil];
+
+
     if(self.user==nil || [PFUser.currentUser.username isEqual:self.user[@"username"]]){ // when user goes to their own profile screen via tab menu
         [self.directionsButton setHidden:YES];
         NSLog(@"own profile");

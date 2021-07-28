@@ -87,7 +87,6 @@
 
 
 - (void)MessageCell:(MessageTableViewCell *)messageCell didTap:(Message *)message{
-    NSLog(@"ented here!!");
     [self performSegueWithIdentifier:@"chatToProfile" sender:message];
 }
 
@@ -387,10 +386,6 @@
 
 - (void)refreshMessageFeed:(id)sender
 {
-//    int sentences = (arc4random() % 10);
-//    if (sentences <= 1) sentences = 1;
-//
-//    [self editText:[LoremIpsum sentencesWithNumber:sentences]];
     if(self.isAnimating==YES){
         [self.hud hideAnimated:YES];
         self.isAnimating = NO;
@@ -423,16 +418,8 @@
 
 
 
-- (void)textInputbarDidMove:(NSNotification *)note
-{
-    if (!_pipWindow) {
-        return;
-    }
-    
-    CGRect frame = self.pipWindow.frame;
-    frame.origin.y = [note.userInfo[@"origin"] CGPointValue].y - 60.0;
-    
-    self.pipWindow.frame = frame;
+- (void)textInputbarDidMove:(NSNotification *)note{
+    return;
 }
 
 
