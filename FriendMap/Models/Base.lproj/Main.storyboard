@@ -517,7 +517,6 @@
         <!--Meeting View Controller-->
         <scene sceneID="Sfv-eP-6Gk">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aPe-qg-Ycs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController modalPresentationStyle="fullScreen" id="in0-AC-HzU" customClass="MeetingViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NVQ-Ht-gZY">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
@@ -587,6 +586,7 @@
                         <outlet property="tableView" destination="Pnq-WN-5M0" id="Xre-QJ-wJ3"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aPe-qg-Ycs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3250.7692307692305" y="3650.4739336492889"/>
         </scene>

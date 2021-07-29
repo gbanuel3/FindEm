@@ -34,6 +34,7 @@
 		2B667D3726A94ABC00792451 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D3626A94ABC00792451 /* LocationManager.m */; };
 		2B667D4526B20C4800792451 /* MeetingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D4426B20C4800792451 /* MeetingViewController.m */; };
 		2B667D4826B2135600792451 /* ClusterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D4726B2135600792451 /* ClusterCell.m */; };
+		2B667D4A26B31A0200792451 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B667D4926B31A0200792451 /* Keys.plist */; };
 		614E0FA978DC8FE1F26DC95C /* Pods_FriendMap_FriendMapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */; };
 		77965291AC77C5E31F77A9EC /* Pods_FriendMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C802AF0660674E8FC54375DA /* Pods_FriendMap.framework */; };
 		E1CE6A866054112653C09FD3 /* Pods_FriendMapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDF498AEEC8A5AEA44958BE3 /* Pods_FriendMapTests.framework */; };
@@ -110,6 +111,7 @@
 		2B667D4426B20C4800792451 /* MeetingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingViewController.m; sourceTree = "<group>"; };
 		2B667D4626B2135600792451 /* ClusterCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClusterCell.h; sourceTree = "<group>"; };
 		2B667D4726B2135600792451 /* ClusterCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClusterCell.m; sourceTree = "<group>"; };
+		2B667D4926B31A0200792451 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Keys.plist; path = FriendMap/Keys.plist; sourceTree = SOURCE_ROOT; };
 		3D07E2E71F2B14FBC2D49EF8 /* Pods-FriendMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap.release.xcconfig"; path = "Target Support Files/Pods-FriendMap/Pods-FriendMap.release.xcconfig"; sourceTree = "<group>"; };
 		48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FriendMap_FriendMapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57F254F0FADDA707C23B69E2 /* Pods-FriendMap-FriendMapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap-FriendMapUITests.debug.xcconfig"; path = "Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap-FriendMapUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 		2B667C94269CA50100792451 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2B667D4926B31A0200792451 /* Keys.plist */,
 				2B667C66269CA41F00792451 /* Main.storyboard */,
 				2B667C6B269CA42000792451 /* LaunchScreen.storyboard */,
 				2B667C69269CA42000792451 /* Assets.xcassets */,
@@ -405,6 +408,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B667D4A26B31A0200792451 /* Keys.plist in Resources */,
 				2B667C6D269CA42000792451 /* LaunchScreen.storyboard in Resources */,
 				2B667C6A269CA42000792451 /* Assets.xcassets in Resources */,
 				2B667C68269CA41F00792451 /* Main.storyboard in Resources */,

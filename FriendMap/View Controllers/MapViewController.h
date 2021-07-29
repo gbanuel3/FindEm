@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray *arrayOfUsers;
 @property (nonatomic, strong) NSMutableArray *clusters;
 @property (weak, nonatomic) IBOutlet UIButton *meetButton;
+@property (nonatomic, strong) NSString *client_key;
 
 
 

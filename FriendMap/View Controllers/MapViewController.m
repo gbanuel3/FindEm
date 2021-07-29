@@ -19,37 +19,43 @@
 
 @implementation MapViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad{
     [super viewDidLoad];
     self.mapView.delegate = self;
     [self.meetButton setHidden:YES];
+    [self getClientKey];
     
-    [self getLocationsFromCoordinate:@42.23 longitude:@-87.999];
+    [self getLocationsFromCoordinateLatitude:@42.23 longitude:@-87.999];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [self configureDropDownMenu];
-//    [self getLocationsFromCoordinate:@42.2384 longitude:@-87.9987];vgvctfuretuuutrdrlktikrhtrhnnjvn
+
 }
 
-- (float) distanceBetweenUsers: (PFUser *)user1 user2:(PFUser *) user2{
-
-    NSNumber *user1Lat = user1[@"lat"];
-    NSNumber *user1lon = user1[@"lon"];
-    CLLocation *location1 = [[CLLocation alloc] initWithLatitude:user1Lat.floatValue longitude: user1lon.floatValue];
+- (void)getClientKey{
+    NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
+    NSString *clientKey= [dict objectForKey: @"API_Client"];
+    self.client_key = clientKey;
     
-    NSNumber *user2lat = user2[@"lat"];
-    NSNumber *user2lon = user2[@"lon"];
-    CLLocation *location2 = [[CLLocation alloc] initWithLatitude:user2lat.floatValue longitude:user2lon.floatValue];
-    CLLocationDistance distance = [location1 distanceFromLocation:location2];
-    CLLocationDistance distanceInMiles = distance*0.000621371;
+}
+
+- (double) distanceBetweenUsers:(PFUser *)user1 user2:(PFUser *) user2{
+    const double metersToMilesMultplier = 0.000621371;
+    NSNumber *user1Lat = user1[@"lat"];
+    NSNumber *user1Lon = user1[@"lon"];
+    CLLocation *location1 = [[CLLocation alloc] initWithLatitude:user1Lat.floatValue longitude: user1Lon.floatValue];
+    
+    NSNumber *user2Lat = user2[@"lat"];
+    NSNumber *user2Lon = user2[@"lon"];
+    CLLocation *location2 = [[CLLocation alloc] initWithLatitude:user2Lat.floatValue longitude:user2Lon.floatValue];
+    CLLocationDistance distanceInMeters = [location1 distanceFromLocation:location2];
+    CLLocationDistance distanceInMiles = distanceInMeters*metersToMilesMultplier;
     return distanceInMiles;
 }
-- (IBAction)findOptimalPlaceToMeet:(id)sender{
-    [self performSegueWithIdentifier:@"placeToMeetSegue" sender:nil];
-}
 
-- (void) clusterLocations: (NSNumber *)distance{
+- (void)clusterLocations:(NSNumber *)distance{
     NSMutableArray *AllPins = [[NSMutableArray alloc] initWithArray:self.arrayOfUsers];
     self.clusters = [[NSMutableArray alloc] init];
     
@@ -71,14 +77,18 @@
         [temporaryCluster addObject:user1];
         [self.clusters addObject:temporaryCluster];
 
-        
     }
 }
 
-- (void) CalculateMidpoint: (NSMutableArray *)users{
+- (IBAction)findOptimalPlaceToMeet:(id)sender{
+    [self performSegueWithIdentifier:@"placeToMeetSegue" sender:nil];
+}
+
+- (void)CalculateMidpoint:(NSMutableArray *)users{
     double sumOfX = 0;
     double sumOfY = 0;
     double sumOfZ = 0;
+    
     for(PFUser *user in users){
         double x = cos([user[@"lat"] floatValue]*(M_PI/180)) * cos([user[@"lon"] floatValue]*(M_PI/180));
         double y = cos([user[@"lat"] floatValue]*(M_PI/180)) * sin([user[@"lon"] floatValue]*(M_PI/180));
@@ -103,17 +113,15 @@
     annotation.title = [NSString stringWithFormat:@"Place to Meet!"];
     
     [self.mapView addAnnotation:annotation];
-//    [self.mapView viewForAnnotation:annotation];
-//    [self.AnnotationArray addObject:annotation];
     
 }
 
-- (void) getLocationsFromCoordinate: (NSNumber *)latitude longitude:(NSNumber *) longitude{
+- (void)getLocationsFromCoordinateLatitude:(NSNumber *)latitude longitude:(NSNumber *) longitude{
     NSString *baseURLString = [NSString stringWithFormat:@"https://api.yelp.com/v3/businesses/search?latitude=%@&longitude=%@&sort_by=distance", latitude, longitude];
     
     NSURL *url = [NSURL URLWithString:baseURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request addValue:@"Bearer wVuZ2efCWzeLYNpRe_byOsPy6GARksBDt5RzwLSbDnkmdm4Cd1gGQATQiStUhQ-6_4AoeV5jR94P93VD9AITvXoR3axB792jTsSmbUFSbANXSj0XPidt_qtj3gkBYXYx" forHTTPHeaderField:@"Authorization"];
+    [request addValue:[NSString stringWithFormat:@"Bearer %@", self.client_key] forHTTPHeaderField:@"Authorization"];
 
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -173,6 +181,7 @@
     
     
     NSMutableArray *items = [[NSMutableArray alloc] initWithObjects:@"No Group Selected...", nil];
+    
     for(int i=0; i<self.arrayOfGroups.count; i++){
         [items addObject:self.arrayOfGroups[i][@"name"]];
     }
@@ -241,7 +250,7 @@
                         }
                         [self clusterLocations:@25];
                         [self CalculateMidpoint:self.arrayOfUsers];
-                        [self getLocationsFromCoordinate:@42.23 longitude:@-87.999];
+                        [self getLocationsFromCoordinateLatitude:@42.23 longitude:@-87.999];
                     }
                 }];
             }
