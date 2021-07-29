@@ -25,7 +25,7 @@
     [self.meetButton setHidden:YES];
     [self getClientKey];
     
-    [self getLocationsFromCoordinateLatitude:@42.23 longitude:@-87.999];
+//    [self getLocationsFromCoordinateLatitude:@42.23 longitude:@-87.999];
 }
 
 - (void)viewDidAppear:(BOOL)animated{

@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *meetingLabel;
 @property (nonatomic, strong) NSMutableArray *arrayOfUsersInGroup;
 @property (nonatomic, strong) PFObject *group;
+@property (nonatomic, strong) NSMutableArray *arrayOfClusters;
 
 @end
 
