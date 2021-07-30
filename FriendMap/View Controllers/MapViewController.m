@@ -24,11 +24,10 @@
     [super viewDidLoad];
     self.mapView.delegate = self;
     [self.meetButton setHidden:YES];
-    
+    [self configureDropDownMenu];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    [self configureDropDownMenu];
 
 }
 
