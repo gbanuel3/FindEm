@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "CustomButton.h"
 #import <Parse/Parse.h>
+#import "MapViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableDictionary *UsersAndUserObjects;
 @property (nonatomic, strong) NSMutableArray *arrayOfBusinesses;
 @property (nonatomic, strong) NSString *API_Key;
+@property (nonatomic, strong) MapViewController *storedDelegate;
 
 @end
 

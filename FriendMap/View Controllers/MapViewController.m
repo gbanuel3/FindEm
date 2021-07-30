@@ -12,6 +12,7 @@
 #import <Parse/Parse.h>
 #import "ProfileViewController.h"
 #import "MeetingViewController.h"
+#import "LocationViewController.h"
 
 @interface MapViewController ()
 
@@ -158,6 +159,23 @@
     self.navigationItem.titleView = menuView;
 }
 
+- (void)locationsViewController:(LocationViewController *)controller didPickLocationWithLatitude:(NSNumber *)latitude longitude:(NSNumber *)longitude business:(NSString *)business{
+    
+    NSNumber *lat = latitude;
+    NSNumber *lon = longitude;
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat.floatValue, lon.floatValue);
+
+    MKPointAnnotation *annotation = [MKPointAnnotation new];
+    annotation.coordinate = coordinate;
+    annotation.title = business;
+    
+    [self.mapView addAnnotation:annotation];
+    [self.mapView viewForAnnotation:annotation];
+    [self.AnnotationArray addObject:annotation];
+    [self.mapView showAnnotations:self.AnnotationArray animated:YES];
+    
+}
+
 
 #pragma mark - Navigation
 
@@ -177,6 +195,7 @@
         meetingViewController.arrayOfUsersInGroup = self.arrayOfUsers;
         meetingViewController.UsersAndUserImages = self.UsersAndImages;
         meetingViewController.UsersAndUserObjects = self.UsersAndUserObjects;
+        meetingViewController.storedDelegate = self;
 
         return;
     }

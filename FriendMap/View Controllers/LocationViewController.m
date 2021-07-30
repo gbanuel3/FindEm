@@ -11,6 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <Parse/Parse.h>
 #import "UIImageView+AFNetworking.h"
+#import "MapViewController.h"
 
 @interface LocationViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -91,6 +92,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.arrayOfBusinesses.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    NSLog(@"clicked here!");
+    NSMutableDictionary *business = self.arrayOfBusinesses[indexPath.row];
+    NSNumber *businessLat = business[@"coordinates"][@"latitude"];
+    NSNumber *businessLon = business[@"coordinates"][@"longitude"];
+    [self.delegate locationsViewController:self didPickLocationWithLatitude:businessLat longitude:businessLon business:business[@"name"]];
+//    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 /*

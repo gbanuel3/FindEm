@@ -220,6 +220,7 @@
         LocationViewController *locationViewController = [segue destinationViewController];
         locationViewController.arrayOfBusinesses = self.arrayOfBusinesses;
         locationViewController.UserAndUserObjects = self.UsersAndUserObjects;
+        locationViewController.delegate = self.storedDelegate;
     }
 }
 

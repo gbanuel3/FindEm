@@ -8,11 +8,12 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <Parse/Parse.h>
+#import "LocationViewController.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MapViewController : UIViewController <MKMapViewDelegate>
+@interface MapViewController : UIViewController <MKMapViewDelegate, LocationViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) NSMutableArray *arrayOfGroups;
 @property (nonatomic, strong) NSMutableArray *AnnotationArray;
