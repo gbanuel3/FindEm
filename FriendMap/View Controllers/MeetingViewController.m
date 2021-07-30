@@ -35,6 +35,7 @@
     while(AllPins.count > 0){
         
         NSMutableArray *temporaryCluster = [[NSMutableArray alloc] init];
+        NSMutableArray *ObjectsToRemove = [[NSMutableArray alloc] init];
         PFUser *user1 = [AllPins firstObject];
         [AllPins removeObjectAtIndex:0];
         
@@ -43,8 +44,12 @@
             NSNumber *dist = [NSNumber numberWithFloat:[self distanceBetweenUsers:user1 user2:user2]];
             if(dist.doubleValue < distance.doubleValue){
                 [temporaryCluster addObject:AllPins[i]];
-                [AllPins removeObjectAtIndex:i];
+                [ObjectsToRemove addObject:AllPins[i]];
             }
+        }
+        
+        for(int i=0; i<ObjectsToRemove.count; i++){
+            [AllPins removeObject: ObjectsToRemove[i]];
         }
         
         [temporaryCluster addObject:user1];
@@ -52,6 +57,40 @@
 
     }
 }
+
+- (CLLocationCoordinate2D)CalculateMidpoint:(NSMutableArray *)users{
+    double sumOfX = 0;
+    double sumOfY = 0;
+    double sumOfZ = 0;
+    
+    for(PFUser *user in users){
+        double x = cos([user[@"lat"] floatValue]*(M_PI/180)) * cos([user[@"lon"] floatValue]*(M_PI/180));
+        double y = cos([user[@"lat"] floatValue]*(M_PI/180)) * sin([user[@"lon"] floatValue]*(M_PI/180));
+        double z = sin([user[@"lat"] floatValue]*(M_PI/180));
+        
+        sumOfX += x;
+        sumOfY += y;
+        sumOfZ += z;
+    }
+    double avgOfX = sumOfX/users.count;
+    double avgOfY = sumOfY/users.count;
+    double avgOfZ = sumOfZ/users.count;
+    
+    double centerLon = atan2(avgOfY, avgOfX)*(180/M_PI);
+    double centerLat = atan2(avgOfZ, sqrt(avgOfX*avgOfX + avgOfY*avgOfY))*(180/M_PI);
+    
+    NSLog(@"Lat: %f == Lon: %f", centerLat, centerLon);
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(centerLat, centerLon);
+    return coordinate;
+    
+//    MKPointAnnotation *annotation = [MKPointAnnotation new];
+//    annotation.coordinate = coordinate;
+//    annotation.title = [NSString stringWithFormat:@"Place to Meet!"];
+//
+//    [self.mapView addAnnotation:annotation];
+    
+}
+
 
 - (IBAction)onClickCalculate:(id)sender{
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
@@ -71,7 +110,11 @@
     }else{
         [self.tableView setHidden:NO];
         [self clusterLocations:distance];
-        NSLog(@"%@", self.arrayOfClusters);
+        self.arrayOfClusters = [self.arrayOfClusters sortedArrayUsingComparator:^NSComparisonResult(NSMutableArray *a, NSMutableArray *b) {
+            return a.count < b.count;
+        }];
+        [self.tableView reloadData];
+        
     }
 }
 
@@ -100,13 +143,27 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ClusterCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ClusterCell" forIndexPath:indexPath];
-    NSMutableArray *cluster = self.arrayOfClusters;
+    
+    NSMutableArray *cluster = self.arrayOfClusters[indexPath.row];
+    CLLocationCoordinate2D coordinate = [self CalculateMidpoint:cluster];
+    
+    CLGeocoder *ceo = [[CLGeocoder alloc]init];
+    CLLocation *loc = [[CLLocation alloc]initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+    [ceo reverseGeocodeLocation: loc completionHandler:
+     ^(NSArray *placemarks, NSError *error) {
+         CLPlacemark *placemark = [placemarks objectAtIndex:0];
+
+        NSString *address = [NSString stringWithFormat:@"%@ %@, %@", [placemark.addressDictionary valueForKey:@"City"], [placemark.addressDictionary valueForKey:@"State"], [placemark.addressDictionary valueForKey:@"Country"]];
+        cell.addressLabel.text = address;
+        cell.membersIncludedLabel.text = [NSString stringWithFormat:@"Members Included: %lu", (unsigned long)cluster.count];
+     }];
+//    NSLog(@"%@", [self locationFromCoordinate:[self CalculateMidpoint:cluster]]);
     return cell;
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return self.arrayOfClusters.count;
 }
  
 /*

@@ -78,6 +78,7 @@
         [self.clusters addObject:temporaryCluster];
 
     }
+    NSLog(@"%@", self.clusters);
 }
 
 - (IBAction)findOptimalPlaceToMeet:(id)sender{
@@ -105,7 +106,7 @@
     double centerLon = atan2(avgOfY, avgOfX)*(180/M_PI);
     double centerLat = atan2(avgOfZ, sqrt(avgOfX*avgOfX + avgOfY*avgOfY))*(180/M_PI);
     
-
+    NSLog(@"Lat: %f == Lon: %f", centerLat, centerLon);
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(centerLat, centerLon);
 
     MKPointAnnotation *annotation = [MKPointAnnotation new];
@@ -248,9 +249,9 @@
                             }
 
                         }
-                        [self clusterLocations:@25];
-                        [self CalculateMidpoint:self.arrayOfUsers];
-                        [self getLocationsFromCoordinateLatitude:@42.23 longitude:@-87.999];
+//                        [self clusterLocations:@500];
+//                        [self CalculateMidpoint:self.arrayOfUsers];
+//                        [self getLocationsFromCoordinateLatitude:@42.23 longitude:@-87.999];
                     }
                 }];
             }
