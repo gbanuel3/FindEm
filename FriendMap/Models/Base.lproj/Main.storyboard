@@ -386,7 +386,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kqk-sU-b4i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-255" y="3891"/>
+            <point key="canvasLocation" x="495" y="3953"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Smf-GE-GWf">
@@ -529,7 +529,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="103" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Pnq-WN-5M0">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="103" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Pnq-WN-5M0">
                                 <rect key="frame" x="0.0" y="124" width="390" height="720"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -542,24 +542,33 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6K-Ug-1WP">
-                                                    <rect key="frame" x="20" y="11" width="350" height="39"/>
+                                                    <rect key="frame" x="20" y="11" width="258" height="39"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I2J-MM-ZaX">
-                                                    <rect key="frame" x="20" y="53" width="350" height="39"/>
+                                                    <rect key="frame" x="20" y="53" width="258" height="39"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J6A-gc-DVC">
+                                                    <rect key="frame" x="317" y="11" width="56" height="42"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="person.2.fill" catalog="system"/>
+                                                    <connections>
+                                                        <segue destination="nhZ-Xe-7iW" kind="presentation" identifier="clusterToMembersSegue" id="7Of-SC-nCW"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="addressLabel" destination="a6K-Ug-1WP" id="5BV-lI-YTQ"/>
                                             <outlet property="membersIncludedLabel" destination="I2J-MM-ZaX" id="Asn-2B-VO1"/>
+                                            <outlet property="seeMembersButton" destination="J6A-gc-DVC" id="gt0-cs-uFO"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -599,7 +608,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aPe-qg-Ycs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3250.7692307692305" y="3650.4739336492889"/>
+            <point key="canvasLocation" x="3028" y="3689"/>
         </scene>
         <!--Groups-->
         <scene sceneID="QOa-Vv-0Z5">
@@ -676,12 +685,13 @@
     <inferredMetricsTieBreakers>
         <segue reference="5x1-KQ-F32"/>
         <segue reference="lJT-ah-sH1"/>
-        <segue reference="BSb-s2-mKy"/>
+        <segue reference="7Of-SC-nCW"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="clipart19271" width="25" height="25"/>
         <image name="feed_tab" width="25" height="25"/>
         <image name="icn_upload" width="24" height="24"/>
+        <image name="person.2.fill" catalog="system" width="128" height="80"/>
         <image name="person.3.fill" catalog="system" width="128" height="61"/>
         <image name="photo.fill.on.rectangle.fill" catalog="system" width="128" height="96"/>
         <image name="profile_tab" width="25" height="25"/>

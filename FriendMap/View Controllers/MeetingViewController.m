@@ -7,12 +7,15 @@
 
 #import "MeetingViewController.h"
 #import "ClusterCell.h"
+#import "MembersListViewController.h"
 
 @interface MeetingViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
 @end
 
 @implementation MeetingViewController
+
+
 
 - (double) distanceBetweenUsers:(PFUser *)user1 user2:(PFUser *) user2{
     const double metersToMilesMultplier = 0.000621371;
@@ -156,6 +159,7 @@
         NSString *address = [NSString stringWithFormat:@"%@ %@, %@", [placemark.addressDictionary valueForKey:@"City"], [placemark.addressDictionary valueForKey:@"State"], [placemark.addressDictionary valueForKey:@"Country"]];
         cell.addressLabel.text = address;
         cell.membersIncludedLabel.text = [NSString stringWithFormat:@"Members Included: %lu", (unsigned long)cluster.count];
+        cell.seeMembersButton.tag = indexPath.row;
      }];
 //    NSLog(@"%@", [self locationFromCoordinate:[self CalculateMidpoint:cluster]]);
     return cell;
@@ -166,14 +170,21 @@
     return self.arrayOfClusters.count;
 }
  
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if([[segue identifier] isEqualToString:@"clusterToMembersSegue"]){
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[sender tag] inSection:0];
+        NSMutableArray *cluster = self.arrayOfClusters[indexPath.row];
+        MembersListViewController *membersListViewController = [segue destinationViewController];
+        membersListViewController.UserToImage = self.UsersAndUserImages;
+        membersListViewController.UserAndUserObjects = self.UsersAndUserObjects;
+        membersListViewController.cluster = cluster;
+        return;
+    }
 }
-*/
+
 
 @end

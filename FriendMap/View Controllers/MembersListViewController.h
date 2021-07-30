@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) PFUser *user;
 @property (strong, nonatomic) NSMutableDictionary *UserToImage;
 @property (strong, nonatomic) NSMutableDictionary *UserAndUserObjects;
+@property (nonatomic, strong) NSMutableArray *cluster;
 
 @end
 

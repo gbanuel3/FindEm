@@ -24,13 +24,24 @@
     [super viewDidLoad];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.arrayOfMembers = self.group[@"members"];
-    self.groupCodeField.text = [NSString stringWithFormat:@"Group Code: %@", self.group.objectId];
-//    NSLog(@"%@", self.group);
+
+    if(self.group){
+        self.groupCodeField.text = [NSString stringWithFormat:@"Group Code: %@", self.group.objectId];
+        [self.groupCodeField setHidden:NO];
+    }else{
+        [self.groupCodeField setHidden:YES];
+    }
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    self.arrayOfMembers = self.group[@"members"];
+- (void)viewWillAppear:(BOOL)animated{
+    
+    if(self.group!=nil){
+        self.arrayOfMembers = self.group[@"members"];
+        NSLog(@"%@", self.arrayOfMembers);
+    }else{
+        self.arrayOfMembers = self.cluster;
+    }
+
     
 }
 
@@ -58,8 +69,6 @@
         }
     }];
     
-//    cell.memberNameLabel.text = user.username;
-//    cell.memberProfilePicture.text = [NSString stringWithFormat:@"Members: %@", group[@"number_of_members"]];
     return cell;
 }
 

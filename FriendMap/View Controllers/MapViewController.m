@@ -281,7 +281,8 @@
     if([[segue identifier] isEqualToString:@"placeToMeetSegue"]){
         MeetingViewController *meetingViewController = [segue destinationViewController];
         meetingViewController.arrayOfUsersInGroup = self.arrayOfUsers;
-//        meetingViewController
+        meetingViewController.UsersAndUserImages = self.UsersAndImages;
+        meetingViewController.UsersAndUserObjects = self.UsersAndUserObjects;
 
         return;
     }
