@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray *arrayOfClusters;
 @property (nonatomic, strong) NSMutableDictionary *UsersAndUserImages;
 @property (nonatomic, strong) NSMutableDictionary *UsersAndUserObjects;
+@property (nonatomic, strong) NSMutableArray *arrayOfBusinesses;
+@property (nonatomic, strong) NSString *API_Key;
 
 @end
 

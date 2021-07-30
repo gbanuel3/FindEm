@@ -8,7 +8,6 @@
 #import "ProfileViewController.h"
 #import <Parse/Parse.h>
 #import "LoginViewController.h"
-#import <QuartzCore/QuartzCore.h>
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 

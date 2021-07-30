@@ -8,6 +8,7 @@
 #import "MeetingViewController.h"
 #import "ClusterCell.h"
 #import "MembersListViewController.h"
+#import "LocationViewController.h"
 
 @interface MeetingViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
@@ -15,7 +16,35 @@
 
 @implementation MeetingViewController
 
+- (void)getClientKey{
+    NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
+    NSString *clientKey= [dict objectForKey: @"API_Client"];
+    self.API_Key = clientKey;
+    
+}
 
+
+- (void)getLocationsFromCoordinateLatitude:(NSNumber *)latitude longitude:(NSNumber *) longitude{
+    NSString *baseURLString = [NSString stringWithFormat:@"https://api.yelp.com/v3/businesses/search?latitude=%@&longitude=%@&sort_by=distance", latitude, longitude];
+    
+    NSURL *url = [NSURL URLWithString:baseURLString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request addValue:[NSString stringWithFormat:@"Bearer %@", self.API_Key] forHTTPHeaderField:@"Authorization"];
+
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if(data){
+            NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            
+            self.arrayOfBusinesses = [responseDictionary valueForKeyPath:@"businesses"];
+            [self performSegueWithIdentifier:@"LocationSegue" sender:nil];
+        }else{
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+    [task resume];
+}
 
 - (double) distanceBetweenUsers:(PFUser *)user1 user2:(PFUser *) user2{
     const double metersToMilesMultplier = 0.000621371;
@@ -86,12 +115,6 @@
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(centerLat, centerLon);
     return coordinate;
     
-//    MKPointAnnotation *annotation = [MKPointAnnotation new];
-//    annotation.coordinate = coordinate;
-//    annotation.title = [NSString stringWithFormat:@"Place to Meet!"];
-//
-//    [self.mapView addAnnotation:annotation];
-    
 }
 
 
@@ -131,6 +154,9 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.distanceField.delegate = self;
+    
+    [self getClientKey];
+    
     [self.distanceField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     
     [self.tableView setHidden:YES];
@@ -161,13 +187,19 @@
         cell.membersIncludedLabel.text = [NSString stringWithFormat:@"Members Included: %lu", (unsigned long)cluster.count];
         cell.seeMembersButton.tag = indexPath.row;
      }];
-//    NSLog(@"%@", [self locationFromCoordinate:[self CalculateMidpoint:cluster]]);
+
     return cell;
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.arrayOfClusters.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSMutableArray *cluster = self.arrayOfClusters[indexPath.row];
+    CLLocationCoordinate2D coordinate = [self CalculateMidpoint:cluster];
+    [self getLocationsFromCoordinateLatitude:[NSNumber numberWithDouble:coordinate.latitude] longitude:[NSNumber numberWithFloat:coordinate.longitude]];
 }
  
 
@@ -183,6 +215,11 @@
         membersListViewController.UserAndUserObjects = self.UsersAndUserObjects;
         membersListViewController.cluster = cluster;
         return;
+    }
+    if([[segue identifier] isEqualToString:@"LocationSegue"]){
+        LocationViewController *locationViewController = [segue destinationViewController];
+        locationViewController.arrayOfBusinesses = self.arrayOfBusinesses;
+        locationViewController.UserAndUserObjects = self.UsersAndUserObjects;
     }
 }
 
