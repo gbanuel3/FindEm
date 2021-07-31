@@ -122,7 +122,7 @@
                             }
                         }];
                     }else{
-                        self.profileImage.image = [UIImage systemImageNamed:@"questionmark.square"];
+                        self.profileImage.image = [UIImage systemImageNamed:@"person"];
                     }
                 }
             }];
@@ -137,7 +137,7 @@
         if(self.UsersAndImages[self.user.username]){
             self.profileImage.image = [UIImage imageWithData:self.UsersAndImages[self.user.username]];
         }else{
-            self.profileImage.image = [UIImage systemImageNamed:@"questionmark.square"];
+            self.profileImage.image = [UIImage systemImageNamed:@"person"];
         }
         PFUser *currentUser = self.UserAndUserObjects[[NSString stringWithFormat:@"%@", PFUser.currentUser.username]];
         NSNumber *currentUserLat = currentUser[@"lat"];

@@ -57,7 +57,7 @@
     if(self.UsersAndImages[annotation.title]){
         imageView.image = [UIImage imageWithData:self.UsersAndImages[annotation.title]];
     }else{
-        imageView.image = [UIImage systemImageNamed:@"questionmark.square"];
+        imageView.image = [UIImage systemImageNamed:@"person"];
     }
      return annotationView;
  }

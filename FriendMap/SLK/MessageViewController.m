@@ -341,46 +341,6 @@
 
 }
 
-- (void)didLongPressCell:(UIGestureRecognizer *)gesture
-{
-    if (gesture.state != UIGestureRecognizerStateBegan) {
-        return;
-    }
-
-#ifdef __IPHONE_8_0
-    if (SLK_IS_IOS8_AND_HIGHER && [UIAlertController class]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        alertController.modalPresentationStyle = UIModalPresentationPopover;
-        alertController.popoverPresentationController.sourceView = gesture.view.superview;
-        alertController.popoverPresentationController.sourceRect = gesture.view.frame;
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Edit Message" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self editCellMessage:gesture];
-        }]];
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:NULL]];
-        
-        [self.navigationController presentViewController:alertController animated:YES completion:nil];
-    }
-    else {
-        [self editCellMessage:gesture];
-    }
-#else
-    [self editCellMessage:gesture];
-#endif
-}
-
-- (void)editCellMessage:(UIGestureRecognizer *)gesture
-{
-    MessageTableViewCell *cell = (MessageTableViewCell *)gesture.view;
-    
-    self.editingMessage = self.messages[cell.indexPath.row];
-    
-    [self editText:self.editingMessage.text];
-    
-    [self.tableView scrollToRowAtIndexPath:cell.indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-}
-
 - (void)refreshMessageFeed:(id)sender
 {
     if(self.isAnimating==YES){
@@ -391,22 +351,6 @@
     [self configureDataSource];
     [self.refreshItem setAccessibilityRespondsToUserInteraction:YES];
 
-}
-
-- (void)editLastMessage:(id)sender
-{
-    if (self.textView.text.length > 0) {
-        return;
-    }
-    
-    NSInteger lastSectionIndex = [self.tableView numberOfSections]-1;
-    NSInteger lastRowIndex = [self.tableView numberOfRowsInSection:lastSectionIndex]-1;
-    
-    Message *lastMessage = [self.messages objectAtIndex:lastRowIndex];
-    
-    [self editText:lastMessage.text];
-    
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRowIndex inSection:lastSectionIndex] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
 - (void)showMembersButton:(id)sender{
@@ -498,14 +442,9 @@
     [super didPressRightButton:sender];
 }
 
-- (void)didPressArrowKey:(UIKeyCommand *)keyCommand
-{
-    if ([keyCommand.input isEqualToString:UIKeyInputUpArrow] && self.textView.text.length == 0) {
-        [self editLastMessage:nil];
-    }
-    else {
-        [super didPressArrowKey:keyCommand];
-    }
+- (void)didPressArrowKey:(UIKeyCommand *)keyCommand{
+
+    [super didPressArrowKey:keyCommand];
 }
 
 - (NSString *)keyForTextCaching
@@ -513,53 +452,8 @@
     return [[NSBundle mainBundle] bundleIdentifier];
 }
 
-- (void)didPasteMediaContent:(NSDictionary *)userInfo
-{
-    // Notifies the view controller when the user has pasted a media (image, video, etc) inside of the text view.
-    [super didPasteMediaContent:userInfo];
-    
-    SLKPastableMediaType mediaType = [userInfo[SLKTextViewPastedItemMediaType] integerValue];
-    NSString *contentType = userInfo[SLKTextViewPastedItemContentType];
-    id data = userInfo[SLKTextViewPastedItemData];
-    
-    NSLog(@"%s : %@ (type = %ld) | data : %@",__FUNCTION__, contentType, (unsigned long)mediaType, data);
-}
-
-- (void)willRequestUndo
-{
-    // Notifies the view controller when a user did shake the device to undo the typed text
-    
-    [super willRequestUndo];
-}
-
-- (void)didCommitTextEditing:(id)sender
-{
-    // Notifies the view controller when tapped on the right "Accept" button for commiting the edited text
-    self.editingMessage.text = [self.textView.text copy];
-    
-    [self.tableView reloadData];
-    
-    [super didCommitTextEditing:sender];
-}
-
-- (void)didCancelTextEditing:(id)sender
-{
-    // Notifies the view controller when tapped on the left "Cancel" button
-    
-    [super didCancelTextEditing:sender];
-}
-
 - (BOOL)canPressRightButton{
     return [super canPressRightButton];
-}
-
-- (BOOL)canShowTypingIndicator
-{
-#if DEBUG_CUSTOM_TYPING_INDICATOR
-    return YES;
-#else
-    return [super canShowTypingIndicator];
-#endif
 }
 
 - (BOOL)shouldProcessTextForAutoCompletion
@@ -693,11 +587,6 @@
 {
     MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:MessengerCellIdentifier];
     cell.delegate = self;
-    if (cell.gestureRecognizers.count == 0) {
-        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPressCell:)];
-        [cell addGestureRecognizer:longPress];
-    }
-    
     
     Message *message = self.messageObjects[indexPath.row];
     
@@ -708,7 +597,7 @@
     if(self.UsersAndImages[message[@"username"]]){
         cell.thumbnailView.image = [UIImage imageWithData:self.UsersAndImages[message[@"username"]]];
     }else{
-        cell.thumbnailView.image = [UIImage systemImageNamed:@"questionmark.square"];
+        cell.thumbnailView.image = [UIImage systemImageNamed:@"person"];
     }
     cell.bodyLabel.text = message[@"text"];
     cell.titleLabel.text = [NSString stringWithFormat:@"%@   -   %@",message[@"username"], timeAgo.shortTimeAgoSinceNow];
