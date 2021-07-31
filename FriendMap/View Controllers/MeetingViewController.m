@@ -197,8 +197,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSMutableArray *cluster = self.arrayOfClusters[indexPath.row];
-    CLLocationCoordinate2D coordinate = [self CalculateMidpoint:cluster];
+    self.cluster = self.arrayOfClusters[indexPath.row];
+    CLLocationCoordinate2D coordinate = [self CalculateMidpoint:self.cluster];
     [self getLocationsFromCoordinateLatitude:[NSNumber numberWithDouble:coordinate.latitude] longitude:[NSNumber numberWithFloat:coordinate.longitude]];
 }
  
@@ -221,6 +221,7 @@
         locationViewController.arrayOfBusinesses = self.arrayOfBusinesses;
         locationViewController.UserAndUserObjects = self.UsersAndUserObjects;
         locationViewController.delegate = self.storedDelegate;
+        locationViewController.cluster = self.cluster;
     }
 }
 

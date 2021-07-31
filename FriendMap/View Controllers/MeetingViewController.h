@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray *arrayOfBusinesses;
 @property (nonatomic, strong) NSString *API_Key;
 @property (nonatomic, strong) MapViewController *storedDelegate;
+@property (nonatomic, strong) NSMutableArray *cluster;
 
 @end
 

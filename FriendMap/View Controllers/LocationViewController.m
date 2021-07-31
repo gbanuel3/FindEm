@@ -99,7 +99,7 @@
     NSMutableDictionary *business = self.arrayOfBusinesses[indexPath.row];
     NSNumber *businessLat = business[@"coordinates"][@"latitude"];
     NSNumber *businessLon = business[@"coordinates"][@"longitude"];
-    [self.delegate locationsViewController:self didPickLocationWithLatitude:businessLat longitude:businessLon business:business[@"name"]];
+    [self.delegate locationsViewController:self didPickLocationWithLatitude:businessLat longitude:businessLon business:business[@"name"] cluster:self.cluster];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

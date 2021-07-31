@@ -11,15 +11,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class LocationViewController;
 @protocol LocationViewControllerDelegate
-- (void)locationsViewController:(LocationViewController *)controller didPickLocationWithLatitude:(NSNumber *)latitude longitude:(NSNumber *)longitude business:(NSString *)business;
+- (void)locationsViewController:(LocationViewController *)controller didPickLocationWithLatitude:(NSNumber *)latitude longitude:(NSNumber *)longitude business:(NSString *)business cluster:(NSMutableArray *)cluster;
 
 @end
 
 @interface LocationViewController : UIViewController
+
 @property (weak, nonatomic) id<LocationViewControllerDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *arrayOfBusinesses;
 @property (nonatomic, strong) NSMutableDictionary *UserAndUserObjects;
+@property (nonatomic, strong) NSMutableArray *cluster;
+
 @end
 
 NS_ASSUME_NONNULL_END

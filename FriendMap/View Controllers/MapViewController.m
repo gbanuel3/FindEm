@@ -62,8 +62,7 @@
      return annotationView;
  }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
-{
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
     MKPointAnnotation *annotation = view.annotation;
     self.user = self.UsersAndUserObjects[annotation.title];
     [self performSegueWithIdentifier:@"mapToProfile" sender:self];
@@ -158,7 +157,16 @@
     self.navigationItem.titleView = menuView;
 }
 
-- (void)locationsViewController:(LocationViewController *)controller didPickLocationWithLatitude:(NSNumber *)latitude longitude:(NSNumber *)longitude business:(NSString *)business{
+- (void)locationsViewController:(LocationViewController *)controller didPickLocationWithLatitude:(NSNumber *)latitude longitude:(NSNumber *)longitude business:(NSString *)business cluster:(NSMutableArray *)cluster{
+    
+//    NSLog(@"%@", cluster);
+    
+    NSMutableArray *showCluster = [[NSMutableArray alloc] init];
+    NSMutableDictionary *usersInCluster = [[NSMutableDictionary alloc] initWithCapacity:200000];
+    
+    for(PFUser *user in cluster){
+        usersInCluster[user.username] = user;
+    }
     
     NSNumber *lat = latitude;
     NSNumber *lon = longitude;
@@ -167,11 +175,17 @@
     MKPointAnnotation *annotation = [MKPointAnnotation new];
     annotation.coordinate = coordinate;
     annotation.title = business;
+    [showCluster addObject:annotation];
+    
+    for(MKPointAnnotation *annotation in self.AnnotationArray){
+        if(usersInCluster[annotation.title]){
+            [showCluster addObject:annotation];
+        }
+    }
     
     [self.mapView addAnnotation:annotation];
     [self.mapView viewForAnnotation:annotation];
-    [self.AnnotationArray addObject:annotation];
-    [self.mapView showAnnotations:self.AnnotationArray animated:YES];
+    [self.mapView showAnnotations:showCluster animated:YES];
     
 }
 
