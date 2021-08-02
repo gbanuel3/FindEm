@@ -60,19 +60,20 @@
     NSData *imageData = UIImagePNGRepresentation(editedImage);
     PFFileObject *imageFile = [PFFileObject fileObjectWithName:@"image.png" data:imageData];
     PFQuery *query = [PFQuery queryWithClassName:@"_User"];
-    [query getObjectInBackgroundWithId:self.user.objectId block:^(PFObject *group, NSError *error) {
-            if (!error){
-                [group setObject:imageFile forKey:@"profile_picture"];
-                [group saveInBackground];
-            }
-        [self dismissViewControllerAnimated:YES completion:nil];
-        }];
+    typeof(self) __weak weakSelf = self;
+    [query getObjectInBackgroundWithId:self.user.objectId block:^(PFObject *group, NSError *error){
+        typeof(weakSelf) strongSelf = weakSelf;
+        if (!error){
+            [group setObject:imageFile forKey:@"profile_picture"];
+            [group saveInBackground];
+        }
+        [strongSelf dismissViewControllerAnimated:YES completion:nil];
+    }];
     
 }
 
 - (IBAction)onClickLogout:(id)sender{
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error){
-        NSLog(@"User Logged out successfully!");
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
         [[UIApplication sharedApplication].keyWindow setRootViewController: loginViewController];
@@ -108,24 +109,26 @@
         NSLog(@"own profile");
         [self.cameraButton setHidden:NO];
         PFQuery *query = [PFQuery queryWithClassName:@"_User"];
-        [query getObjectInBackgroundWithId:PFUser.currentUser.objectId block:^(PFObject *user, NSError *error) {
-                if (!error){
-                    self.user = user;
-                    self.title = self.user[@"username"];
-                    NSArray *all_groups = self.user[@"all_groups"];
-                    self.numberOfGroupsLabel.text = [NSString stringWithFormat:@"You are part of %lu groups.", (unsigned long)all_groups.count];
-                    self.distanceFromUserLabel.text = @"";
-                    if(user[@"profile_picture"]){
-                        [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
-                            if(!error){
-                                self.profileImage.image = [UIImage imageWithData:imageData];
-                            }
-                        }];
-                    }else{
-                        self.profileImage.image = [UIImage systemImageNamed:@"person"];
+        typeof(self) __weak weakSelf = self;
+        [query getObjectInBackgroundWithId:PFUser.currentUser.objectId block:^(PFObject *user, NSError *error){
+            typeof(weakSelf) strongSelf = weakSelf;
+            if(!error){
+                strongSelf.user = user;
+                strongSelf.title = strongSelf.user[@"username"];
+                NSArray *all_groups = strongSelf.user[@"all_groups"];
+                strongSelf.numberOfGroupsLabel.text = [NSString stringWithFormat:@"You are part of %lu groups.", (unsigned long)all_groups.count];
+                strongSelf.distanceFromUserLabel.text = @"";
+                if(user[@"profile_picture"]){
+                    [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
+                    if(!error){
+                        strongSelf.profileImage.image = [UIImage imageWithData:imageData];
                     }
-                }
             }];
+                }else{
+                    strongSelf.profileImage.image = [UIImage systemImageNamed:@"person"];
+                }
+            }
+        }];
         
     }else{ // view for another profile - not own profile
         [self.directionsButton setHidden:NO];

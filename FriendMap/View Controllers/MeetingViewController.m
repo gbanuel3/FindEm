@@ -33,14 +33,15 @@
     [request addValue:[NSString stringWithFormat:@"Bearer %@", self.API_Key] forHTTPHeaderField:@"Authorization"];
 
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    
+    typeof(self) __weak weakSelf = self;
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error){
+        typeof(weakSelf) strongSelf = weakSelf;
         if(data){
             NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             
-            self.arrayOfBusinesses = [responseDictionary valueForKeyPath:@"businesses"];
-            [self performSegueWithIdentifier:@"LocationSegue" sender:nil];
-        }else{
-            NSLog(@"%@", error.localizedDescription);
+            strongSelf.arrayOfBusinesses = [responseDictionary valueForKeyPath:@"businesses"];
+            [strongSelf performSegueWithIdentifier:@"LocationSegue" sender:nil];
         }
     }];
     [task resume];
@@ -127,9 +128,7 @@
         [self.tableView setHidden:YES];
         UIAlertController *notValidNumberAlert = [UIAlertController alertControllerWithTitle:@""
         message:@"You must enter a valid number!" preferredStyle:(UIAlertControllerStyleAlert)];
-        UIAlertAction *notValidNumberOkAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
-            
-        }];
+        UIAlertAction *notValidNumberOkAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){}];
         [notValidNumberAlert addAction:notValidNumberOkAction];
         [self presentViewController:notValidNumberAlert animated:YES completion:^{
         }];

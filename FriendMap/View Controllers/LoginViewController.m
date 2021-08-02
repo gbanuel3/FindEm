@@ -18,25 +18,23 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid information!"
     message:@"Enter valid information in text fields!"
     preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        // handle response here.
-    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alert addAction:okAction];
-    [self presentViewController:alert animated:YES completion:^{
-        // optional code for what happens after the alert controller has finished presenting
-    }];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)loginUser{
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
     
-    [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
-        if (error != nil) {
-            [self showPopup];
+    typeof(self) __weak weakSelf = self;
+    [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error){
+        typeof(weakSelf) strongSelf = weakSelf;
+        if(error!=nil){
+            [strongSelf showPopup];
         } else {
             NSLog(@"User logged in successfully");
-            [self performSegueWithIdentifier:@"loginSegue" sender:self.loginButton];
+            [strongSelf performSegueWithIdentifier:@"loginSegue" sender:strongSelf.loginButton];
         }
     }];
 }

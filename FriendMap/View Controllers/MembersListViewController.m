@@ -52,23 +52,18 @@
     PFQuery *query = [PFQuery queryWithClassName:@"_User"];
     [query whereKey:@"objectId" equalTo:user.objectId];
     [query includeKey:@"all_groups"];
-
     query.limit = 1;
+    typeof(self) __weak weakSelf = self;
     [query findObjectsInBackgroundWithBlock:^(NSArray *returnUser, NSError *error){
-        if(returnUser != nil){
-            self.arrayOfMembers[indexPath.row] = returnUser[0];
+        typeof(weakSelf) strongSelf = weakSelf;
+        if(returnUser!=nil){
+            strongSelf.arrayOfMembers[indexPath.row] = returnUser[0];
             cell.memberNameLabel.text = returnUser[0][@"username"];
-            if(self.UserToImage[returnUser[0][@"username"]]){
-                cell.memberProfilePicture.image = [UIImage imageWithData: self.UserToImage[returnUser[0][@"username"]]];
+            if(strongSelf.UserToImage[returnUser[0][@"username"]]){
+                cell.memberProfilePicture.image = [UIImage imageWithData: strongSelf.UserToImage[returnUser[0][@"username"]]];
             }
-
-            NSLog(@"Successfully got user");
- 
-        }else{
-            NSLog(@"Could not get user");
         }
     }];
-    
     return cell;
 }
 

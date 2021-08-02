@@ -32,25 +32,24 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
     message:@"Enter Group Name" preferredStyle:(UIAlertControllerStyleAlert)];
     
-    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField){
         textField.placeholder = @"Group Name";
         textField.secureTextEntry = NO;
-        [textField addTarget:self action:@selector(textDidChange) forControlEvents:UIControlEventValueChanged];
-    
     }];
 
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
-        // handle response here.
-    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+    
+    typeof(self) __weak weakSelf = self;
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
+        typeof(weakSelf) strongSelf = weakSelf;
         if([[[alert textFields][0] text] isEqual:@""]){
             UIAlertController *emptyFieldAlert = [UIAlertController alertControllerWithTitle:@"" message:@"Group name cannot be empty!" preferredStyle:(UIAlertControllerStyleAlert)];
             UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
                 
             }];
             [emptyFieldAlert addAction:confirm];
-            [self presentViewController:emptyFieldAlert animated:YES completion:^{
-                [self getGroups];
+            [strongSelf presentViewController:emptyFieldAlert animated:YES completion:^{
+                [strongSelf getGroups];
             }];
         }else{
             PFObject *group = [PFObject objectWithClassName:[NSString stringWithFormat:@"groups"]];
@@ -63,11 +62,7 @@
               if(succeeded){
                   PFUser *user = [PFUser currentUser];
                   [user addObject:group forKey:@"all_groups"];
-                  [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error){
-                      if(succeeded){
-                          NSLog(@"Successfully added user to group!");
-                      }
-                          }];
+                  [user saveInBackground];
                   UIAlertController *codeAlert = [UIAlertController alertControllerWithTitle:@"Group Code:" message:[NSString stringWithFormat:@"%@", group.objectId] preferredStyle:(UIAlertControllerStyleAlert)];
                   UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){}];
                   UIAlertAction *copyCode = [UIAlertAction actionWithTitle:@"Copy to Clipboard" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
@@ -77,13 +72,10 @@
                   [codeAlert addAction:copyCode];
                   [codeAlert addAction:confirmAction];
     
-                  [self presentViewController:codeAlert animated:YES completion:^{
-                      [self getGroups];
+                  [strongSelf presentViewController:codeAlert animated:YES completion:^{
+                      [strongSelf getGroups];
                   }];
                   
-              }else{
-
-                  NSLog(@"Encounted error: %@", error.description);
               }
             }];
         }
@@ -94,9 +86,9 @@
     [alert addAction:cancelAction];
     [alert addAction:okAction];
 
-
     [self presentViewController:alert animated:YES completion:^{
-        [self getGroups];
+        typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf getGroups];
 
     }];
 }
@@ -110,13 +102,13 @@
         textField.secureTextEntry = NO;
     }];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
-        // handle response here.
-    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
     
+    typeof(self) __weak weakSelf = self;
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
+        typeof(weakSelf) strongSelf = weakSelf;
         bool UserInGroup = NO;
-        for(PFObject *group in self.arrayOfGroups){
+        for(PFObject *group in strongSelf.arrayOfGroups){
             if([[[alert textFields][0] text] isEqual:group.objectId]){
                 UserInGroup = YES;
                 UIAlertController *alreadyInGroupAlert = [UIAlertController alertControllerWithTitle:@"Could not join"
@@ -125,8 +117,8 @@
                     
                 }];
                 [alreadyInGroupAlert addAction:alreadyInGroupOkAction];
-                [self presentViewController:alreadyInGroupAlert animated:YES completion:^{
-                    [self getGroups];
+                [strongSelf presentViewController:alreadyInGroupAlert animated:YES completion:^{
+                    [strongSelf getGroups];
                 }];
             }
         }
@@ -143,16 +135,15 @@
                             
                         }];
                         [groupInvalidAlert addAction:groupInvalidOkAction];
-                        [self presentViewController:groupInvalidAlert animated:YES completion:^{
-                            [self getGroups];
+                        [strongSelf presentViewController:groupInvalidAlert animated:YES completion:^{
+                            [strongSelf getGroups];
                         }];
                     }else{
                         PFUser *user = [PFUser currentUser];
                         [user addObject:group[0] forKey:@"all_groups"];
                         [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error){
                             if(succeeded){
-                                NSLog(@"Successfully added user to group!");
-                                [self getGroups];
+                                [strongSelf getGroups];
                             }
                                 }];
 
@@ -163,21 +154,20 @@
                                     [group addObject:[PFUser currentUser] forKey:@"members"];
                                     [group incrementKey:@"number_of_members"];
                                     [group saveInBackground];
-                                    [self getGroups];
+                                    [strongSelf getGroups];
                                 }
                             }];
                     }
-                }else{
-                    NSLog(@"%@", error.localizedDescription);
                 }
             }];
-    }
+        }
     }];
     
     [alert addAction:cancelAction];
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:^{
-        [self getGroups];
+        typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf getGroups];
     }];
     
     
@@ -186,17 +176,19 @@
 - (void) loadUsersAndImages{
     PFQuery *UsersQuery = [PFQuery queryWithClassName:@"_User"];
     self.arrayOfUsers = [[NSMutableArray alloc] init];
-    self.UserAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:200000];
-    self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
+    self.UserAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:INT_MAX];
+    self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:INT_MAX];
+    typeof(self) __weak weakSelf = self;
     [UsersQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error){
+        typeof(weakSelf) strongSelf = weakSelf;
         if(!error){
-            self.arrayOfUsers = users;
+            strongSelf.arrayOfUsers = users;
             for(PFUser *user in users){
-                [self.UserAndUserObjects setValue:user forKey:user.username];
+                [strongSelf.UserAndUserObjects setValue:user forKey:user.username];
                 if(user[@"profile_picture"]){
                     [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
                         if(!error){
-                            [self.UsersAndImages setValue:imageData forKey:user.username];
+                            [strongSelf.UsersAndImages setValue:imageData forKey:user.username];
                             
                         }
                     }];
@@ -207,31 +199,26 @@
 }
 
 - (void)getGroups{
-
     PFQuery *query = [PFQuery queryWithClassName:@"_User"];
     [query whereKey:@"objectId" equalTo:PFUser.currentUser.objectId];
     [query includeKey:@"all_groups"];
     [query includeKey:@"members"];
 
-    query.limit = 50;
+    typeof(self) __weak weakSelf = self;
     [query findObjectsInBackgroundWithBlock:^(NSArray *groups, NSError *error){
-        if(groups != nil){
-            self.arrayOfGroups = groups[0][@"all_groups"];
-            if(self.arrayOfGroups==nil){
-                [self.tableView setHidden:YES];
-                [self.noGroupLabel setHidden:NO];
+        typeof(weakSelf) strongSelf = weakSelf;
+        if(groups!=nil){
+            strongSelf.arrayOfGroups = groups[0][@"all_groups"];
+            if(strongSelf.arrayOfGroups==nil){
+                [strongSelf.tableView setHidden:YES];
+                [strongSelf.noGroupLabel setHidden:NO];
             }else{
-                [self.tableView setHidden:NO];
-                [self.noGroupLabel setHidden:YES];
+                [strongSelf.tableView setHidden:NO];
+                [strongSelf.noGroupLabel setHidden:YES];
             }
-
-            NSLog(@"Successfully got groups");
-
-        }else{
-            NSLog(@"Could not get groups");
         }
-        [self.tableView reloadData];
-        [self.refreshControl endRefreshing];
+        [strongSelf.tableView reloadData];
+        [strongSelf.refreshControl endRefreshing];
     }];
 }
 

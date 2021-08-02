@@ -18,31 +18,27 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid information!"
     message:@"Enter valid information in text fields!"
     preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        // handle response here.
-    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alert addAction:okAction];
-    [self presentViewController:alert animated:YES completion:^{
-        // optional code for what happens after the alert controller has finished presenting
-    }];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)registerUser {
     PFUser *newUser = [PFUser user];
-    
     newUser.username = self.usernameField.text;
     newUser.password = self.passwordField.text;
-
-    [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
-        if (error != nil) {
-            [self showPopup];
-        } else {
-            NSLog(@"User registered successfully");
-            [self performSegueWithIdentifier:@"loginSegue" sender:self.signupButton];
+    typeof(self) __weak weakSelf = self;
+    [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error){
+        typeof(weakSelf) strongSelf = weakSelf;
+        if(error!=nil){
+            [strongSelf showPopup];
+        }else{
+            [strongSelf performSegueWithIdentifier:@"loginSegue" sender:strongSelf.signupButton];
         }
     }];
 
 }
+
 - (IBAction)onClickSignup:(id)sender{
     if([self.usernameField.text isEqual:@""] || [self.passwordField.text isEqual:@""]){
         [self showPopup];

@@ -69,22 +69,13 @@
 
     NSDate *now = [NSDate date];
     NSTimeInterval interval = self.lastTimestamp ? [now timeIntervalSinceDate:self.lastTimestamp] : 0;
-
-    if (!self.lastTimestamp || interval >= 1 * 15)
-    {
+    if (!self.lastTimestamp || interval >= 1 * 15){
         self.lastTimestamp = now;
         PFUser *user = [PFUser currentUser];
         [user setValue:[NSNumber numberWithFloat:location.coordinate.latitude] forKey:@"lat"];
         [user setValue:[NSNumber numberWithFloat:location.coordinate.longitude] forKey:@"lon"];
-        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error){
-            if(succeeded){
-                NSLog(@"Stored location in Parse.");
-            }
-        }];
-        
-        
+        [user saveInBackground];
     }
-    
     [self addLocationToPList:_afterResume];
 }
 

@@ -138,30 +138,37 @@
     menuView.animationDuration = 0.5f;
     menuView.maskBackgroundColor = [UIColor blackColor];
     menuView.maskBackgroundOpacity = 0.3f;
+    
+    typeof(self) __weak weakSelf = self;
     menuView.didSelectItemAtIndexHandler = ^(NSUInteger indexPath){
-        NSLog(@"Did select item: %@", items[indexPath]);
-        [self.mapView removeAnnotations:self.AnnotationArray];
-        [self.mapView removeAnnotations:self.showCluster];
-        if(indexPath==0){ // No Group Selected...
-            [self.meetButton setHidden:YES];
+        
+        typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.mapView removeAnnotations:strongSelf.AnnotationArray];
+        [strongSelf.mapView removeAnnotations:strongSelf.showCluster];
+        
+        if(indexPath==0){
+            [strongSelf.meetButton setHidden:YES];
         }else{
-            [self.meetButton setHidden:NO];
-            NSArray *arrayOfMembers = self.arrayOfGroups[indexPath-1][@"members"];
-            self.arrayOfUsers = [[NSMutableArray alloc] init];
-            self.AnnotationArray = [[NSMutableArray alloc] init];
+            [strongSelf.meetButton setHidden:NO];
+            NSArray *arrayOfMembers = strongSelf.arrayOfGroups[indexPath-1][@"members"];
+            strongSelf.arrayOfUsers = [[NSMutableArray alloc] init];
+            strongSelf.AnnotationArray = [[NSMutableArray alloc] init];
             for(int i=0; i<arrayOfMembers.count; i++){
                 
                 PFUser *user = arrayOfMembers[i];
                 PFQuery *query = [PFQuery queryWithClassName:@"_User"];
-
-                [query getObjectInBackgroundWithId:user.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
+                
+                typeof(self) __weak weakSelf = self;
+                [query getObjectInBackgroundWithId:user.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error){
+                    
+                    typeof(weakSelf) strongSelf = weakSelf;
                     if(!error){
-                        [self.arrayOfUsers addObject:object];
+                        [strongSelf.arrayOfUsers addObject:object];
 
                     }
-                    if(self.arrayOfUsers.count == arrayOfMembers.count){
-                        for(int i=0; i<self.arrayOfUsers.count; i++){
-                            PFUser *user = self.arrayOfUsers[i];
+                    if(strongSelf.arrayOfUsers.count == arrayOfMembers.count){
+                        for(int i=0; i<strongSelf.arrayOfUsers.count; i++){
+                            PFUser *user = strongSelf.arrayOfUsers[i];
 
                             if(user[@"lat"]!=nil && user[@"lon"]!=nil){
                                 NSNumber *lat = user[@"lat"];
@@ -172,10 +179,10 @@
                                 annotation.coordinate = coordinate;
                                 annotation.title = [NSString stringWithFormat:@"%@", user.username];
                                 
-                                [self.mapView addAnnotation:annotation];
-                                [self.mapView viewForAnnotation:annotation];
-                                [self.AnnotationArray addObject:annotation];
-                                [self.mapView showAnnotations:self.AnnotationArray animated:YES];
+                                [strongSelf.mapView addAnnotation:annotation];
+                                [strongSelf.mapView viewForAnnotation:annotation];
+                                [strongSelf.AnnotationArray addObject:annotation];
+                                [strongSelf.mapView showAnnotations:strongSelf.AnnotationArray animated:YES];
                                 
                             }
 
@@ -183,10 +190,7 @@
                     }
                 }];
             }
-            
-
         }
-
     };
    
     self.navigationItem.titleView = menuView;
