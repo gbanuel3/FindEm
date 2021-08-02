@@ -13,6 +13,7 @@
 #import "ProfileViewController.h"
 #import "MeetingViewController.h"
 #import "LocationViewController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface MapViewController ()
 
@@ -56,16 +57,22 @@
      }
 
     if(self.UsersAndUserObjects[annotation.title]==nil){
-        NSLog(@"%@", annotation);
         annotationView.pinColor = MKPinAnnotationColorGreen;
-    }
-    
-     UIImageView *imageView = (UIImageView*)annotationView.leftCalloutAccessoryView;
-    
-    if(self.UsersAndImages[annotation.title]){
-        imageView.image = [UIImage imageWithData:self.UsersAndImages[annotation.title]];
+        NSURL *url = [NSURL URLWithString:self.imageUrl];
+        UIImageView *imageView = (UIImageView*)annotationView.leftCalloutAccessoryView;
+        [imageView setImageWithURL:url];
+
+
     }else{
-        imageView.image = [UIImage systemImageNamed:@"person"];
+        annotationView.pinColor = MKPinAnnotationColorRed;
+        
+        UIImageView *imageView = (UIImageView*)annotationView.leftCalloutAccessoryView;
+       
+       if(self.UsersAndImages[annotation.title] && self.UsersAndUserObjects!=nil){
+           imageView.image = [UIImage imageWithData:self.UsersAndImages[annotation.title]];
+       }else{
+           imageView.image = [UIImage systemImageNamed:@"person"];
+       }
     }
     
     
@@ -74,8 +81,26 @@
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
     MKPointAnnotation *annotation = view.annotation;
-    self.user = self.UsersAndUserObjects[annotation.title];
-    [self performSegueWithIdentifier:@"mapToProfile" sender:self];
+    if(self.UsersAndUserObjects[annotation.title]==nil){
+        PFUser *currentUser = self.UsersAndUserObjects[[NSString stringWithFormat:@"%@", PFUser.currentUser.username]];
+        NSNumber *currentUserLat = currentUser[@"lat"];
+        NSNumber *currentUserLon = currentUser[@"lon"];
+
+        NSNumber *businessLat = [NSNumber numberWithDouble:annotation.coordinate.latitude];
+        NSNumber *businessLon = [NSNumber numberWithDouble:annotation.coordinate.longitude];
+        
+        
+        NSString* directionsURL = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f",currentUserLat.floatValue, currentUserLon.floatValue, businessLat.floatValue, businessLon.floatValue];
+        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString: directionsURL] options:@{} completionHandler:^(BOOL success) {}];
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString: directionsURL]];
+        }
+    }else{
+        self.user = self.UsersAndUserObjects[annotation.title];
+        [self performSegueWithIdentifier:@"mapToProfile" sender:self];
+    }
+
 }
 
 
@@ -115,12 +140,12 @@
     menuView.maskBackgroundOpacity = 0.3f;
     menuView.didSelectItemAtIndexHandler = ^(NSUInteger indexPath){
         NSLog(@"Did select item: %@", items[indexPath]);
+        [self.mapView removeAnnotations:self.AnnotationArray];
+        [self.mapView removeAnnotations:self.showCluster];
         if(indexPath==0){ // No Group Selected...
-            [self.mapView removeAnnotations:self.AnnotationArray];
             [self.meetButton setHidden:YES];
         }else{
             [self.meetButton setHidden:NO];
-            [self.mapView removeAnnotations:self.AnnotationArray];
             NSArray *arrayOfMembers = self.arrayOfGroups[indexPath-1][@"members"];
             self.arrayOfUsers = [[NSMutableArray alloc] init];
             self.AnnotationArray = [[NSMutableArray alloc] init];
@@ -167,11 +192,11 @@
     self.navigationItem.titleView = menuView;
 }
 
-- (void)locationsViewController:(LocationViewController *)controller didPickLocationWithLatitude:(NSNumber *)latitude longitude:(NSNumber *)longitude business:(NSString *)business cluster:(NSMutableArray *)cluster{
+- (void)locationsViewController:(LocationViewController *)controller didPickLocationWithLatitude:(NSNumber *)latitude longitude:(NSNumber *)longitude business:(NSString *)business cluster:(NSMutableArray *)cluster url:(NSURL *)url{
     
 //    NSLog(@"%@", cluster);
     
-    NSMutableArray *showCluster = [[NSMutableArray alloc] init];
+    self.showCluster = [[NSMutableArray alloc] init];
     NSMutableDictionary *usersInCluster = [[NSMutableDictionary alloc] initWithCapacity:200000];
     
     for(PFUser *user in cluster){
@@ -185,19 +210,21 @@
     MKPointAnnotation *annotation = [MKPointAnnotation new];
     annotation.coordinate = coordinate;
     annotation.title = business;
+    self.imageUrl = url;
     
-    [showCluster addObject:annotation];
+    
+    [self.showCluster addObject:annotation];
     
     
     
     for(MKPointAnnotation *annotation in self.AnnotationArray){
         if(usersInCluster[annotation.title]){
-            [showCluster addObject:annotation];
+            [self.showCluster addObject:annotation];
         }
     }
     [self.mapView addAnnotation:annotation];
     [self.mapView viewForAnnotation:annotation];
-    [self.mapView showAnnotations:showCluster animated:YES];
+    [self.mapView showAnnotations:self.showCluster animated:YES];
     
 }
 
