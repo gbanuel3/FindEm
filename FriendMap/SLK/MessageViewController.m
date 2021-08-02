@@ -96,6 +96,7 @@
     
     // Example's configuration
     self.isAnimating = NO;
+    [self configureDataSource];
     [self configureActionItems];
 
     
@@ -149,7 +150,6 @@
     [self.textView registerMarkdownFormattingSymbol:@"```" withTitle:@"Preformatted"];
     [self.textView registerMarkdownFormattingSymbol:@">" withTitle:@"Quote"];
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(configureDataSource) userInfo:nil repeats:YES];
 
 }
 
@@ -162,7 +162,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self refreshMessageFeed:nil];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(configureDataSource) userInfo:nil repeats:YES];
+
 
 }
 
