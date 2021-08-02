@@ -38,6 +38,7 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
      MKPinAnnotationView *annotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Pin"];
+    
      if (annotationView == nil) {
          annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
          annotationView.canShowCallout = true;
@@ -51,14 +52,23 @@
                      disclosure.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                      disclosure.userInteractionEnabled = NO;
                      annotationView.rightCalloutAccessoryView = rightButton;
+
      }
 
+    if(self.UsersAndUserObjects[annotation.title]==nil){
+        NSLog(@"%@", annotation);
+        annotationView.pinColor = MKPinAnnotationColorGreen;
+    }
+    
      UIImageView *imageView = (UIImageView*)annotationView.leftCalloutAccessoryView;
+    
     if(self.UsersAndImages[annotation.title]){
         imageView.image = [UIImage imageWithData:self.UsersAndImages[annotation.title]];
     }else{
         imageView.image = [UIImage systemImageNamed:@"person"];
     }
+    
+    
      return annotationView;
  }
 
