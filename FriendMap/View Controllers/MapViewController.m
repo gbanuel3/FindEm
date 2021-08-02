@@ -175,14 +175,16 @@
     MKPointAnnotation *annotation = [MKPointAnnotation new];
     annotation.coordinate = coordinate;
     annotation.title = business;
+    
     [showCluster addObject:annotation];
+    
+    
     
     for(MKPointAnnotation *annotation in self.AnnotationArray){
         if(usersInCluster[annotation.title]){
             [showCluster addObject:annotation];
         }
     }
-    
     [self.mapView addAnnotation:annotation];
     [self.mapView viewForAnnotation:annotation];
     [self.mapView showAnnotations:showCluster animated:YES];
