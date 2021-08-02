@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMutableDictionary *UsersAndUserObjects;
 @property (strong, nonatomic) NSMutableArray *arrayOfGroups;
 @property (strong, nonatomic) NSMutableArray *arrayOfUsers;
+@property (strong, nonatomic) NSTimer *timer;
 
 @end
 

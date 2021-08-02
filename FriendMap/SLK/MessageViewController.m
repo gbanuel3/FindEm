@@ -90,8 +90,8 @@
     [self performSegueWithIdentifier:@"chatToProfile" sender:message];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
+    
     [super viewDidLoad];
     
     // Example's configuration
@@ -120,7 +120,6 @@
     [self.textInputbar.editorRightButton setTintColor:[UIColor colorWithRed:0.0/255.0 green:122.0/255.0 blue:255.0/255.0 alpha:1.0]];
     
 #if DEBUG_CUSTOM_BOTTOM_VIEW
-    // Example of view that can be added to the bottom of the text view
     
     UIView *bannerView = [UIView new];
     bannerView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -149,7 +148,11 @@
     [self.textView registerMarkdownFormattingSymbol:@"`" withTitle:@"Code"];
     [self.textView registerMarkdownFormattingSymbol:@"```" withTitle:@"Preformatted"];
     [self.textView registerMarkdownFormattingSymbol:@">" withTitle:@"Quote"];
+    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(configureDataSource) userInfo:nil repeats:YES];
+
 }
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -161,9 +164,14 @@
     [super viewDidAppear:animated];
     [self refreshMessageFeed:nil];
 
-
-
 }
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [self.timer invalidate];
+}
+
+
 
 
 #pragma mark - Example's Configuration
