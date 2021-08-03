@@ -34,6 +34,7 @@
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property bool isAnimating;
 @property (strong, nonatomic) MBProgressHUD *hud;
+@property dispatch_group_t dispatchGroup;
 
 @end
 
@@ -131,23 +132,9 @@
 
 #pragma mark - Example's Configuration
 
-- (void)configureDataSource{
-    
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.mode = MBProgressHUDModeIndeterminate;
-    self.hud.label.text = @"Loading...";
-    self.isAnimating = YES;
-    
-    self.messageObjects = [[NSMutableArray alloc] init];
-    self.userObjects = [[NSMutableArray alloc] init];
-    self.arrayOfUsers = [[NSMutableArray alloc] init];
-    self.UsersAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:200000];
-    self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
-    
-    dispatch_group_t group = dispatch_group_create();
-    
-    dispatch_group_enter(group);
-    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+- (void)retrieveUsers{
+    dispatch_group_enter(self.dispatchGroup);
+    dispatch_group_async(self.dispatchGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         PFQuery *UsersQuery = [PFQuery queryWithClassName:@"_User"];
         typeof(self) __weak weakSelf = self;
         [UsersQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error){
@@ -166,7 +153,7 @@
                             if(!error){
                                 [strongSelf.UsersAndImages setValue:imageData forKey:user.username];
                                 if(strongSelf.UsersAndImages.count == countOfPfps){
-                                    dispatch_group_leave(group);
+                                    dispatch_group_leave(strongSelf.dispatchGroup);
                                 }
                             }
                         }];
@@ -175,9 +162,11 @@
             }
         }];
     });
-    
-    dispatch_group_enter(group);
-    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+}
+
+- (void)retrieveMessages{
+    dispatch_group_enter(self.dispatchGroup);
+    dispatch_group_async(self.dispatchGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         typeof(self) __weak weakSelf = self;
         PFQuery *query = [PFQuery queryWithClassName:@"groups"];
         [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error){
@@ -186,7 +175,7 @@
                 strongSelf.group = object;
                 strongSelf.messages = strongSelf.group[@"messages"];
                 if(strongSelf.messages.count == 0){
-                    dispatch_group_leave(group);
+                    dispatch_group_leave(strongSelf.dispatchGroup);
                 }
                 for(int index=0; index<strongSelf.messages.count; index++){
                     Message *message = [strongSelf.messages objectAtIndex:index];
@@ -196,7 +185,7 @@
                             [strongSelf.messageObjects addObject:messageObject];
                         }
                         if(strongSelf.messageObjects.count == strongSelf.messages.count){
-                            dispatch_group_leave(group);
+                            dispatch_group_leave(strongSelf.dispatchGroup);
                         }
                     }];
                 
@@ -205,9 +194,11 @@
             }
         }];
     });
-    
+}
+
+- (void) sortMessagesByTime{
     typeof(self) __weak weakSelf = self;
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+    dispatch_group_notify(self.dispatchGroup, dispatch_get_main_queue(), ^{
         typeof(weakSelf) strongSelf = weakSelf;
         strongSelf.messageObjects = [strongSelf.messageObjects sortedArrayUsingComparator:^NSComparisonResult(Message *a, Message *b) {
                 return [b.createdAt compare:a.createdAt];
@@ -220,6 +211,28 @@
 
 
     });
+}
+
+- (void)configureDataSource{
+    
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.mode = MBProgressHUDModeIndeterminate;
+    self.hud.label.text = @"Loading...";
+    self.isAnimating = YES;
+    
+    self.messageObjects = [[NSMutableArray alloc] init];
+    self.userObjects = [[NSMutableArray alloc] init];
+    self.arrayOfUsers = [[NSMutableArray alloc] init];
+    self.UsersAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:200000];
+    self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
+    
+    self.dispatchGroup = dispatch_group_create();
+    
+    [self retrieveUsers];
+    [self retrieveMessages];
+    [self sortMessagesByTime];
+    
+
 }
 
 - (void)configureActionItems{
