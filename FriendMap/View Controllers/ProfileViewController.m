@@ -12,9 +12,6 @@
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate>
 
-@property (strong, nonatomic) UIViewPropertyAnimator *animator;
-@property (strong, nonatomic) UIViewPropertyAnimator *animatorReverse;
-
 @end
 
 @implementation ProfileViewController
@@ -87,9 +84,7 @@
     [self presentViewController:imagePickerVC animated:YES completion:nil];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    
-    // Get the image captured by the UIImagePickerController
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
     UIImage *editedImage = info[UIImagePickerControllerEditedImage];
     self.profileImage.image = editedImage;
@@ -99,7 +94,7 @@
     typeof(self) __weak weakSelf = self;
     [query getObjectInBackgroundWithId:self.user.objectId block:^(PFObject *group, NSError *error){
         typeof(weakSelf) strongSelf = weakSelf;
-        if (!error){
+        if(!error){
             [group setObject:imageFile forKey:@"profile_picture"];
             [group saveInBackground];
         }
@@ -120,7 +115,6 @@
     [super viewDidLoad];
     self.captionTextField.delegate = self;
     [self textBoxOptions];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -167,9 +161,8 @@
         }
 
     }else{ // view for another profile - not own profile
-        [self.directionsButton setHidden:NO];
-
         self.title = self.user[@"username"];
+        [self.directionsButton setHidden:NO];
         [self.cameraButton setHidden:YES];
         [self.saveButton setHidden:YES];
         [self.captionTextField setUserInteractionEnabled:NO];
@@ -179,6 +172,7 @@
         }else{
             self.profileImage.image = [UIImage systemImageNamed:@"person"];
         }
+        
         PFUser *currentUser = self.UserAndUserObjects[[NSString stringWithFormat:@"%@", PFUser.currentUser.username]];
         NSNumber *currentUserLat = currentUser[@"lat"];
         NSNumber *currentUserLon = currentUser[@"lon"];
@@ -186,11 +180,13 @@
         
         NSNumber *profileUserLat = self.user[@"lat"];
         NSNumber *profileUserLon = self.user[@"lon"];
+        
         if(self.user[@"profileDescription"]){
             self.captionTextField.text = self.user[@"profileDescription"];
         }else{
             self.captionTextField.text = @"This user does not have a profile description - Tell them to set one!";
         }
+        
         [self setCurrentTownLatitude:profileUserLat longitude:profileUserLon];
         CLLocation *location2 = [[CLLocation alloc] initWithLatitude:profileUserLat.floatValue longitude:profileUserLon.floatValue];
         CLLocationDistance distance = [location1 distanceFromLocation:location2];
