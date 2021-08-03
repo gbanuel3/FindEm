@@ -13,6 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MeetingViewController : UIViewController
+
 @property (weak, nonatomic) IBOutlet CustomButton *calculateButton;
 @property (weak, nonatomic) IBOutlet UITextField *distanceField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

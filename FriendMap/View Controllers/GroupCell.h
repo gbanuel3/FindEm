@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
  
 @interface GroupCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UIImageView *groupImage;
 @property (weak, nonatomic) IBOutlet UILabel *groupName;
 @property (weak, nonatomic) IBOutlet UILabel *groupMembersAmount;

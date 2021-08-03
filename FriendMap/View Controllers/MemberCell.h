@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MemberCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *memberNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *memberProfilePicture;
 
