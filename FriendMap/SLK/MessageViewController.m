@@ -8,7 +8,6 @@
 #import "MessageViewController.h"
 #import "MessageTableViewCell.h"
 #import "MessageTextView.h"
-#import "TypingIndicatorView.h"
 #import "Message.h"
 #import <DateTools/DateTools.h>
 #import "ProfileViewController.h"

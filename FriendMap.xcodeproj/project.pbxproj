@@ -29,7 +29,6 @@
 		2B667D2126A029A500792451 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2026A029A500792451 /* MessageViewController.m */; };
 		2B667D2426A029EB00792451 /* MessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2326A029EB00792451 /* MessageTableViewCell.m */; };
 		2B667D2726A02A3F00792451 /* MessageTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2626A02A3F00792451 /* MessageTextView.m */; };
-		2B667D2D26A02A9000792451 /* TypingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D2C26A02A9000792451 /* TypingIndicatorView.m */; };
 		2B667D3326A0F58300792451 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D3226A0F58300792451 /* Message.m */; };
 		2B667D3726A94ABC00792451 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D3626A94ABC00792451 /* LocationManager.m */; };
 		2B667D4526B20C4800792451 /* MeetingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D4426B20C4800792451 /* MeetingViewController.m */; };
@@ -103,8 +102,6 @@
 		2B667D2326A029EB00792451 /* MessageTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageTableViewCell.m; sourceTree = "<group>"; };
 		2B667D2526A02A3F00792451 /* MessageTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageTextView.h; sourceTree = "<group>"; };
 		2B667D2626A02A3F00792451 /* MessageTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageTextView.m; sourceTree = "<group>"; };
-		2B667D2B26A02A9000792451 /* TypingIndicatorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TypingIndicatorView.h; sourceTree = "<group>"; };
-		2B667D2C26A02A9000792451 /* TypingIndicatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TypingIndicatorView.m; sourceTree = "<group>"; };
 		2B667D3126A0F58300792451 /* Message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		2B667D3226A0F58300792451 /* Message.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		2B667D3526A94ABC00792451 /* LocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
@@ -272,8 +269,6 @@
 				2B667D2326A029EB00792451 /* MessageTableViewCell.m */,
 				2B667D2526A02A3F00792451 /* MessageTextView.h */,
 				2B667D2626A02A3F00792451 /* MessageTextView.m */,
-				2B667D2B26A02A9000792451 /* TypingIndicatorView.h */,
-				2B667D2C26A02A9000792451 /* TypingIndicatorView.m */,
 			);
 			path = SLK;
 			sourceTree = "<group>";
@@ -568,7 +563,6 @@
 				2B667D5026B3EC0400792451 /* LocationCell.m in Sources */,
 				2B667CA0269D727800792451 /* ProfileViewController.m in Sources */,
 				2B667C62269CA41F00792451 /* SceneDelegate.m in Sources */,
-				2B667D2D26A02A9000792451 /* TypingIndicatorView.m in Sources */,
 				2B667D3326A0F58300792451 /* Message.m in Sources */,
 				2B667C9A269D5A0C00792451 /* SignupViewController.m in Sources */,
 				2B667D2726A02A3F00792451 /* MessageTextView.m in Sources */,

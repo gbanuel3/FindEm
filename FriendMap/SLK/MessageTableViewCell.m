@@ -10,13 +10,11 @@
 
 @implementation MessageTableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+    if (self){
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor whiteColor];
-        
         [self configureSubviews];
         UITapGestureRecognizer *thumbnailTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapUserProfile:)];
         [self.thumbnailView addGestureRecognizer:thumbnailTapGestureRecognizer];
@@ -25,8 +23,7 @@
     return self;
 }
 
-- (void)configureSubviews
-{
+- (void)configureSubviews{
     [self.contentView addSubview:self.thumbnailView];
     [self.contentView addSubview:self.titleLabel];
     [self.contentView addSubview:self.bodyLabel];
@@ -46,10 +43,9 @@
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-left-[thumbnailView(tumbSize)]-right-[bodyLabel(>=0)]-right-|" options:0 metrics:metrics views:views]];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-right-[thumbnailView(tumbSize)]-(>=0)-|" options:0 metrics:metrics views:views]];
     
-    if ([self.reuseIdentifier isEqualToString:MessengerCellIdentifier]) {
+    if ([self.reuseIdentifier isEqualToString:MessengerCellIdentifier]){
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-right-[titleLabel(20)]-left-[bodyLabel(>=0@999)]-left-|" options:0 metrics:metrics views:views]];
-    }
-    else {
+    }else{
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[titleLabel]|" options:0 metrics:metrics views:views]];
     }
 }
@@ -60,21 +56,15 @@
 }
 
 - (void) didTapUserProfile:(UITapGestureRecognizer *)sender{
-    NSLog(@"image tapped");
-
     [self.delegate MessageCell:self didTap:self.message];
 }
 
 - (void)prepareForReuse{
     [super prepareForReuse];
-    
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     CGFloat pointSize = [MessageTableViewCell defaultFontSize];
-    
     self.titleLabel.font = [UIFont boldSystemFontOfSize:pointSize];
     self.bodyLabel.font = [UIFont systemFontOfSize:pointSize];
-    
     self.titleLabel.text = @"";
     self.bodyLabel.text = @"";
 
@@ -82,9 +72,8 @@
 
 #pragma mark - Getters
 
-- (UILabel *)titleLabel
-{
-    if (!_titleLabel) {
+- (UILabel *)titleLabel{
+    if(!_titleLabel){
         _titleLabel = [UILabel new];
         _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _titleLabel.backgroundColor = [UIColor clearColor];
@@ -96,9 +85,8 @@
     return _titleLabel;
 }
 
-- (UILabel *)bodyLabel
-{
-    if (!_bodyLabel) {
+- (UILabel *)bodyLabel{
+    if(!_bodyLabel){
         _bodyLabel = [UILabel new];
         _bodyLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _bodyLabel.backgroundColor = [UIColor clearColor];
@@ -110,9 +98,8 @@
     return _bodyLabel;
 }
 
-- (UIImageView *)thumbnailView
-{
-    if (!_thumbnailView) {
+- (UIImageView *)thumbnailView{
+    if(!_thumbnailView){
         _thumbnailView = [UIImageView new];
         _thumbnailView.translatesAutoresizingMaskIntoConstraints = NO;
         _thumbnailView.userInteractionEnabled = NO;
@@ -124,13 +111,10 @@
     return _thumbnailView;
 }
 
-+ (CGFloat)defaultFontSize
-{
++ (CGFloat)defaultFontSize{
     CGFloat pointSize = 16.0;
-    
     NSString *contentSizeCategory = [[UIApplication sharedApplication] preferredContentSizeCategory];
     pointSize += SLKPointSizeDifferenceForCategory(contentSizeCategory);
-    
     return pointSize;
 }
 
