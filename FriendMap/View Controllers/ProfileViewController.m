@@ -16,6 +16,24 @@
 
 @implementation ProfileViewController
 
+- (void)getInfoFromGroupScreen{
+    GroupViewController *groupViewController = (GroupViewController *) [[(UINavigationController*)[[self.tabBarController viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:0];
+    
+    self.UsersAndImages = groupViewController.UsersAndImages;
+    self.UserAndUserObjects = groupViewController.UserAndUserObjects;
+}
+
+- (void)startAnimator{
+    CABasicAnimation *animation = [[CABasicAnimation alloc] init];
+    animation.keyPath = @"transform.scale";
+    animation.toValue = @1.5;
+    animation.duration = 2;
+    animation.repeatCount = INFINITY;
+    animation.autoreverses = YES;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [self.cameraButton.layer addAnimation:animation forKey:nil];
+}
+
 - (IBAction)onClickBackground:(id)sender{
     [self.view endEditing:YES];
 }
@@ -120,25 +138,16 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
 
-    CABasicAnimation *animation = [[CABasicAnimation alloc] init];
-    animation.keyPath = @"transform.scale";
-    animation.toValue = @1.5;
-    animation.duration = 2;
-    animation.repeatCount = INFINITY;
-    animation.autoreverses = YES;
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    [self.cameraButton.layer addAnimation:animation forKey:nil];
-
-    if(self.user==nil || [PFUser.currentUser.username isEqual:self.user[@"username"]]){ // when user goes to their own profile screen via tab menu
+    [self startAnimator];
+    
+    // when user goes to their own profile screen via tab menu
+    if(self.user==nil || [PFUser.currentUser.username isEqual:self.user[@"username"]]){
         [self.directionsButton setHidden:YES];
         [self.cameraButton setHidden:NO];
         [self.saveButton setHidden:NO];
         [self.captionTextField setUserInteractionEnabled:YES];
         
-        GroupViewController *groupViewController = (GroupViewController *) [[(UINavigationController*)[[self.tabBarController viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:0];
-        
-        self.UsersAndImages = groupViewController.UsersAndImages;
-        self.UserAndUserObjects = groupViewController.UserAndUserObjects;
+        [self getInfoFromGroupScreen];
 
         self.user = self.UserAndUserObjects[PFUser.currentUser.username];
         
@@ -159,8 +168,9 @@
         }else{
             self.profileImage.image = [UIImage systemImageNamed:@"person"];
         }
-
-    }else{ // view for another profile - not own profile
+        
+    // view for another profile - not own profile
+    }else{
         self.title = self.user[@"username"];
         [self.directionsButton setHidden:NO];
         [self.cameraButton setHidden:YES];
