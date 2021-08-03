@@ -16,7 +16,6 @@
 
 @implementation LocationManager
 
-//Class method to make sure the share model is synch across the app
 + (id)sharedManager {
     static id sharedMyModel = nil;
     static dispatch_once_t onceToken;
@@ -62,10 +61,7 @@
 #pragma mark - CLLocationManager Delegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    
     CLLocation *location = [locations lastObject];
-    NSLog(@"lat%f - lon%f", location.coordinate.latitude, location.coordinate.longitude);
-
 
     NSDate *now = [NSDate date];
     NSTimeInterval interval = self.lastTimestamp ? [now timeIntervalSinceDate:self.lastTimestamp] : 0;
@@ -83,12 +79,8 @@
 
 #pragma mark - Plist helper methods
 
-// Below are 3 functions that add location and Application status to PList
-// The purpose is to collect location information locally
-
-- (NSString *)appState {
+- (NSString *)appState{
     UIApplication* application = [UIApplication sharedApplication];
-
     NSString * appState;
     if([application applicationState]==UIApplicationStateActive)
         appState = @"UIApplicationStateActive";
@@ -96,20 +88,15 @@
         appState = @"UIApplicationStateBackground";
     if([application applicationState]==UIApplicationStateInactive)
         appState = @"UIApplicationStateInactive";
-    
     return appState;
 }
 
-- (void)addResumeLocationToPList {
-    
-    
+- (void)addResumeLocationToPList{
     NSString * appState = [self appState];
-    
     self.myLocationDictInPlist = [[NSMutableDictionary alloc] init];
     [_myLocationDictInPlist setObject:@"UIApplicationLaunchOptionsLocationKey" forKey:@"Resume"];
     [_myLocationDictInPlist setObject:appState forKey:@"AppState"];
     [_myLocationDictInPlist setObject:[NSDate date] forKey:@"Time"];
-    
     [self saveLocationsToPlist];
 }
 
@@ -118,9 +105,8 @@
 - (void)addLocationToPList:(BOOL)fromResume {
     
     NSString * appState = [self appState];
-    
     self.myLocationDictInPlist = [[NSMutableDictionary alloc]init];
-    [_myLocationDictInPlist setObject:[NSNumber numberWithDouble:self.myLocation.latitude]  forKey:@"Latitude"];
+    [_myLocationDictInPlist setObject:[NSNumber numberWithDouble:self.myLocation.latitude] forKey:@"Latitude"];
     [_myLocationDictInPlist setObject:[NSNumber numberWithDouble:self.myLocation.longitude] forKey:@"Longitude"];
     [_myLocationDictInPlist setObject:[NSNumber numberWithDouble:self.myLocationAccuracy] forKey:@"Accuracy"];
     
@@ -138,15 +124,11 @@
 }
 
 - (void)addApplicationStatusToPList:(NSString*)applicationStatus {
-    
-    
     NSString * appState = [self appState];
-    
     self.myLocationDictInPlist = [[NSMutableDictionary alloc]init];
     [_myLocationDictInPlist setObject:applicationStatus forKey:@"applicationStatus"];
     [_myLocationDictInPlist setObject:appState forKey:@"AppState"];
     [_myLocationDictInPlist setObject:[NSDate date] forKey:@"Time"];
-    
     [self saveLocationsToPlist];
 }
 
@@ -155,24 +137,19 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docDir = [paths objectAtIndex:0];
     NSString *fullPath = [NSString stringWithFormat:@"%@/%@", docDir, plistName];
-    
     NSMutableDictionary *savedProfile = [[NSMutableDictionary alloc] initWithContentsOfFile:fullPath];
-    
-    if (!savedProfile) {
+    if (!savedProfile){
         savedProfile = [[NSMutableDictionary alloc] init];
         self.myLocationArrayInPlist = [[NSMutableArray alloc]init];
-    } else {
+    }else{
         self.myLocationArrayInPlist = [savedProfile objectForKey:@"LocationArray"];
     }
     
-    if(_myLocationDictInPlist) {
+    if(_myLocationDictInPlist){
         [_myLocationArrayInPlist addObject:_myLocationDictInPlist];
         [savedProfile setObject:_myLocationArrayInPlist forKey:@"LocationArray"];
     }
     
-    if (![savedProfile writeToFile:fullPath atomically:FALSE]) {
-        NSLog(@"Couldn't save LocationArray.plist" );
-    }
 }
 
 

@@ -23,18 +23,13 @@
 @interface MessageViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *messages;
-
 @property (nonatomic, strong) NSArray *users;
 @property (nonatomic, strong) NSArray *channels;
 @property (nonatomic, strong) NSArray *emojis;
 @property (nonatomic, strong) NSArray *commands;
-
 @property (nonatomic, strong) NSArray *searchResult;
-
 @property (nonatomic, strong) UIWindow *pipWindow;
-
 @property (nonatomic, weak) Message *editingMessage;
-
 @property (strong, nonatomic) UIBarButtonItem *refreshItem;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property bool isAnimating;
@@ -44,10 +39,9 @@
 
 @implementation MessageViewController
 
-- (instancetype)init
-{
+- (instancetype)init{
     self = [super initWithTableViewStyle:UITableViewStylePlain];
-    if (self) {
+    if(self){
         [self commonInit];
     }
     return self;
@@ -55,7 +49,7 @@
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];
-    if (self) {
+    if(self){
         [self commonInit];
     }
     return self;
@@ -68,19 +62,11 @@
 - (void)commonInit{
     [[NSNotificationCenter defaultCenter] addObserver:self.tableView selector:@selector(reloadData) name:UIContentSizeCategoryDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textInputbarDidMove:) name:SLKTextInputbarDidMoveNotification object:nil];
-    
-
     [self registerClassForTextView:[MessageTextView class]];
-    
-#if DEBUG_CUSTOM_TYPING_INDICATOR
-    [self registerClassForTypingIndicatorView:[TypingIndicatorView class]];
-#endif
 }
 
 
 #pragma mark - View lifecycle
-
-
 
 - (void)MessageCell:(MessageTableViewCell *)messageCell didTap:(Message *)message{
     [self performSegueWithIdentifier:@"chatToProfile" sender:message];
@@ -94,7 +80,6 @@
     [self configureDataSource];
     [self configureActionItems];
 
-    
     self.bounces = YES;
     self.shakeToClearEnabled = YES;
     self.keyboardPanningEnabled = YES;
@@ -115,23 +100,6 @@
     [self.textInputbar.editorLeftButton setTintColor:[UIColor colorWithRed:0.0/255.0 green:122.0/255.0 blue:255.0/255.0 alpha:1.0]];
     [self.textInputbar.editorRightButton setTintColor:[UIColor colorWithRed:0.0/255.0 green:122.0/255.0 blue:255.0/255.0 alpha:1.0]];
     
-#if DEBUG_CUSTOM_BOTTOM_VIEW
-    
-    UIView *bannerView = [UIView new];
-    bannerView.translatesAutoresizingMaskIntoConstraints = NO;
-    bannerView.backgroundColor = [UIColor blueColor];
-    
-    NSDictionary *views = NSDictionaryOfVariableBindings(bannerView);
-    
-    [self.textInputbar.contentView addSubview:bannerView];
-    [self.textInputbar.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[bannerView]|" options:0 metrics:nil views:views]];
-    [self.textInputbar.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[bannerView(40)]|" options:0 metrics:nil views:views]];
-#endif
-    
-#if !DEBUG_CUSTOM_TYPING_INDICATOR
-    self.typingIndicatorView.canResignByTouch = YES;
-#endif
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[MessageTableViewCell class] forCellReuseIdentifier:MessengerCellIdentifier];
     
@@ -145,30 +113,21 @@
     [self.textView registerMarkdownFormattingSymbol:@"```" withTitle:@"Preformatted"];
     [self.textView registerMarkdownFormattingSymbol:@">" withTitle:@"Quote"];
     
-
 }
 
-
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(configureDataSource) userInfo:nil repeats:YES];
-
-
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     [self.timer invalidate];
 }
-
-
-
 
 #pragma mark - Example's Configuration
 
@@ -263,8 +222,7 @@
     });
 }
 
-- (void)configureActionItems
-{
+- (void)configureActionItems{
     UIBarButtonItem *arrowItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icn_arrow_down"] style:UIBarButtonItemStylePlain target:self action:@selector(hideOrShowTextInputbar:)];
     
      self.refreshItem = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"arrow.clockwise"] style:UIBarButtonItemStylePlain target:self action:@selector(refreshMessageFeed:)];
@@ -283,12 +241,9 @@
 
 - (void)hideOrShowTextInputbar:(id)sender{
     BOOL hide = !self.textInputbarHidden;
-    
     UIImage *image = hide ? [UIImage imageNamed:@"icn_arrow_up"] : [UIImage imageNamed:@"icn_arrow_down"];
     UIBarButtonItem *buttonItem = (UIBarButtonItem *)sender;
-    
     [self setTextInputbarHidden:hide animated:YES];
-    
     [buttonItem setImage:image];
 }
 
@@ -301,7 +256,6 @@
     imagePickerVC.delegate = self;
     imagePickerVC.allowsEditing = YES;
     imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-
     [self presentViewController:imagePickerVC animated:YES completion:nil];
 }
 
@@ -320,7 +274,7 @@
             [group setObject:imageFile forKey:@"image"];
             [group saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             [strongSelf dismissViewControllerAnimated:YES completion:nil];
-    }];
+            }];
 
         }
 
