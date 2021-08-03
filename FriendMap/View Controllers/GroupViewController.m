@@ -15,6 +15,7 @@
 
 
 @interface GroupViewController () <UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>
+
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSDate *lastTimestamp;
 @property NSTimeInterval lastClick;
@@ -22,67 +23,60 @@
 
 @end
 
-
-
 @implementation GroupViewController
 
+- (void)addGroupToDatabase: (UIAlertController *)alert{
+    PFObject *group = [PFObject objectWithClassName:[NSString stringWithFormat:@"groups"]];
+    group[@"name"] = [[alert textFields][0] text];
+    group[@"messages"] = [[NSArray alloc] init];
+    group[@"number_of_members"] = @1;
+    group[@"members"] = [[NSArray alloc] initWithObjects:PFUser.currentUser, nil];
+    typeof(self) __weak weakSelf = self;
+    [group saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error){
+        typeof(weakSelf) strongSelf = weakSelf;
+        if(succeeded){
+            PFUser *user = [PFUser currentUser];
+            [user addObject:group forKey:@"all_groups"];
+            [user saveInBackground];
+            UIAlertController *codeAlert = [UIAlertController alertControllerWithTitle:@"Group Code:" message:[NSString stringWithFormat:@"%@", group.objectId] preferredStyle:(UIAlertControllerStyleAlert)];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){}];
+            UIAlertAction *copyCode = [UIAlertAction actionWithTitle:@"Copy to Clipboard" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            pasteboard.string = [NSString stringWithFormat:@"%@", group.objectId];
+                                        }];
+            [codeAlert addAction:copyCode];
+            [codeAlert addAction:confirmAction];
+            [strongSelf presentViewController:codeAlert animated:YES completion:^{
+            [strongSelf getGroups];
+        }];
+          
+      }
+    }];
+}
 
 - (void)showCreatePopup{
-
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@""
     message:@"Enter Group Name" preferredStyle:(UIAlertControllerStyleAlert)];
-    
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField){
         textField.placeholder = @"Group Name";
         textField.secureTextEntry = NO;
     }];
-
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
     
     typeof(self) __weak weakSelf = self;
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
         typeof(weakSelf) strongSelf = weakSelf;
         if([[[alert textFields][0] text] isEqual:@""]){
             UIAlertController *emptyFieldAlert = [UIAlertController alertControllerWithTitle:@"" message:@"Group name cannot be empty!" preferredStyle:(UIAlertControllerStyleAlert)];
-            UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
-                
-            }];
+            UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){}];
             [emptyFieldAlert addAction:confirm];
             [strongSelf presentViewController:emptyFieldAlert animated:YES completion:^{
                 [strongSelf getGroups];
             }];
         }else{
-            PFObject *group = [PFObject objectWithClassName:[NSString stringWithFormat:@"groups"]];
-            group[@"name"] = [[alert textFields][0] text];
-            group[@"messages"] = [[NSArray alloc] init];
-            group[@"number_of_members"] = @1;
-            group[@"members"] = [[NSArray alloc] initWithObjects:PFUser.currentUser, nil];
-//            group[@"image"] =
-            [group saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-              if(succeeded){
-                  PFUser *user = [PFUser currentUser];
-                  [user addObject:group forKey:@"all_groups"];
-                  [user saveInBackground];
-                  UIAlertController *codeAlert = [UIAlertController alertControllerWithTitle:@"Group Code:" message:[NSString stringWithFormat:@"%@", group.objectId] preferredStyle:(UIAlertControllerStyleAlert)];
-                  UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){}];
-                  UIAlertAction *copyCode = [UIAlertAction actionWithTitle:@"Copy to Clipboard" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
-                      UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-                      pasteboard.string = [NSString stringWithFormat:@"%@", group.objectId];
-                  }];
-                  [codeAlert addAction:copyCode];
-                  [codeAlert addAction:confirmAction];
-    
-                  [strongSelf presentViewController:codeAlert animated:YES completion:^{
-                      [strongSelf getGroups];
-                  }];
-                  
-              }
-            }];
+            [self addGroupToDatabase:alert];
         }
-
     }];
-
-    
     [alert addAction:cancelAction];
     [alert addAction:okAction];
 
@@ -90,6 +84,47 @@
         typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf getGroups];
 
+    }];
+}
+
+- (void)handleUserNotInGroup: (UIAlertController *)alert{
+    PFQuery *query = [PFQuery queryWithClassName:@"groups"];
+    [query whereKey:@"objectId" equalTo:[NSString stringWithFormat:@"%@", [[alert textFields][0] text]]];
+    query.limit = 1;
+    typeof(self) __weak weakSelf = self;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *group, NSError *error){
+        typeof(weakSelf) strongSelf = weakSelf;
+        if(group != nil){
+            if(group.count==0){
+                UIAlertController *groupInvalidAlert = [UIAlertController alertControllerWithTitle:@""
+                message:@"Group Code Invalid" preferredStyle:(UIAlertControllerStyleAlert)];
+                UIAlertAction *groupInvalidOkAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
+                    
+                }];
+                [groupInvalidAlert addAction:groupInvalidOkAction];
+                [strongSelf presentViewController:groupInvalidAlert animated:YES completion:^{
+                    [strongSelf getGroups];
+                }];
+            }else{
+                PFUser *user = [PFUser currentUser];
+                [user addObject:group[0] forKey:@"all_groups"];
+                [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error){
+                    if(succeeded){
+                        [strongSelf getGroups];
+                    }
+                        }];
+
+                PFQuery *query = [PFQuery queryWithClassName:@"groups"];
+                [query getObjectInBackgroundWithId:[NSString stringWithFormat:@"%@", [[alert textFields][0] text]] block:^(PFObject *group, NSError *error) {
+                        if (!error){
+                            [group addObject:[PFUser currentUser] forKey:@"members"];
+                            [group incrementKey:@"number_of_members"];
+                            [group saveInBackground];
+                            [strongSelf getGroups];
+                        }
+                    }];
+            }
+        }
     }];
 }
 
@@ -102,9 +137,8 @@
         textField.secureTextEntry = NO;
     }];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
-    
     typeof(self) __weak weakSelf = self;
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
         typeof(weakSelf) strongSelf = weakSelf;
         bool UserInGroup = NO;
@@ -113,9 +147,7 @@
                 UserInGroup = YES;
                 UIAlertController *alreadyInGroupAlert = [UIAlertController alertControllerWithTitle:@"Could not join"
                 message:@"User is already in this group" preferredStyle:(UIAlertControllerStyleAlert)];
-                UIAlertAction *alreadyInGroupOkAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
-                    
-                }];
+                UIAlertAction *alreadyInGroupOkAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){}];
                 [alreadyInGroupAlert addAction:alreadyInGroupOkAction];
                 [strongSelf presentViewController:alreadyInGroupAlert animated:YES completion:^{
                     [strongSelf getGroups];
@@ -123,43 +155,7 @@
             }
         }
         if(UserInGroup==NO){
-            PFQuery *query = [PFQuery queryWithClassName:@"groups"];
-            [query whereKey:@"objectId" equalTo:[NSString stringWithFormat:@"%@", [[alert textFields][0] text]]];
-            query.limit = 1;
-            [query findObjectsInBackgroundWithBlock:^(NSArray *group, NSError *error){
-                if(group != nil){
-                    if(group.count==0){
-                        UIAlertController *groupInvalidAlert = [UIAlertController alertControllerWithTitle:@""
-                        message:@"Group Code Invalid" preferredStyle:(UIAlertControllerStyleAlert)];
-                        UIAlertAction *groupInvalidOkAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){
-                            
-                        }];
-                        [groupInvalidAlert addAction:groupInvalidOkAction];
-                        [strongSelf presentViewController:groupInvalidAlert animated:YES completion:^{
-                            [strongSelf getGroups];
-                        }];
-                    }else{
-                        PFUser *user = [PFUser currentUser];
-                        [user addObject:group[0] forKey:@"all_groups"];
-                        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error){
-                            if(succeeded){
-                                [strongSelf getGroups];
-                            }
-                                }];
-
-                        PFQuery *query = [PFQuery queryWithClassName:@"groups"];
-                        [query getObjectInBackgroundWithId:[NSString stringWithFormat:@"%@", [[alert textFields][0] text]] block:^(PFObject *group, NSError *error) {
-                                if (!error){
- 
-                                    [group addObject:[PFUser currentUser] forKey:@"members"];
-                                    [group incrementKey:@"number_of_members"];
-                                    [group saveInBackground];
-                                    [strongSelf getGroups];
-                                }
-                            }];
-                    }
-                }
-            }];
+            [self handleUserNotInGroup:alert];
         }
     }];
     
@@ -253,7 +249,6 @@
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
     singleTap.numberOfTapsRequired = 1;
     [self.tableView addGestureRecognizer:singleTap];
-
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)];
     doubleTap.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:doubleTap];
@@ -291,7 +286,6 @@
         }
     }];
     return cell;
-
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
