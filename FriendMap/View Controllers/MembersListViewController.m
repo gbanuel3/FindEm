@@ -27,7 +27,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad{
     [super viewDidLoad];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -55,7 +55,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MembersCell" forIndexPath:indexPath];
     PFUser *user = self.arrayOfMembers[indexPath.row];
-    
     PFQuery *query = [PFQuery queryWithClassName:@"_User"];
     [query whereKey:@"objectId" equalTo:user.objectId];
     [query includeKey:@"all_groups"];
@@ -76,13 +75,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.arrayOfMembers.count;
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.user = self.arrayOfMembers[indexPath.row];
     [self performSegueWithIdentifier:@"pfpToProfile" sender:nil];
-    
 }
 
 

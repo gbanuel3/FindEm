@@ -9,12 +9,11 @@
 #import <Parse/Parse.h>
 
 @interface LoginViewController ()
-
 @end
 
 @implementation LoginViewController
 
-- (void)showPopup{
+- (void)showInvalidInfoPopup{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid information!"
     message:@"Enter valid information in text fields!"
     preferredStyle:(UIAlertControllerStyleAlert)];
@@ -31,7 +30,7 @@
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error){
         typeof(weakSelf) strongSelf = weakSelf;
         if(error!=nil){
-            [strongSelf showPopup];
+            [strongSelf showInvalidInfoPopup];
         } else {
             NSLog(@"User logged in successfully");
             [strongSelf performSegueWithIdentifier:@"loginSegue" sender:strongSelf.loginButton];
@@ -41,7 +40,7 @@
 
 - (IBAction)onClickLogin:(id)sender{
     if([self.usernameField.text isEqual:@""] || [self.passwordField.text isEqual:@""]){
-        [self showPopup];
+        [self showInvalidInfoPopup];
     }
     [self loginUser];
 }

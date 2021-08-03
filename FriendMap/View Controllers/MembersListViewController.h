@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MembersListViewController : UIViewController
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) PFObject *group;
 @property (strong, nonatomic) NSMutableArray *arrayOfMembers;
