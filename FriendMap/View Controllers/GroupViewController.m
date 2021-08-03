@@ -176,8 +176,8 @@
 - (void) loadUsersAndImages{
     PFQuery *UsersQuery = [PFQuery queryWithClassName:@"_User"];
     self.arrayOfUsers = [[NSMutableArray alloc] init];
-    self.UserAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:INT_MAX];
-    self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:INT_MAX];
+    self.UserAndUserObjects = [[NSMutableDictionary alloc] initWithCapacity:200000];
+    self.UsersAndImages = [[NSMutableDictionary alloc] initWithCapacity:200000];
     typeof(self) __weak weakSelf = self;
     [UsersQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error){
         typeof(weakSelf) strongSelf = weakSelf;
@@ -277,7 +277,7 @@
 
 }
 
-- (void)viewDidAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated{
     [self getGroups];
     [self.tableView reloadData];
     [self loadUsersAndImages];
@@ -288,6 +288,7 @@
     PFObject *group = self.arrayOfGroups[indexPath.row];
     cell.groupName.text = group[@"name"];
     cell.groupMembersAmount.text = [NSString stringWithFormat:@"Members: %@", group[@"number_of_members"]];
+    cell.groupImage.image = [UIImage systemImageNamed:@"person"];
     [group[@"image"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
         if (!error){
             cell.groupImage.image = [UIImage imageWithData:imageData];

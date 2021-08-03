@@ -313,12 +313,17 @@
     NSData *imageData = UIImagePNGRepresentation(editedImage);
     PFFileObject *imageFile = [PFFileObject fileObjectWithName:@"image.png" data:imageData];
     PFQuery *query = [PFQuery queryWithClassName:@"groups"];
+    typeof(self) __weak weakSelf = self;
     [query getObjectInBackgroundWithId:self.group.objectId block:^(PFObject *group, NSError *error){
-            if (!error){
-                [group setObject:imageFile forKey:@"image"];
-                [group saveInBackground];
-            }
-        [self dismissViewControllerAnimated:YES completion:nil];
+        typeof(weakSelf) strongSelf = weakSelf;
+        if(!error){
+            [group setObject:imageFile forKey:@"image"];
+            [group saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            [strongSelf dismissViewControllerAnimated:YES completion:nil];
+    }];
+
+        }
+
     }];
     
 
@@ -539,8 +544,6 @@
 
 }
 
-
-
 - (MessageTableViewCell *)autoCompletionCellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     MessageTableViewCell *cell = (MessageTableViewCell *)[self.autoCompletionView dequeueReusableCellWithIdentifier:AutoCompletionCellIdentifier];
@@ -561,7 +564,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    MessageTableViewCell *cell = (MessageTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:MessengerCellIdentifier];
     if([tableView isEqual:self.tableView]){
         
         Message *message = self.messageObjects[indexPath.row];

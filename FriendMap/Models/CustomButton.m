@@ -31,8 +31,9 @@
         UIImage *bgImage = [UIImage imageWithSize:self.bounds.size color:UIColor.blackColor];
         [self setBackgroundImage:bgImage forState:UIControlStateNormal];
         [self setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
-        self.layer.cornerRadius = 40.0;
+        self.layer.cornerRadius = 10.0;
         self.layer.masksToBounds = YES;
+        
         self.titleLabel.font = [UIFont systemFontOfSize:18.0 weight:UIFontWeightRegular];
     }
     return self;

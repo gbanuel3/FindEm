@@ -16,6 +16,13 @@
 
 @implementation MembersListViewController
 
+- (IBAction)onClickGroupCode:(id)sender{
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = [NSString stringWithFormat:@"%@", self.group.objectId];
+    NSLog(@"click detected");
+}
+
+
 - (IBAction)onClickBackground:(id)sender{
     [self dismissViewControllerAnimated:YES completion:nil];
 }

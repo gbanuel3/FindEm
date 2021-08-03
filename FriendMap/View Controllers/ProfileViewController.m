@@ -18,6 +18,8 @@
 
 @implementation ProfileViewController
 
+
+
 - (IBAction)onClickGetDirections:(id)sender{
     PFUser *currentUser = self.UserAndUserObjects[[NSString stringWithFormat:@"%@", PFUser.currentUser.username]];
     NSNumber *currentUserLat = currentUser[@"lat"];
