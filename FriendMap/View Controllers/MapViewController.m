@@ -119,7 +119,6 @@
     }
     
     self.navigationController.navigationBar.translucent = NO;
-
     
     [UINavigationBar appearance].titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor blackColor]};
     [UINavigationBar appearance].barStyle = UIBarStyleDefault;

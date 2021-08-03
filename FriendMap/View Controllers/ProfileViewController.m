@@ -8,8 +8,9 @@
 #import "ProfileViewController.h"
 #import <Parse/Parse.h>
 #import "LoginViewController.h"
+#import "GroupViewController.h"
 
-@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) UIViewPropertyAnimator *animator;
 @property (strong, nonatomic) UIViewPropertyAnimator *animatorReverse;
@@ -18,21 +19,56 @@
 
 @implementation ProfileViewController
 
+- (IBAction)onClickBackground:(id)sender{
+    [self.view endEditing:YES];
+}
 
+- (IBAction)onClickSave:(id)sender{
+    if(![self.captionTextField.text isEqual:@""]){
+        [self.user setObject:self.captionTextField.text forKey:@"profileDescription"];
+        [self.user saveInBackground];
+    }
+}
+
+- (void)textBoxOptions{
+    self.captionTextField.autocorrectionType = NO;
+    self.captionTextField.backgroundColor = [UIColor secondarySystemBackgroundColor];
+    self.captionTextField.textColor = [UIColor blackColor];
+    self.captionTextField.layer.cornerRadius = 20;
+    self.captionTextField.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    self.captionTextField.layer.shadowColor = [UIColor grayColor].CGColor;
+    self.captionTextField.layer.shadowOffset = CGSizeMake(.75, .75);
+    self.captionTextField.layer.shadowOpacity = .4;
+    self.captionTextField.layer.shadowRadius = 20;
+    self.captionTextField.layer.masksToBounds = NO;
+    
+}
+
+- (void)setCurrentTownLatitude:(NSNumber *)latitude longitude: (NSNumber *)longitude{
+    CLGeocoder *ceo = [[CLGeocoder alloc]init];
+    CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+    typeof(self) __weak weakSelf = self;
+    [ceo reverseGeocodeLocation: loc completionHandler:
+     ^(NSArray *placemarks, NSError *error){
+        typeof(weakSelf) strongSelf = weakSelf;
+         CLPlacemark *placemark = [placemarks objectAtIndex:0];
+
+        NSString *address = [NSString stringWithFormat:@"%@ %@, %@", [placemark.addressDictionary valueForKey:@"City"], [placemark.addressDictionary valueForKey:@"State"], [placemark.addressDictionary valueForKey:@"Country"]];
+        strongSelf.currentLocationLabel.text = address;
+     }];
+}
 
 - (IBAction)onClickGetDirections:(id)sender{
     PFUser *currentUser = self.UserAndUserObjects[[NSString stringWithFormat:@"%@", PFUser.currentUser.username]];
     NSNumber *currentUserLat = currentUser[@"lat"];
     NSNumber *currentUserLon = currentUser[@"lon"];
-
-    
     NSNumber *profileUserLat = self.user[@"lat"];
     NSNumber *profileUserLon = self.user[@"lon"];
     
     NSString* directionsURL = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f",currentUserLat.floatValue, currentUserLon.floatValue, profileUserLat.floatValue, profileUserLon.floatValue];
-    if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: directionsURL] options:@{} completionHandler:^(BOOL success) {}];
-    } else {
+    if([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: directionsURL] options:@{} completionHandler:^(BOOL success){}];
+    }else{
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString: directionsURL]];
     }
 }
@@ -44,9 +80,7 @@
 
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
-    }
-    else {
-        NSLog(@"Camera 🚫 available so we will use photo library instead");
+    }else{
         imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
 
@@ -84,12 +118,8 @@
  
 - (void)viewDidLoad{
     [super viewDidLoad];
-
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewDidDisappear:YES];
-
+    self.captionTextField.delegate = self;
+    [self textBoxOptions];
 
 }
 
@@ -100,45 +130,50 @@
     animation.keyPath = @"transform.scale";
     animation.toValue = @1.5;
     animation.duration = 2;
-    animation.repeatCount = 3;
+    animation.repeatCount = INFINITY;
     animation.autoreverses = YES;
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     [self.cameraButton.layer addAnimation:animation forKey:nil];
 
-
     if(self.user==nil || [PFUser.currentUser.username isEqual:self.user[@"username"]]){ // when user goes to their own profile screen via tab menu
         [self.directionsButton setHidden:YES];
-        NSLog(@"own profile");
         [self.cameraButton setHidden:NO];
-        PFQuery *query = [PFQuery queryWithClassName:@"_User"];
-        typeof(self) __weak weakSelf = self;
-        [query getObjectInBackgroundWithId:PFUser.currentUser.objectId block:^(PFObject *user, NSError *error){
-            typeof(weakSelf) strongSelf = weakSelf;
-            if(!error){
-                strongSelf.user = user;
-                strongSelf.title = strongSelf.user[@"username"];
-                NSArray *all_groups = strongSelf.user[@"all_groups"];
-                strongSelf.numberOfGroupsLabel.text = [NSString stringWithFormat:@"You are part of %lu groups.", (unsigned long)all_groups.count];
-                strongSelf.distanceFromUserLabel.text = @"";
-                if(user[@"profile_picture"]){
-                    [user[@"profile_picture"] getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error){
-                    if(!error){
-                        strongSelf.profileImage.image = [UIImage imageWithData:imageData];
-                    }
-            }];
-                }else{
-                    strongSelf.profileImage.image = [UIImage systemImageNamed:@"person"];
-                }
-            }
-        }];
+        [self.saveButton setHidden:NO];
+        [self.captionTextField setUserInteractionEnabled:YES];
         
+        GroupViewController *groupViewController = (GroupViewController *) [[(UINavigationController*)[[self.tabBarController viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:0];
+        
+        self.UsersAndImages = groupViewController.UsersAndImages;
+        self.UserAndUserObjects = groupViewController.UserAndUserObjects;
+
+        self.user = self.UserAndUserObjects[PFUser.currentUser.username];
+        
+        if(self.user[@"profileDescription"]){
+            self.captionTextField.text = self.user[@"profileDescription"];
+        }else{
+            self.captionTextField.text = @"Click to set a profile description!";
+        }
+        
+        NSNumber *lat = self.user[@"lat"];
+        NSNumber *lon = self.user[@"lon"];
+        
+        [self setCurrentTownLatitude:lat longitude:lon];
+        self.title = self.user[@"username"];
+        self.distanceFromUserLabel.text = @"";
+        if(self.UsersAndImages[PFUser.currentUser.username]){
+            self.profileImage.image = [UIImage imageWithData:self.UsersAndImages[PFUser.currentUser.username]];
+        }else{
+            self.profileImage.image = [UIImage systemImageNamed:@"person"];
+        }
+
     }else{ // view for another profile - not own profile
         [self.directionsButton setHidden:NO];
 
         self.title = self.user[@"username"];
-        [self.cameraButton setHidden:self.hideCameraButton];
-        NSArray *all_groups = self.user[@"all_groups"];
-        self.numberOfGroupsLabel.text = [NSString stringWithFormat:@"This user is part of %lu groups.", (unsigned long)all_groups.count];
+        [self.cameraButton setHidden:YES];
+        [self.saveButton setHidden:YES];
+        [self.captionTextField setUserInteractionEnabled:NO];
+
         if(self.UsersAndImages[self.user.username]){
             self.profileImage.image = [UIImage imageWithData:self.UsersAndImages[self.user.username]];
         }else{
@@ -151,14 +186,17 @@
         
         NSNumber *profileUserLat = self.user[@"lat"];
         NSNumber *profileUserLon = self.user[@"lon"];
+        if(self.user[@"profileDescription"]){
+            self.captionTextField.text = self.user[@"profileDescription"];
+        }else{
+            self.captionTextField.text = @"This user does not have a profile description - Tell them to set one!";
+        }
+        [self setCurrentTownLatitude:profileUserLat longitude:profileUserLon];
         CLLocation *location2 = [[CLLocation alloc] initWithLatitude:profileUserLat.floatValue longitude:profileUserLon.floatValue];
         CLLocationDistance distance = [location1 distanceFromLocation:location2];
         CLLocationDistance distanceInMiles = distance*0.000621371;
         self.distanceFromUserLabel.text = [NSString stringWithFormat:@"You are %.02f miles away from this user!", distanceInMiles];
-        
     }
-
-    
 }
 
 /*

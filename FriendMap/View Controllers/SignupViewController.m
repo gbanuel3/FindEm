@@ -14,7 +14,7 @@
 
 @implementation SignupViewController
  
-- (void)showPopup{
+- (void)showInvalidInfoPopup{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid information!"
     message:@"Enter valid information in text fields!"
     preferredStyle:(UIAlertControllerStyleAlert)];
@@ -23,7 +23,7 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-- (void)registerUser {
+- (void)registerUser{
     PFUser *newUser = [PFUser user];
     newUser.username = self.usernameField.text;
     newUser.password = self.passwordField.text;
@@ -31,7 +31,7 @@
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error){
         typeof(weakSelf) strongSelf = weakSelf;
         if(error!=nil){
-            [strongSelf showPopup];
+            [strongSelf showInvalidInfoPopup];
         }else{
             [strongSelf performSegueWithIdentifier:@"loginSegue" sender:strongSelf.signupButton];
         }
@@ -41,7 +41,7 @@
 
 - (IBAction)onClickSignup:(id)sender{
     if([self.usernameField.text isEqual:@""] || [self.passwordField.text isEqual:@""]){
-        [self showPopup];
+        [self showInvalidInfoPopup];
     }
     [self registerUser];
 }

@@ -272,9 +272,6 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(getGroups) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
-
-    
-
 }
 
 - (void)viewWillAppear:(BOOL)animated{

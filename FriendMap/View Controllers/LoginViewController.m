@@ -31,8 +31,7 @@
         typeof(weakSelf) strongSelf = weakSelf;
         if(error!=nil){
             [strongSelf showInvalidInfoPopup];
-        } else {
-            NSLog(@"User logged in successfully");
+        }else{
             [strongSelf performSegueWithIdentifier:@"loginSegue" sender:strongSelf.loginButton];
         }
     }];

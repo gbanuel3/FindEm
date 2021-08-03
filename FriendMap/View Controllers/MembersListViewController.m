@@ -19,7 +19,6 @@
 - (IBAction)onClickGroupCode:(id)sender{
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string = [NSString stringWithFormat:@"%@", self.group.objectId];
-    NSLog(@"click detected");
 }
 
 
@@ -44,7 +43,6 @@
     
     if(self.group!=nil){
         self.arrayOfMembers = self.group[@"members"];
-        NSLog(@"%@", self.arrayOfMembers);
     }else{
         self.arrayOfMembers = self.cluster;
     }
