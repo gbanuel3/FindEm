@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LocationManager : NSObject
 
-@property (nonatomic) CLLocationManager * anotherLocationManager;
+@property (nonatomic) CLLocationManager *anotherLocationManager;
 @property (nonatomic) CLLocationCoordinate2D myLastLocation;
 @property (nonatomic) CLLocationAccuracy myLastLocationAccuracy;
 @property (nonatomic) CLLocationCoordinate2D myLocation;
