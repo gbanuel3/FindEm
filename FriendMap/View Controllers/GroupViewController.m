@@ -241,7 +241,6 @@
 }
 
 - (void)doDoubleTap:(id)sender{
-    NSLog(@"double tap");
     CGPoint point = [sender locationInView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
     GroupCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];

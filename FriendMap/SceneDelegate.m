@@ -17,7 +17,6 @@
 - (void) stayLoggedIn{
     PFUser *user = [PFUser currentUser];
     if (user != nil) {
-        NSLog(@"Welcome back %@ 😀", user.username);
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UIViewController *mainNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"MainTabBarController"];
         self.window.rootViewController = mainNavigationController;
@@ -93,7 +92,6 @@
 - (void)sceneDidBecomeActive:(UIScene *)scene {
     // Called when the scene has moved from an inactive state to an active state.
     // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-    NSLog(@"applicationDidBecomeActive");
     [self.shareModel addApplicationStatusToPList:@"applicationDidBecomeActive"];
     self.shareModel.afterResume = NO;
     [self.shareModel startMonitoringLocation];
