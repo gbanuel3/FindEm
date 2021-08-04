@@ -27,7 +27,7 @@
 
 - (float)generateFloat{
     int n = arc4random_uniform(2);
-    float randomNum = ((float)rand() / RAND_MAX) * 1;
+    float randomNum = ((float)rand() / RAND_MAX) * 5;
     if(n==0) return randomNum;
     else return -1*randomNum;
 }
@@ -50,7 +50,6 @@
                 float deltaLon = [self generateFloat];
                 NSLog(@"%f, %f", deltaLat, deltaLon);
                 self.count++;
-                NSLog(@"%@", [NSString stringWithFormat:@"WILL RECURSE onto %@, %@! %d", [NSNumber numberWithFloat:latitude.floatValue+.1], [NSNumber numberWithFloat:longitude.floatValue+.1], self.count]);
                 if(self.count > 10){
                     PFUser *user = self.cluster[arc4random_uniform(self.cluster.count)];
                     NSNumber *lat = user[@"lat"];

@@ -71,7 +71,7 @@
     
     NSNumber *businessLat = business[@"coordinates"][@"latitude"];
     NSNumber *businessLon = business[@"coordinates"][@"longitude"];
-    if(businessLat && businessLon){
+    if(![businessLat isKindOfClass:[NSNull class]] && ![businessLon isKindOfClass:[NSNull class]]){
         NSNumber *businessLat = business[@"coordinates"][@"latitude"];
         NSNumber *businessLon = business[@"coordinates"][@"longitude"];
         CLLocation *businessLocation = [[CLLocation alloc] initWithLatitude:businessLat.floatValue longitude:businessLon.floatValue];
