@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class LocationViewController;
 @protocol LocationViewControllerDelegate
+
 - (void)locationsViewController:(LocationViewController *)controller didPickLocationWithLatitude:(NSNumber *)latitude longitude:(NSNumber *)longitude business:(NSString *)business cluster:(NSMutableArray *)cluster url:(NSURL *)url;
 
 @end

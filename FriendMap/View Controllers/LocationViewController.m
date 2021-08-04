@@ -43,7 +43,7 @@
     NSNumber *businessLon = business[@"coordinates"][@"longitude"];
     
     NSString* directionsURL = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f",currentUserLat.floatValue, currentUserLon.floatValue, businessLat.floatValue, businessLon.floatValue];
-    if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]) {
+    if([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]){
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString: directionsURL] options:@{} completionHandler:^(BOOL success) {}];
     } else {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString: directionsURL]];
@@ -53,7 +53,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
@@ -72,8 +71,6 @@
     NSNumber *businessLat = business[@"coordinates"][@"latitude"];
     NSNumber *businessLon = business[@"coordinates"][@"longitude"];
     if(![businessLat isKindOfClass:[NSNull class]] && ![businessLon isKindOfClass:[NSNull class]]){
-        NSNumber *businessLat = business[@"coordinates"][@"latitude"];
-        NSNumber *businessLon = business[@"coordinates"][@"longitude"];
         CLLocation *businessLocation = [[CLLocation alloc] initWithLatitude:businessLat.floatValue longitude:businessLon.floatValue];
         PFUser *user = self.UserAndUserObjects[PFUser.currentUser.username];
         NSNumber *userLat = user[@"lat"];
@@ -86,8 +83,6 @@
     }else{
         cell.businessDistance.text = @"Distance not available";
     }
-    
-    
     
     NSURL *imageURL = [NSURL URLWithString:business[@"image_url"]];
     cell.businessImage.image = nil;
@@ -109,7 +104,6 @@
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){}];
         [alert addAction:okAction];
         [self presentViewController:alert animated:YES completion:^{
-
         }];
     }else{
         NSMutableDictionary *business = self.arrayOfBusinesses[indexPath.row];

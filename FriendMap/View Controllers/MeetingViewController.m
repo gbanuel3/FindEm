@@ -44,15 +44,13 @@
         if(data){
             NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             strongSelf.arrayOfBusinesses = [responseDictionary valueForKeyPath:@"businesses"];
-            NSLog(@"%@", strongSelf.arrayOfBusinesses);
             if(strongSelf.arrayOfBusinesses.count==0){
                 float deltaLat = [self generateFloat];
                 float deltaLon = [self generateFloat];
                 self.count++;
                 if(self.count > 3){
                     PFUser *user = self.cluster[arc4random_uniform(self.cluster.count)];
-                    NSNumber *lat = user[@"lat"];
-                    NSNumber *lon = user[@"lon"];
+                    NSNumber *lat = user[@"lat"]; NSNumber *lon = user[@"lon"];
                     [self getLocationsFromCoordinateLatitude:[NSNumber numberWithFloat:lat.floatValue] longitude:[NSNumber numberWithFloat:lon.floatValue]];
                     return;
                 }else{
