@@ -165,12 +165,14 @@
     menuView.didSelectItemAtIndexHandler = ^(NSUInteger indexPath){
         
         typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf.mapView removeAnnotations:strongSelf.AnnotationArray];
-        [strongSelf.mapView removeAnnotations:strongSelf.showCluster];
         
         if(indexPath==0){
             [strongSelf.meetButton setHidden:YES];
+            [strongSelf.mapView removeAnnotations:strongSelf.AnnotationArray];
+            [strongSelf.mapView removeAnnotations:strongSelf.showCluster];
         }else{
+            [strongSelf.mapView removeAnnotations:strongSelf.AnnotationArray];
+            [strongSelf.mapView removeAnnotations:strongSelf.showCluster];
             [strongSelf.meetButton setHidden:NO];
             NSArray *arrayOfMembers = strongSelf.arrayOfGroups[indexPath-1][@"members"];
             strongSelf.arrayOfUsers = [[NSMutableArray alloc] init];
