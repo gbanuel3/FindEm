@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ClusterCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *membersIncludedLabel;
 @property (weak, nonatomic) IBOutlet UIButton *seeMembersButton;

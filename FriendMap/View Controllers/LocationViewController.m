@@ -12,6 +12,7 @@
 #import <Parse/Parse.h>
 #import "UIImageView+AFNetworking.h"
 #import "MapViewController.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface LocationViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -59,7 +60,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    NSLog(@"%@", self.arrayOfBusinesses);
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -70,21 +71,27 @@
     
     NSNumber *businessLat = business[@"coordinates"][@"latitude"];
     NSNumber *businessLon = business[@"coordinates"][@"longitude"];
-    CLLocation *businessLocation = [[CLLocation alloc] initWithLatitude:businessLat.floatValue longitude:businessLon.floatValue];
-    PFUser *user = self.UserAndUserObjects[PFUser.currentUser.username];
-    NSNumber *userLat = user[@"lat"];
-    NSNumber *userLon = user[@"lon"];
-    CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:userLat.floatValue longitude:userLon.floatValue];
-    const double metersToMilesMultplier = 0.000621371;
-    CLLocationDistance distanceInMeters = [businessLocation distanceFromLocation:userLocation];
-    float distanceInMiles = distanceInMeters*metersToMilesMultplier;
-    cell.businessDistance.text = [NSString stringWithFormat:@"%.02f Miles Away!", distanceInMiles];
+    if(businessLat && businessLon){
+        NSNumber *businessLat = business[@"coordinates"][@"latitude"];
+        NSNumber *businessLon = business[@"coordinates"][@"longitude"];
+        CLLocation *businessLocation = [[CLLocation alloc] initWithLatitude:businessLat.floatValue longitude:businessLon.floatValue];
+        PFUser *user = self.UserAndUserObjects[PFUser.currentUser.username];
+        NSNumber *userLat = user[@"lat"];
+        NSNumber *userLon = user[@"lon"];
+        CLLocation *userLocation = [[CLLocation alloc] initWithLatitude:userLat.floatValue longitude:userLon.floatValue];
+        const double metersToMilesMultplier = 0.000621371;
+        CLLocationDistance distanceInMeters = [businessLocation distanceFromLocation:userLocation];
+        float distanceInMiles = distanceInMeters*metersToMilesMultplier;
+        cell.businessDistance.text = [NSString stringWithFormat:@"%.02f Miles Away!", distanceInMiles];
+    }else{
+        cell.businessDistance.text = @"Distance not available";
+    }
+    
     
     
     NSURL *imageURL = [NSURL URLWithString:business[@"image_url"]];
     cell.businessImage.image = nil;
     [cell.businessImage setImageWithURL:imageURL];
-    
     cell.moreInfoButton.tag = indexPath.row;
     
     return cell;
@@ -95,7 +102,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    NSLog(@"clicked here!");
+
     NSMutableDictionary *business = self.arrayOfBusinesses[indexPath.row];
     NSNumber *businessLat = business[@"coordinates"][@"latitude"];
     NSNumber *businessLon = business[@"coordinates"][@"longitude"];
