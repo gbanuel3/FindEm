@@ -110,23 +110,18 @@
             if(strongSelf.arrayOfUsers.count == arrayOfMembers.count){
                 for(int i=0; i<strongSelf.arrayOfUsers.count; i++){
                     PFUser *user = strongSelf.arrayOfUsers[i];
-
                     if(user[@"lat"]!=nil && user[@"lon"]!=nil){
                         NSNumber *lat = user[@"lat"];
                         NSNumber *lon = user[@"lon"];
                         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat.floatValue, lon.floatValue);
-    
                         MKPointAnnotation *annotation = [MKPointAnnotation new];
                         annotation.coordinate = coordinate;
                         annotation.title = [NSString stringWithFormat:@"%@", user.username];
-                        
                         [strongSelf.mapView addAnnotation:annotation];
                         [strongSelf.mapView viewForAnnotation:annotation];
                         [strongSelf.AnnotationArray addObject:annotation];
                         [strongSelf.mapView showAnnotations:strongSelf.AnnotationArray animated:YES];
-                        
                     }
-
                 }
             }
         }];

@@ -48,9 +48,8 @@
             if(strongSelf.arrayOfBusinesses.count==0){
                 float deltaLat = [self generateFloat];
                 float deltaLon = [self generateFloat];
-                NSLog(@"%f, %f", deltaLat, deltaLon);
                 self.count++;
-                if(self.count > 10){
+                if(self.count > 3){
                     PFUser *user = self.cluster[arc4random_uniform(self.cluster.count)];
                     NSNumber *lat = user[@"lat"];
                     NSNumber *lon = user[@"lon"];

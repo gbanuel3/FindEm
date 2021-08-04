@@ -102,12 +102,23 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    LocationCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    if([cell.businessDistance.text isEqual:@"Distance not available"]){
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Could not select location..."
+        message:@"Latitude and Longitude are not available at this time!" preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action){}];
+        [alert addAction:okAction];
+        [self presentViewController:alert animated:YES completion:^{
 
-    NSMutableDictionary *business = self.arrayOfBusinesses[indexPath.row];
-    NSNumber *businessLat = business[@"coordinates"][@"latitude"];
-    NSNumber *businessLon = business[@"coordinates"][@"longitude"];
-    [self.delegate locationsViewController:self didPickLocationWithLatitude:businessLat longitude:businessLon business:business[@"name"] cluster:self.cluster url:business[@"image_url"]];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+        }];
+    }else{
+        NSMutableDictionary *business = self.arrayOfBusinesses[indexPath.row];
+        NSNumber *businessLat = business[@"coordinates"][@"latitude"];
+        NSNumber *businessLon = business[@"coordinates"][@"longitude"];
+        [self.delegate locationsViewController:self didPickLocationWithLatitude:businessLat longitude:businessLon business:business[@"name"] cluster:self.cluster url:business[@"image_url"]];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+
 }
 
 /*
