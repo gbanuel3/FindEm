@@ -9,6 +9,7 @@
 #import <Parse/Parse.h>
 #import "LoginViewController.h"
 #import "GroupViewController.h"
+#import "RootViewController.h"
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate>
 
@@ -135,19 +136,34 @@
     [self textBoxOptions];
 }
 
+- (void)forcePortraitOrientation{
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [((RootViewController *)self.tabBarController) resetNextOrientationMask];
+    [super viewDidDisappear:animated];
+}
+
+
 - (void)viewDidAppear:(BOOL)animated{
+    [self forcePortraitOrientation];
+    RootViewController *p = (RootViewController *)self.tabBarController;
+    p.nextOrientationMask = UIInterfaceOrientationMaskPortrait;
     [super viewDidAppear:YES];
 
     [self startAnimator];
-    
     // when user goes to their own profile screen via tab menu
     if(self.user==nil || [PFUser.currentUser.username isEqual:self.user[@"username"]]){
+
         [self.directionsButton setHidden:YES];
         [self.cameraButton setHidden:NO];
         [self.saveButton setHidden:NO];
         [self.captionTextField setUserInteractionEnabled:YES];
         
-        [self getInfoFromGroupScreen];
+        if(!self.UserAndUserObjects){
+            [self getInfoFromGroupScreen];
+        }
 
         self.user = self.UserAndUserObjects[PFUser.currentUser.username];
         

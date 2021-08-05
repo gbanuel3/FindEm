@@ -21,6 +21,10 @@
     pasteboard.string = [NSString stringWithFormat:@"%@", self.group.objectId];
 }
 
+- (void)forcePortraitOrientation{
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
+}
+
 
 - (IBAction)onClickBackground:(id)sender{
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -40,14 +44,11 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    
     if(self.group!=nil){
         self.arrayOfMembers = self.group[@"members"];
     }else{
         self.arrayOfMembers = self.cluster;
     }
-
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

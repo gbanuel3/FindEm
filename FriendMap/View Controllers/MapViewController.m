@@ -41,10 +41,10 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [self forcePortraitOrientation];
-    NSArray *viewControllers = self.navigationController.viewControllers;
     RootViewController *p = (RootViewController *)self.tabBarController;
     p.nextOrientationMask = UIInterfaceOrientationMaskPortrait;
     [super viewDidAppear:YES];
+    [self configureDropDownMenu];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
