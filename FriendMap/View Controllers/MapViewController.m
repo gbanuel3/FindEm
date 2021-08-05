@@ -28,6 +28,17 @@
     [self configureDropDownMenu];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [UIView setAnimationsEnabled:NO];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    
+    [UIView setAnimationsEnabled:YES];
+}
+
 - (IBAction)findOptimalPlaceToMeet:(id)sender{
     [self performSegueWithIdentifier:@"placeToMeetSegue" sender:nil];
 }

@@ -512,13 +512,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nF8-q1-DOC">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nF8-q1-DOC">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4m-ED-Wsh">
-                                <rect key="frame" x="153" y="627" width="85" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4m-ED-Wsh">
+                                <rect key="frame" x="152.66666666666666" y="631" width="85" height="54"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="85" id="DOM-BJ-eyr"/>
+                                    <constraint firstAttribute="height" constant="54" id="ETN-Xb-2QD"/>
+                                </constraints>
                                 <state key="normal" image="person.3.fill" catalog="system">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -529,6 +531,14 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="nk1-GQ-6hM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="nF8-q1-DOC" secondAttribute="bottom" id="DI2-FH-xyE"/>
+                            <constraint firstItem="nF8-q1-DOC" firstAttribute="trailing" secondItem="nk1-GQ-6hM" secondAttribute="trailing" id="Rja-ON-mgo"/>
+                            <constraint firstItem="nk1-GQ-6hM" firstAttribute="bottom" secondItem="b4m-ED-Wsh" secondAttribute="bottom" constant="22" id="Sqf-Yg-Usa"/>
+                            <constraint firstItem="b4m-ED-Wsh" firstAttribute="centerX" secondItem="ILF-RU-u2D" secondAttribute="centerX" id="mxI-qb-Z0f"/>
+                            <constraint firstItem="nF8-q1-DOC" firstAttribute="top" secondItem="ILF-RU-u2D" secondAttribute="top" id="oMZ-6m-Ci1"/>
+                            <constraint firstItem="nF8-q1-DOC" firstAttribute="leading" secondItem="nk1-GQ-6hM" secondAttribute="leading" id="qYp-gr-bvn"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Map" id="9nN-Yi-CCO"/>
                     <connections>
