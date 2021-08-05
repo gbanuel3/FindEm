@@ -886,10 +886,10 @@
             </objects>
             <point key="canvasLocation" x="1457" y="1678"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Root View Controller-->
         <scene sceneID="0JI-CW-pln">
             <objects>
-                <tabBarController storyboardIdentifier="MainTabBarController" modalPresentationStyle="fullScreen" id="Jv3-yT-HaU" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarController" modalPresentationStyle="fullScreen" id="Jv3-yT-HaU" customClass="RootViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="dJt-Eb-tFW"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yyj-Cs-joZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>

@@ -14,6 +14,7 @@
 #import "MeetingViewController.h"
 #import "LocationViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import "RootViewController.h"
 
 @interface MapViewController ()
 
@@ -30,13 +31,25 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    [UIView setAnimationsEnabled:NO];
+
 }
 
+- (void)forcePortraitOrientation{
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
+}
+
+
 - (void)viewDidAppear:(BOOL)animated{
+    [self forcePortraitOrientation];
+    NSArray *viewControllers = self.navigationController.viewControllers;
+    RootViewController *p = (RootViewController *)self.tabBarController;
+    p.nextOrientationMask = UIInterfaceOrientationMaskPortrait;
     [super viewDidAppear:YES];
-    
-    [UIView setAnimationsEnabled:YES];
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [((RootViewController *)self.tabBarController) resetNextOrientationMask];
+    [super viewDidDisappear:animated];
 }
 
 - (IBAction)findOptimalPlaceToMeet:(id)sender{

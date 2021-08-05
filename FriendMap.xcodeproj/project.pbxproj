@@ -36,6 +36,7 @@
 		2B667D4A26B31A0200792451 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B667D4926B31A0200792451 /* Keys.plist */; };
 		2B667D4D26B3EB1E00792451 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D4C26B3EB1E00792451 /* LocationViewController.m */; };
 		2B667D5026B3EC0400792451 /* LocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D4F26B3EC0400792451 /* LocationCell.m */; };
+		2B667D5326BBC51B00792451 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B667D5226BBC51B00792451 /* RootViewController.m */; };
 		614E0FA978DC8FE1F26DC95C /* Pods_FriendMap_FriendMapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */; };
 		77965291AC77C5E31F77A9EC /* Pods_FriendMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C802AF0660674E8FC54375DA /* Pods_FriendMap.framework */; };
 		E1CE6A866054112653C09FD3 /* Pods_FriendMapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDF498AEEC8A5AEA44958BE3 /* Pods_FriendMapTests.framework */; };
@@ -115,6 +116,8 @@
 		2B667D4C26B3EB1E00792451 /* LocationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
 		2B667D4E26B3EC0400792451 /* LocationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationCell.h; sourceTree = "<group>"; };
 		2B667D4F26B3EC0400792451 /* LocationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationCell.m; sourceTree = "<group>"; };
+		2B667D5126BBC51B00792451 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		2B667D5226BBC51B00792451 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		3D07E2E71F2B14FBC2D49EF8 /* Pods-FriendMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap.release.xcconfig"; path = "Target Support Files/Pods-FriendMap/Pods-FriendMap.release.xcconfig"; sourceTree = "<group>"; };
 		48708E26B6108FA8860B5089 /* Pods_FriendMap_FriendMapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FriendMap_FriendMapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57F254F0FADDA707C23B69E2 /* Pods-FriendMap-FriendMapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendMap-FriendMapUITests.debug.xcconfig"; path = "Target Support Files/Pods-FriendMap-FriendMapUITests/Pods-FriendMap-FriendMapUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -225,6 +228,8 @@
 				2B667C9F269D727800792451 /* ProfileViewController.m */,
 				2B667CA1269D808C00792451 /* MapViewController.h */,
 				2B667CA2269D808C00792451 /* MapViewController.m */,
+				2B667D5126BBC51B00792451 /* RootViewController.h */,
+				2B667D5226BBC51B00792451 /* RootViewController.m */,
 				2B667CA4269D809A00792451 /* GroupViewController.h */,
 				2B667CA5269D809A00792451 /* GroupViewController.m */,
 				2B667CA9269E087E00792451 /* GroupCell.h */,
@@ -546,6 +551,7 @@
 			files = (
 				2B667C9D269D5EE900792451 /* CustomButton.m in Sources */,
 				2B667C97269D59DC00792451 /* LoginViewController.m in Sources */,
+				2B667D5326BBC51B00792451 /* RootViewController.m in Sources */,
 				2B667C5F269CA41F00792451 /* AppDelegate.m in Sources */,
 				2B667D4D26B3EB1E00792451 /* LocationViewController.m in Sources */,
 				2B667CB1269F928900792451 /* MembersListViewController.m in Sources */,
