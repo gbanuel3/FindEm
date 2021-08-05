@@ -79,7 +79,7 @@
     self.user = self.arrayOfMembers[indexPath.row];
     [self performSegueWithIdentifier:@"pfpToProfile" sender:nil];
 }
-
+ 
 
 #pragma mark - Navigation
 
